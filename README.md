@@ -2,7 +2,7 @@ Xiao霸王学习机
 ==========
 
 ## 简介：
-基于https://github.com/lxyu/weibo开发的应用。目的主要是想显示 “Xiao霸王学习机” 这个来源。
+基于 https://github.com/lxyu/weibo 开发的应用。目的主要是想显示 “Xiao霸王学习机” 这个来源。
 
 ## 使用：
 点击[这里](https://github.com/zhanglintc/xiaobawang/releases)进行下载。
