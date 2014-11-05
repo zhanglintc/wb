@@ -34,7 +34,7 @@ else:
 
 API_KEY = '2038131539' # app key
 API_SECRET = 'b4d84f59af3e5a52c8df1f0e7ccfa75d' # app secret
-REDIRECT_URI = 'http://zhanglintc.blog.163.com' # callback url
+REDIRECT_URI = 'https://api.weibo.com/oauth2/default.html' # callback url
 
 def update_access_token():
     """
