@@ -5,7 +5,8 @@ Xiao霸王学习机
 基于 https://github.com/lxyu/weibo 开发的应用。目的主要是想显示 “Xiao霸王学习机” 这个来源。
 
 ## 下载：
-点击下载最新版: https://github.com/zhanglintc/xiaobawang/releases
+点击下载最新版: https://zhanglintc.github.io/download/xiaobawang.zip  
+点击查看历史版本: https://github.com/zhanglintc/xiaobawang/releases
 
 ## 使用：
 打开xiaobawang.py运行，程序会自动打开浏览器，要求接入你的微博。
