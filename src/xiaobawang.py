@@ -5,13 +5,13 @@
 Lane's Weibo Client Application Beta, Nothing Reserved
 """
 
+from http_helper import *
 from weibo import Client
 import sys
-# import webbrowser
-import json
 import pickle
+import getpass
 import urllib, urllib2
-from http_helper import *
+
 
 version = sys.version[0]
 
@@ -30,9 +30,6 @@ elif version == '3':
 else:
     # do nothing
     pass
-
-
-# ACCESS_TOKEN = {u'access_token': u'2.00_ShHyB2HnvNCca83c087d04aFAkC', u'remind_in': u'157679999', u'uid': u'1804547715', u'expires_at': 1569833194}
 
 API_KEY = '2038131539' # app key
 API_SECRET = 'b4d84f59af3e5a52c8df1f0e7ccfa75d' # app secret
@@ -72,11 +69,17 @@ def make_access_token(client, USERID, USERPASSWD):
 
         try:
             f = opener.open(request)
-            return_redirect_uri = f.url              
+            return_redirect_uri = f.url
         except urllib2.HTTPError, e:
             return_redirect_uri = e.geturl()
 
-        code = return_redirect_uri.split('=')[1]
+        if return_redirect_uri == login_url:
+            code = False
+        else:
+            code = return_redirect_uri.split('=')[1]
+
+    else:
+        code = False
 
     return code
 
@@ -95,11 +98,21 @@ def update_access_token():
         fr.close()
 
     except IOError:
+        print "You haven't logged in before or user infomation out of date,"
+        print "please enter your username and password below\n"
         c = Client(API_KEY, API_SECRET, REDIRECT_URI)
-        # webbrowser.open(c.authorize_url)
+
         USERID = input("username: ")
-        USERPASSWD = input("password: ")
+        USERPASSWD = getpass.getpass("password: ") # getpass() makes password invisible
+
         code = make_access_token(c, USERID, USERPASSWD)
+        while not code: # while log in failed
+            print "" # a blank line to make better look
+            print "Bad username or password, please try again!\n"
+            USERID = input("username: ")
+            USERPASSWD = getpass.getpass("password: ")
+            code = make_access_token(c, USERID, USERPASSWD)
+
         c.set_code(code)
 
         fw = open('token', 'wb')
