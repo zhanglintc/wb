@@ -15,4 +15,4 @@ REM change (%1) to (%~1) means ("a b") become (a b), then ("%1") means ("a b")
 REM well, it's ok now
 
 REM call main Python file
-python xiaobawang.py %parameter%
+python wb.py %parameter%
