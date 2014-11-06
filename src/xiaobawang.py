@@ -10,6 +10,7 @@ from weibo import Client
 import sys
 import pickle
 import getpass
+import argparse
 import urllib, urllib2
 
 
@@ -202,14 +203,25 @@ def post_statuses_upload(client, text, picture):
     except (RuntimeError, IOError) as e:
         print("Failed because: '{}'".format(str(e)))
 
+def creat_parser():
+    parser = argparse.ArgumentParser(description="小霸王其乐无穷啊！")
+    parser.add_argument('-p', '--post', nargs = '+', help = "post a weibo")
+    parser.add_argument('-g', '--get', nargs = '?', help = "get friends timeline")
+    return parser
+
 if __name__ == "__main__":
     ACCESS_TOKEN = update_access_token()
-
     client = Client(API_KEY, API_SECRET, REDIRECT_URI, ACCESS_TOKEN)
-    get_friends_timeline(client)
-    # get_comments_to_me(client, 1, 5)
-    # post_statuses_update(client, 'From Xiao霸王其乐无穷')
-    # post_statuses_upload(client, 'From Xiao霸王其乐无穷', r'picture_path_here')
+
+    parser = creat_parser()
+    args = vars(parser.parse_args())
+    print args
+
+    if args['get']:
+        get_friends_timeline(client)
+
+    if args['post']:
+        post_statuses_update(client, args['post'])
 
 
 
