@@ -152,10 +152,10 @@ def get_comments_to_me(client, start_page, end_page):
     print('All the comments have downloaded')
 
 
-def get_friends_timeline(client):
+def get_friends_timeline(client, count):
     """Show 20 friends_timeline in the screen"""
 
-    received = client.get('statuses/friends_timeline')
+    received = client.get('statuses/friends_timeline', count = count)
     index = 1
     for item in received.statuses:
         retweet = item.get('retweeted_status')
@@ -204,9 +204,20 @@ def post_statuses_upload(client, text, picture):
         print("Failed because: '{}'".format(str(e)))
 
 def creat_parser():
-    parser = argparse.ArgumentParser(description="小霸王其乐无穷啊！")
-    parser.add_argument('-p', '--post', nargs = '+', help = "post a weibo")
-    parser.add_argument('-g', '--get', nargs = '?', help = "get friends timeline")
+    parser = argparse.ArgumentParser(
+        argument_default = argparse.SUPPRESS, 
+        description = "A CLI tool for Weibo, created by zhanglintc:",
+        prog = "wb",
+        usage = 'wb -option [option1, option2...]',
+        epilog = 'The code is out sourced in https://github.com/zhanglintc/xiaobawang,\
+        if you have any questions, please contact me.'
+        )
+
+    parser.add_argument('-a', '--authorize', help = "# Sign in to 'weibo.com'.")
+    parser.add_argument('-g', '--get', nargs = '?', const = 10, help = "# Get latest N friend's timeline.")
+    parser.add_argument('-p', '--post', nargs = '+', help = "# Post a new weibo.")
+    parser.add_argument('-t', '--tweet', nargs = '+', help = "# Post a new weibo, same as -p.")
+
     return parser
 
 if __name__ == "__main__":
@@ -214,14 +225,19 @@ if __name__ == "__main__":
     client = Client(API_KEY, API_SECRET, REDIRECT_URI, ACCESS_TOKEN)
 
     parser = creat_parser()
-    args = vars(parser.parse_args())
-    print args
+    parameters = vars(parser.parse_args())
+    # print parameters
 
-    if args['get']:
-        get_friends_timeline(client)
+    if not parameters:
+        print ''
+        print '- Note: type "wb -help" to see help file of wb.\n'
 
-    if args['post']:
-        post_statuses_update(client, args['post'])
+    elif parameters['get']:
+        get_friends_timeline(client, parameters['get'])
+
+    # if parameters['post']:
+    #     post_statuses_update(client, parameters['post'])
+
 
 
 
