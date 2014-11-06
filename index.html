@@ -4,11 +4,11 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Xiao霸王学习机 : 微博客户端...">
+    <meta name="description" content="power_wb 微博命令行工具 : 微博客户端...">
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <title>Xiao霸王学习机</title>
+    <title>power_wb 微博命令行工具</title>
   </head>
 
   <body>
@@ -18,7 +18,7 @@
         <header class="inner">
           <a id="forkme_banner" href="https://github.com/zhanglintc/wb">View on GitHub</a>
 
-          <h1 id="project_title">Xiao霸王学习机</h1>
+          <h1 id="project_title">power_wb 微博命令行工具</h1>
           <h2 id="project_tagline">微博客户端...</h2>
 
             <section id="downloads">
@@ -31,41 +31,74 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h2>
+        <h1>
+<a id="wb----微博命令行工具" class="anchor" href="#wb----%E5%BE%AE%E5%8D%9A%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7" aria-hidden="true"><span class="octicon octicon-link"></span></a>wb -- 微博命令行工具</h1>
+
+<p>帮助文件全面改版中，目前不保证正确性和完整性。</p>
+
+<h2>
 <a id="简介" class="anchor" href="#%E7%AE%80%E4%BB%8B" aria-hidden="true"><span class="octicon octicon-link"></span></a>简介：</h2>
 
-<p>基于 <a href="https://github.com/lxyu/weibo">lxyu/weibo</a> 项目开发的应用。目的主要是想显示 <code>“Xiao霸王学习机”</code> 这个来源。</p>
+<p>基于 <a href="https://github.com/lxyu/weibo">lxyu/weibo</a> 项目作为SDK开发的应用。安装使用需要使用Python 2.7版本。能够支持Linux/Mac/Windows平台。</p>
 
 <h2>
 <a id="下载" class="anchor" href="#%E4%B8%8B%E8%BD%BD" aria-hidden="true"><span class="octicon octicon-link"></span></a>下载：</h2>
 
 <ul>
-<li><a href="https://zhanglintc.github.io/download/xiaobawang.zip">下载最新版</a></li>
-<li><a href="https://github.com/zhanglintc/xiaobawang/releases">查看历史版本</a></li>
+<li>
+<a href="https://zhanglintc.github.io/download/xiaobawang.zip">下载最新版</a>（过旧）</li>
+<li>
+<a href="https://github.com/zhanglintc/xiaobawang/releases">查看历史版本</a>（过旧）</li>
 </ul>
 
 <h2>
 <a id="使用" class="anchor" href="#%E4%BD%BF%E7%94%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>使用：</h2>
 
-<p>打开 <code>xiaobawang.py</code> 运行，程序会自动打开浏览器，要求接入你的微博。验证成功以后， 会自动跳转到微博默认回掉地址，url最后会有类似于 <code>code=xxxxxxxxxx</code> 的字样，把 <code>xxxxxxxxxx</code> 全部拷贝到程序中回车，则会自动生成一个 <code>token</code> 文件。这样就可以正常使用了。</p>
+<h4>
+<a id="linuxmac" class="anchor" href="#linuxmac" aria-hidden="true"><span class="octicon octicon-link"></span></a>Linux/Mac：</h4>
+
+<p>克隆本项目到本地，或者获取zip解压后，使用命令：</p>
+
+<pre><code>python wb.py -option argument
+</code></pre>
+
+<p>通过命令行来使用本工具。</p>
+
+<p>为了方便，可以使用<code>alias</code>命令来为本项目设置别名，例如：</p>
+
+<pre><code>alias python wb.py wb
+</code></pre>
+
+<p>然后将此<code>alias</code>存入<code>~/.bash_profile</code>，这样以后就可以直接调用<code>wb</code>了。</p>
+
+<h4>
+<a id="windows" class="anchor" href="#windows" aria-hidden="true"><span class="octicon octicon-link"></span></a>Windows：</h4>
+
+<p>同样克隆被项目或者获取zip解压到本地后，使用命令：</p>
+
+<pre><code>python wb.py -option argument
+</code></pre>
+
+<p>来调用本工具。</p>
+
+<p>鉴于Windows没有别名功能，在Windows下可以使用<code>wb.cmd</code>来调用本工具。将文件最后一行：</p>
+
+<pre><code>python wb.py %parameter%
+</code></pre>
+
+<p>中的<code>wb.py</code>配置为相应的绝对路径，然后将<code>wb.cmd</code>放置到系统的任何一个<code>PATH</code>路径下，也就能够像Linux/Mac一样直接使用<code>wb</code>命令使用本工具了。</p>
 
 <h2>
 <a id="补充" class="anchor" href="#%E8%A1%A5%E5%85%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>补充：</h2>
 
-<p>程序第一次运行正常应该会显示 <code>Paste code here:</code> ，这样才能正常粘贴 code 并运行。
-如果没有显示，可以尝试注释掉这两行再运行：</p>
-
-<div class="highlight highlight-python"><pre>    <span class="nf">reload</span>(sys)
-    sys.setdefaultencoding(<span class="s1">'utf8'</span>)</pre></div>
-
-<p>目前可以获取自己的timeline，发给自己的评论，可以发微博和带图片的微博。请自行调用函数进行尝试。</p>
+<p>我正在想。。。</p>
       </section>
     </div>
 
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
-        <p class="copyright">Xiao霸王学习机 maintained by <a href="https://github.com/zhanglintc">zhanglintc</a></p>
+        <p class="copyright">power_wb 微博命令行工具 maintained by <a href="https://github.com/zhanglintc">zhanglintc</a></p>
         <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
