@@ -7,9 +7,11 @@ Lane's Weibo Client Application Beta, Nothing Reserved
 
 from weibo import Client
 import sys
-import webbrowser
+# import webbrowser
 import json
 import pickle
+import urllib, urllib2
+from http_helper import *
 
 version = sys.version[0]
 
@@ -36,6 +38,48 @@ API_KEY = '2038131539' # app key
 API_SECRET = 'b4d84f59af3e5a52c8df1f0e7ccfa75d' # app secret
 REDIRECT_URI = 'https://api.weibo.com/oauth2/default.html' # callback url
 
+def make_access_token(client, USERID, USERPASSWD):
+    """
+    Refer to: http://www.cnblogs.com/wly923/archive/2013/04/28/3048700.html
+    This function can automatically get 'code' from redirected URL and return it.
+    """
+
+    params = urllib.urlencode({
+        'action':'submit',
+        'withOfficalFlag':'0',
+        'ticket':'',
+        'isLoginSina':'',
+        'response_type':'code',
+        'regCallback':'',
+        'redirect_uri':REDIRECT_URI,
+        'client_id':API_KEY,
+        'state':'',
+        'from':'',
+        'userId':USERID,
+        'passwd':USERPASSWD,
+        })
+
+    login_url = 'https://api.weibo.com/oauth2/authorize'
+
+    url = client.authorize_url
+    content = urllib2.urlopen(url)
+
+    if content:
+        headers = { 'Referer' : url }
+        request = urllib2.Request(login_url, params, headers)
+        opener = get_opener(False)
+        urllib2.install_opener(opener)
+
+        try:
+            f = opener.open(request)
+            return_redirect_uri = f.url              
+        except urllib2.HTTPError, e:
+            return_redirect_uri = e.geturl()
+
+        code = return_redirect_uri.split('=')[1]
+
+    return code
+
 def update_access_token():
     """
     Get ACCESS_TOKEN form file 'token'. It will direct you to weibo.com to get
@@ -52,9 +96,10 @@ def update_access_token():
 
     except IOError:
         c = Client(API_KEY, API_SECRET, REDIRECT_URI)
-        webbrowser.open(c.authorize_url)
-
-        code = input('Paste code here:\n')
+        # webbrowser.open(c.authorize_url)
+        USERID = input("username: ")
+        USERPASSWD = input("password: ")
+        code = make_access_token(c, USERID, USERPASSWD)
         c.set_code(code)
 
         fw = open('token', 'wb')
@@ -88,7 +133,7 @@ def get_comments_to_me(client, start_page, end_page):
 
         fw.flush()
         my_page += 1
-        
+      
     fw.close()
     print('All the comments have downloaded')
 
