@@ -3,6 +3,10 @@ REM plan to use in Windows platform \
 REM by useing this, we can call xiaobawang.py \
 REM just like: wb -p1 -p2 ... -pN
 
+REM set your wb directory here
+set wbDIR=.\
+set wbFILE=%wbDIR%\wb.py
+
 REM new parameter and set it as None
 set parameter=
 
@@ -15,4 +19,6 @@ REM change (%1) to (%~1) means ("a b") become (a b), then ("%1") means ("a b")
 REM well, it's ok now
 
 REM call main Python file
-python wb.py %parameter%
+pushd %wbDIR%
+python %wbFILE% %parameter%
+popd
