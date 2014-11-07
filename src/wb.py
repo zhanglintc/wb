@@ -16,6 +16,8 @@ import configparser
 
 version = sys.version[0]
 input = raw_input if version == '2' else input
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 config = configparser.ConfigParser()
 config.read('config.ini')
