@@ -5,4 +5,4 @@ Windows下安装方法
 1. 运行install.py
 
 ## 卸载：
-1. 运行uninstall.cmd
+1. 运行uninstall.py
