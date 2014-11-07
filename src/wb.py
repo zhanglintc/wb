@@ -33,6 +33,13 @@ else:
     # do nothing
     pass
 
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+API_KEY      = config['Weibo']['API_KEY']
+API_SECRET   = config['Weibo']['API_SECRET']
+REDIRECT_URI = config['Weibo']['REDIRECT_URI']
+
 ##########################################################################
 # Functions are defined below
 ##########################################################################
@@ -50,6 +57,8 @@ def log_in_to_weibo():
     USERID = input("username: ")
     USERPASSWD = getpass.getpass("password: ") # getpass() makes password invisible
 
+    print('')
+    print('logging...')
     code = make_access_token(client, USERID, USERPASSWD)
     if not code: # while log in failed
         print "" # a blank line to make better look
@@ -235,13 +244,6 @@ def creat_parser():
 ##########################################################################
 
 if __name__ == "__main__":
-    config = configparser.ConfigParser()
-    config.read('config.ini')
-
-    API_KEY      = config['Weibo']['API_KEY']
-    API_SECRET   = config['Weibo']['API_SECRET']
-    REDIRECT_URI = config['Weibo']['REDIRECT_URI']
-
     ACCESS_TOKEN = update_access_token()
     client = Client(API_KEY, API_SECRET, REDIRECT_URI, ACCESS_TOKEN)
 

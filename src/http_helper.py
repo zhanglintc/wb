@@ -8,13 +8,13 @@ class SmartRedirectHandler(urllib2.HTTPRedirectHandler):
     def http_error_301(cls, req, fp, code, msg, headers):
         result = urllib2.HTTPRedirectHandler.http_error_301(cls, req, fp, code, msg, headers)
         result.status = code
-        print headers
+        # print headers # commented by zhanglin 2014.11.07
         return result
 
     def http_error_302(cls, req, fp, code, msg, headers):
         result = urllib2.HTTPRedirectHandler.http_error_302(cls, req, fp, code, msg, headers)
         result.status = code
-        print headers
+        # print headers # commented by zhanglin 2014.11.07
         return result
 
 def get_cookie():
