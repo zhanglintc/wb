@@ -253,7 +253,7 @@ if __name__ == "__main__":
 
     if not parameters:
         print ''
-        print '- Note: type "wb -help" to see help file of wb.\n'
+        print '- Note: type "wb -h/--help" to see usages.\n'
 
     elif parameters.get('authorize'):
         log_in_to_weibo()
