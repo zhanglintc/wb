@@ -161,7 +161,7 @@ def get_comments_to_me(client, start_page, end_page):
 
         fw.flush()
         my_page += 1
-      
+
     fw.close()
     print('All the comments have been downloaded')
 

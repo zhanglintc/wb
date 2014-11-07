@@ -23,7 +23,7 @@ import requests
 
 class JsonDict(dict):
     """
-    Copied from weibo official SDK: 
+    Copied from weibo official SDK:
     https://github.com/michaelliao/sinaweibopy
 
     Make a dict access more convenient,
