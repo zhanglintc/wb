@@ -6,7 +6,7 @@ Lane's Weibo Client Application Beta, Nothing Reserved
 """
 
 from http_helper import *
-from weibo import Client
+from sdk import Client
 import sys, os
 import pickle
 import getpass
