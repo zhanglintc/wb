@@ -14,24 +14,8 @@ import argparse
 import urllib, urllib2
 import configparser
 
-
 version = sys.version[0]
-
-if version == '2':
-    # default encoding
-    reload(sys)
-    sys.setdefaultencoding('utf8')
-
-    # input method
-    input = raw_input
-
-elif version == '3':
-    #input method
-    input = input
-
-else:
-    # do nothing
-    pass
+input = raw_input if version == '2' else input
 
 config = configparser.ConfigParser()
 config.read('config.ini')
