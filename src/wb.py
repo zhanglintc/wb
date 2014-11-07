@@ -7,7 +7,7 @@ Lane's Weibo Client Application Beta, Nothing Reserved
 
 from http_helper import *
 from weibo import Client
-import sys
+import sys, os
 import pickle
 import getpass
 import argparse
@@ -35,6 +35,41 @@ else:
 API_KEY = '2038131539' # app key
 API_SECRET = 'b4d84f59af3e5a52c8df1f0e7ccfa75d' # app secret
 REDIRECT_URI = 'https://api.weibo.com/oauth2/default.html' # callback url
+
+##########################################################################
+# Functions are defined below
+##########################################################################
+def log_in_to_weibo():
+    """
+    Log in to weibo and get the ACCESS_TOKEN.
+    If success, store it to 'token' file,
+    if not, do nothing.
+    """
+
+    print "please enter your username and password below\n"
+
+    client = Client(API_KEY, API_SECRET, REDIRECT_URI)
+
+    USERID = input("username: ")
+    USERPASSWD = getpass.getpass("password: ") # getpass() makes password invisible
+
+    code = make_access_token(client, USERID, USERPASSWD)
+    if not code: # while log in failed
+        print "" # a blank line to make better look
+        print "bad username or password, please try again!\n"
+
+    # after got code, store it
+    else:
+        client.set_code(code)
+        fw = open('token', 'wb')
+        pickle.dump(client.token, fw)
+        fw.close()
+        print "log in to weibo.com successfully"
+
+def log_out_from_weibo():
+    """delete login informations"""
+
+    os.remove('token')
 
 def make_access_token(client, USERID, USERPASSWD):
     """
@@ -85,13 +120,7 @@ def make_access_token(client, USERID, USERPASSWD):
     return code
 
 def update_access_token():
-    """
-    Get ACCESS_TOKEN form file 'token'. It will direct you to weibo.com to get
-    a new ACCESS_TOKEN if failed to find the file 'token'.
-
-    Try to delete file 'token' so that you can get a new one if this application
-    not running correctly.
-    """
+    """Try to load ACCESS_TOKEN from 'token' file"""
 
     try:
         fr = open('token', 'rb')
@@ -99,28 +128,7 @@ def update_access_token():
         fr.close()
 
     except IOError:
-        print "You haven't logged in before or user infomation out of date,"
-        print "please enter your username and password below\n"
-        c = Client(API_KEY, API_SECRET, REDIRECT_URI)
-
-        USERID = input("username: ")
-        USERPASSWD = getpass.getpass("password: ") # getpass() makes password invisible
-
-        code = make_access_token(c, USERID, USERPASSWD)
-        while not code: # while log in failed
-            print "" # a blank line to make better look
-            print "Bad username or password, please try again!\n"
-            USERID = input("username: ")
-            USERPASSWD = getpass.getpass("password: ")
-            code = make_access_token(c, USERID, USERPASSWD)
-
-        c.set_code(code)
-
-        fw = open('token', 'wb')
-        pickle.dump(c.token, fw)
-        fw.close()
-
-        ACCESS_TOKEN = c.token
+        ACCESS_TOKEN = None
 
     return ACCESS_TOKEN
 
@@ -149,11 +157,11 @@ def get_comments_to_me(client, start_page, end_page):
         my_page += 1
       
     fw.close()
-    print('All the comments have downloaded')
+    print('All the comments have been downloaded')
 
 
 def get_friends_timeline(client, count):
-    """Show 20 friends_timeline in the screen"""
+    """Show friends_timeline in the screen, default 10"""
 
     received = client.get('statuses/friends_timeline', count = count)
     index = 1
@@ -185,7 +193,8 @@ def post_statuses_update(client, text):
 
     try:
         client.post('statuses/update', status = text)
-        print('Successfully updated!')
+        print('your weibo:\n' + ' '.join(text))
+        print('successfully updated!')
 
     except RuntimeError as e:
         print("Failed because: '{}'".format(str(e)))
@@ -216,13 +225,17 @@ def creat_parser():
         argument_default = argparse.SUPPRESS,
         )
 
-    parser.add_argument('-a', metavar = 'authorize', nargs = '?', const = 'True', help = "sign in to 'weibo.com'")
-    parser.add_argument('-g', metavar = 'get', nargs = '?', const = 10, help = "get latest N friend's timeline")
-    parser.add_argument('-i', metavar = 'image', nargs = '+', help = "post a new weibo with image")
-    parser.add_argument('-p', metavar = 'post', nargs = '+', help = "post a new weibo")
-    parser.add_argument('-t', metavar = 'tweet', nargs = '+', help = "post a new weibo(alias of -p)")
+    parser.add_argument('-authorize', metavar = '-a', nargs = '?', const = 'True', help = "sign in to 'weibo.com'")
+    parser.add_argument('-delete', metavar = '-d', nargs = '?', const = 'True', help = "delete your token infomation") 
+    parser.add_argument('-get', metavar = '-g', nargs = '?', const = 10, help = "get latest N friend's timeline")
+    parser.add_argument('-image', metavar = '-i', nargs = '+', help = "post a new weibo with image")
+    parser.add_argument('-post', metavar = '-p', nargs = '+', help = "post a new weibo")
+    parser.add_argument('-tweet', metavar = '-t', nargs = '+', help = "post a new weibo(alias of -p)")
 
     return parser
+
+##########################################################################
+##########################################################################
 
 if __name__ == "__main__":
     ACCESS_TOKEN = update_access_token()
@@ -230,17 +243,29 @@ if __name__ == "__main__":
 
     parser = creat_parser()
     parameters = vars(parser.parse_args())
-    print parameters
+    # print parameters
 
     if not parameters:
         print ''
         print '- Note: type "wb -help" to see help file of wb.\n'
 
+    elif parameters.get('authorize'):
+        log_in_to_weibo()
+
+    elif parameters.get('delete'):
+        log_out_from_weibo()
+
     elif parameters.get('get'):
         get_friends_timeline(client, parameters['get'])
 
-    # if parameters.get('post'):
-    #     post_statuses_update(client, parameters['post'])
+    elif parameters.get('post'):
+        post_statuses_update(client, parameters['post'])
+
+    elif parameters.get('tweet'):
+        post_statuses_update(client, parameters['tweet'])
+
+    else:
+        pass
 
 
 
