@@ -205,18 +205,22 @@ def post_statuses_upload(client, text, picture):
 
 def creat_parser():
     parser = argparse.ArgumentParser(
-        argument_default = argparse.SUPPRESS, 
-        description = "A CLI tool for Weibo, created by zhanglintc:",
         prog = "wb",
         usage = 'wb -option [option1, option2...]',
-        epilog = 'The code is out sourced in https://github.com/zhanglintc/xiaobawang,\
-        if you have any questions, please contact me.'
+        description = "wb -- A command-line tool for Weibo",
+        epilog = 'This code is out sourced on Github,\
+                    please visit https://github.com/zhanglintc/wb\
+                    for further infomations',
+        prefix_chars = '-/',
+        fromfile_prefix_chars = '@',
+        argument_default = argparse.SUPPRESS,
         )
 
-    parser.add_argument('-a', '--authorize', help = "# Sign in to 'weibo.com'.")
-    parser.add_argument('-g', '--get', nargs = '?', const = 10, help = "# Get latest N friend's timeline.")
-    parser.add_argument('-p', '--post', nargs = '+', help = "# Post a new weibo.")
-    parser.add_argument('-t', '--tweet', nargs = '+', help = "# Post a new weibo, same as -p.")
+    parser.add_argument('-a', metavar = 'authorize', nargs = '?', const = 'True', help = "sign in to 'weibo.com'")
+    parser.add_argument('-g', metavar = 'get', nargs = '?', const = 10, help = "get latest N friend's timeline")
+    parser.add_argument('-i', metavar = 'image', nargs = '+', help = "post a new weibo with image")
+    parser.add_argument('-p', metavar = 'post', nargs = '+', help = "post a new weibo")
+    parser.add_argument('-t', metavar = 'tweet', nargs = '+', help = "post a new weibo(alias of -p)")
 
     return parser
 
@@ -226,16 +230,16 @@ if __name__ == "__main__":
 
     parser = creat_parser()
     parameters = vars(parser.parse_args())
-    # print parameters
+    print parameters
 
     if not parameters:
         print ''
         print '- Note: type "wb -help" to see help file of wb.\n'
 
-    elif parameters['get']:
+    elif parameters.get('get'):
         get_friends_timeline(client, parameters['get'])
 
-    # if parameters['post']:
+    # if parameters.get('post'):
     #     post_statuses_update(client, parameters['post'])
 
 
