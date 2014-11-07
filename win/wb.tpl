@@ -4,7 +4,7 @@ REM by useing this, we can call xiaobawang.py \
 REM just like: wb -p1 -p2 ... -pN
 
 REM set your wb directory here
-set wbDIR=.\
+set wbDIR=to_be_replaced
 set wbFILE=%wbDIR%\wb.py
 
 REM new parameter and set it as None
