@@ -12,6 +12,7 @@ import pickle
 import getpass
 import argparse
 import urllib, urllib2
+import configparser
 
 
 version = sys.version[0]
@@ -31,10 +32,6 @@ elif version == '3':
 else:
     # do nothing
     pass
-
-API_KEY = '2038131539' # app key
-API_SECRET = 'b4d84f59af3e5a52c8df1f0e7ccfa75d' # app secret
-REDIRECT_URI = 'https://api.weibo.com/oauth2/default.html' # callback url
 
 ##########################################################################
 # Functions are defined below
@@ -238,6 +235,13 @@ def creat_parser():
 ##########################################################################
 
 if __name__ == "__main__":
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+
+    API_KEY      = config['Weibo']['API_KEY']
+    API_SECRET   = config['Weibo']['API_SECRET']
+    REDIRECT_URI = config['Weibo']['REDIRECT_URI']
+
     ACCESS_TOKEN = update_access_token()
     client = Client(API_KEY, API_SECRET, REDIRECT_URI, ACCESS_TOKEN)
 
