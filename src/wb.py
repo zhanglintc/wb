@@ -153,56 +153,81 @@ def get_comments_to_me(client, start_page, end_page):
 
 
 def get_friends_timeline(client, count):
-    """Show friends_timeline in the screen, default 10"""
+    """Show friends_timeline in the screen"""
+
+    print('') # a blank line makes better look
+    print("getting latest %s friend's weibo...\n") % count
 
     received = client.get('statuses/friends_timeline', count = count)
-    index = 1
-    for item in received.statuses:
-        retweet = item.get('retweeted_status')
 
-        if retweet: # have original weibo
-            print('No.{0}:\n{1} by @{2}\n-- {3} by @{4}\n'.format
-            (
-                str(index),
-                item.text,
-                item.user.name,
-                item.retweeted_status.text,
-                item.retweeted_status.user.name).encode('utf8')
+    index = int(count) # used in No.{index} below
+    for item in received.statuses[::-1]: # from old to new
+        retweet = item.get('retweeted_status') # if this is retweet or not
+
+        # print normal content first
+        print\
+            ('No.{}:\n{} by @{}:\n{}'.format
+                (
+                    str(index),
+                    item.created_at[:16],
+                    item.user.name,
+                    item.text,
+                ).encode('utf8')
             )
 
-        else: # no original weibo
-            print('No.{0}:\n{1} by @{2}\n'.format
-            (
-                str(index),
-                item.text,
-                item.user.name).encode('utf8')
-            )
+        # if this is not retweet, just print a blank line
+        if not retweet:
+            print('')
 
-        index += 1
+        # if this is retweet, print the retweeted content
+        else:
+            print('-----------------')
+            print\
+            ('{} by @{}:\n{}'.format
+                (
+                    item.retweeted_status.created_at[:16],
+                    item.retweeted_status.user.name,
+                    item.retweeted_status.text,
+                ).encode('utf8')
+            )
+            print('-----------------\n')
+
+        index -= 1
 
 def post_statuses_update(client, text):
     """Update a new weibo(text only) to Sina"""
 
+    print('')
+    print('sending...\n')
+
     try:
         client.post('statuses/update', status = text)
-        print('your weibo:\n' + ' '.join(text))
-        print('successfully updated!')
+        print('-----------------')
+        print(' '.join(text))
+        print('-----------------')
+        print('has been successfully posted!\n')
 
     except RuntimeError as e:
-        print("Failed because: '{}'".format(str(e)))
+        print("sorry, send failed because: '{}'\n".format(str(e)))
 
 def post_statuses_upload(client, text, picture):
     """Upload a new weibo(with picture) to Sina"""
+
+    print('')
+    print('sending...\n')
 
     try:
         f = open(picture, 'rb')
         client.post('statuses/upload', status = text, pic = f)
         f.close()
 
-        print('Successfully updated!')
+        print('-----------------')
+        print(' '.join(text))
+        print('-----------------')
+        print('has been successfully posted!\n')
 
     except (RuntimeError, IOError) as e:
-        print("Failed because: '{}'".format(str(e)))
+        print("sorry, send failed because: '{}'\n".format(str(e)))
 
 def creat_parser():
     parser = argparse.ArgumentParser(
@@ -219,7 +244,7 @@ def creat_parser():
 
     parser.add_argument('-authorize', metavar = '-a', nargs = '?', const = 'True', help = "sign in to 'weibo.com'")
     parser.add_argument('-delete', metavar = '-d', nargs = '?', const = 'True', help = "delete your token infomation") 
-    parser.add_argument('-get', metavar = '-g', nargs = '?', const = 10, help = "get latest N friend's timeline")
+    parser.add_argument('-get', metavar = '-g', nargs = '?', const = 5, help = "get latest N friend's timeline")
     parser.add_argument('-image', metavar = '-i', nargs = '+', help = "post a new weibo with image")
     parser.add_argument('-post', metavar = '-p', nargs = '+', help = "post a new weibo")
     parser.add_argument('-tweet', metavar = '-t', nargs = '+', help = "post a new weibo(alias of -p)")
