@@ -17,19 +17,10 @@ fw = open(tmp_path, 'w')
 line = True; add_alias = True
 while line:
     line = fr.readline()
-    fw.write(line)
-    if 'wb.py' in line:
-        add_alias = False
+    if 'wb.py' not in line:
+        fw.write(line)
     else:
         pass
-
-wb_path = os.path.abspath('..') + '/src/wb.py'
-alias = "alias wb=\'python " + wb_path + "\'" + '\n'
-
-if add_alias:
-    fw.write(alias)
-else:
-    pass
 
 fr.close()
 fw.close()
@@ -37,7 +28,7 @@ fw.close()
 shutil.copy(tmp_path, bash_path)
 os.remove(tmp_path)
 
-print 'Successfully installed!!!'
+print 'Successfully uninstalled!!!'
 print ''
 print 'Press any key to close...\n'
 try:
