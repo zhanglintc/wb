@@ -203,15 +203,25 @@ def post_statuses_update(client, text):
     try:
         client.post('statuses/update', status = text)
         print('-----------------')
-        print(' '.join(text))
+        print(text)
         print('-----------------')
         print('has been successfully posted!\n')
 
     except RuntimeError as e:
-        print("sorry, send failed because: '{}'\n".format(str(e)))
+        print("sorry, send failed because: {}\n".format(str(e)))
 
 def post_statuses_upload(client, text, picture):
     """Upload a new weibo(with picture) to Sina"""
+
+    # bug !!! 2014.11.8 zhanglin
+    # bug description:
+    # can't open 'picture'
+    # for example:
+    # f = open('/Dropbox/APP/FarBox/zhanglintc.farbox.com/_image/bird.jpg', 'rb') is OK
+    # but
+    # f = open(picture, 'rb') is NOT ok
+    # even though picture == '/Dropbox/APP/FarBox/zhanglintc.farbox.com/_image/bird.jpg' is True
+    # don't know why
 
     print('')
     print('sending...\n')
@@ -222,12 +232,12 @@ def post_statuses_upload(client, text, picture):
         f.close()
 
         print('-----------------')
-        print(' '.join(text))
+        print(text)
         print('-----------------')
         print('has been successfully posted!\n')
 
     except (RuntimeError, IOError) as e:
-        print("sorry, send failed because: '{}'\n".format(str(e)))
+        print("sorry, send failed because: {}\n".format(str(e)))
 
 def creat_parser():
     parser = argparse.ArgumentParser(
@@ -245,9 +255,9 @@ def creat_parser():
     parser.add_argument('-authorize', metavar = '-a', nargs = '?', const = 'True', help = "sign in to 'weibo.com'")
     parser.add_argument('-delete', metavar = '-d', nargs = '?', const = 'True', help = "delete your token infomation") 
     parser.add_argument('-get', metavar = '-g', nargs = '?', const = 5, help = "get latest N friend's timeline")
-    parser.add_argument('-image', metavar = '-i', nargs = '+', help = "post a new weibo with image")
-    parser.add_argument('-post', metavar = '-p', nargs = '+', help = "post a new weibo")
-    parser.add_argument('-tweet', metavar = '-t', nargs = '+', help = "post a new weibo(alias of -p)")
+    parser.add_argument('-image', metavar = '-i', nargs = 2, help = "post a new weibo with image")
+    parser.add_argument('-post', metavar = '-p', nargs = 1, help = "post a new weibo")
+    parser.add_argument('-tweet', metavar = '-t', nargs = 1, help = "post a new weibo(alias of -p)")
 
     return parser
 
@@ -275,11 +285,14 @@ if __name__ == "__main__":
     elif parameters.get('get'):
         get_friends_timeline(client, parameters['get'])
 
+    elif parameters.get('image'):
+        post_statuses_upload(client, parameters['image'][0], parameters['image'][1])
+
     elif parameters.get('post'):
-        post_statuses_update(client, parameters['post'])
+        post_statuses_update(client, parameters['post'][0])
 
     elif parameters.get('tweet'):
-        post_statuses_update(client, parameters['tweet'])
+        post_statuses_update(client, parameters['tweet'][0])
 
     else:
         pass
