@@ -7,6 +7,7 @@ Lane's Weibo Client Application Beta, Nothing Reserved
 
 from http_helper import *
 from sdk import Client
+import tkFileDialog
 import sys, os
 import pickle
 import getpass
@@ -210,8 +211,10 @@ def post_statuses_update(client, text):
     except RuntimeError as e:
         print("sorry, send failed because: {}\n".format(str(e)))
 
-def post_statuses_upload(client, text, picture):
+def post_statuses_upload(client, text):
     """Upload a new weibo(with picture) to Sina"""
+
+    picture = tkFileDialog.askopenfilename() # get picture by GUI
 
     print('')
     print('sending...\n')
@@ -222,7 +225,7 @@ def post_statuses_upload(client, text, picture):
         f.close()
 
         print('-----------------')
-        print(text)
+        print(text + '\n(with picture)')
         print('-----------------')
         print('has been successfully posted!\n')
 
@@ -245,7 +248,7 @@ def creat_parser():
     parser.add_argument('-authorize', metavar = '-a', nargs = '?', const = 'True', help = "sign in to 'weibo.com'")
     parser.add_argument('-delete', metavar = '-d', nargs = '?', const = 'True', help = "delete your token infomation") 
     parser.add_argument('-get', metavar = '-g', nargs = '?', const = 5, help = "get latest N friend's timeline")
-    parser.add_argument('-image', metavar = '-i', nargs = 2, help = "post a new weibo with image")
+    parser.add_argument('-image', metavar = '-i', nargs = 1, help = "post a new weibo with image")
     parser.add_argument('-post', metavar = '-p', nargs = 1, help = "post a new weibo")
     parser.add_argument('-tweet', metavar = '-t', nargs = 1, help = "post a new weibo(alias of -p)")
 
@@ -276,7 +279,7 @@ if __name__ == "__main__":
         get_friends_timeline(client, parameters['get'])
 
     elif parameters.get('image'):
-        post_statuses_upload(client, parameters['image'][0], parameters['image'][1])
+        post_statuses_upload(client, parameters['image'][0])
 
     elif parameters.get('post'):
         post_statuses_update(client, parameters['post'][0])
