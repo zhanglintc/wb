@@ -242,7 +242,7 @@ def post_statuses_upload(client, text, picture):
 def creat_parser():
     parser = argparse.ArgumentParser(
         prog = "wb",
-        usage = 'wb -option [option1, option2...]',
+        # usage = 'wb -option [option1, option2...]',
         description = "wb -- A command-line tool for Weibo",
         epilog = 'This code is out sourced on Github,\
                     please visit https://github.com/zhanglintc/wb\
