@@ -213,16 +213,6 @@ def post_statuses_update(client, text):
 def post_statuses_upload(client, text, picture):
     """Upload a new weibo(with picture) to Sina"""
 
-    # bug !!! 2014.11.8 zhanglin
-    # bug description:
-    # can't open 'picture'
-    # for example:
-    # f = open('/Dropbox/APP/FarBox/zhanglintc.farbox.com/_image/bird.jpg', 'rb') is OK
-    # but
-    # f = open(picture, 'rb') is NOT ok
-    # even though picture == '/Dropbox/APP/FarBox/zhanglintc.farbox.com/_image/bird.jpg' is True
-    # don't know why
-
     print('')
     print('sending...\n')
 
@@ -247,7 +237,7 @@ def creat_parser():
         epilog = 'This code is out sourced on Github,\
                     please visit https://github.com/zhanglintc/wb\
                     for further infomations',
-        prefix_chars = '-/',
+        prefix_chars = '-', # remove '/' to solve image sending problem(there is '/' in path)
         fromfile_prefix_chars = '@',
         argument_default = argparse.SUPPRESS,
         )
