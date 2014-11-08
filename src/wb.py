@@ -20,8 +20,11 @@ input = raw_input if version == '2' else input
 reload(sys)
 sys.setdefaultencoding('utf8')
 
+TOKEN_PATH  = sys.path[0] + '/token'
+CONFIG_PATH = sys.path[0] + '/config.ini'
+
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read(CONFIG_PATH)
 
 API_KEY      = config['Weibo']['API_KEY']
 API_SECRET   = config['Weibo']['API_SECRET']
@@ -37,7 +40,8 @@ def log_in_to_weibo():
     if not, do nothing.
     """
 
-    print "please enter your username and password below\n"
+    print('')
+    print("please enter your username and password below\n")
 
     client = Client(API_KEY, API_SECRET, REDIRECT_URI)
 
@@ -48,21 +52,22 @@ def log_in_to_weibo():
     print('logging...')
     code = make_access_token(client, USERID, USERPASSWD)
     if not code: # while log in failed
-        print "" # a blank line to make better look
-        print "bad username or password, please try again!\n"
+        print('') # a blank line to make better look
+        print("bad username or password, please try again!\n")
 
     # after got code, store it
     else:
         client.set_code(code)
-        fw = open('token', 'wb')
+        fw = open(TOKEN_PATH, 'wb')
         pickle.dump(client.token, fw)
         fw.close()
-        print "log in to weibo.com successfully"
+        print('')
+        print("log in to weibo.com successfully\n")
 
 def log_out_from_weibo():
     """delete login informations"""
 
-    os.remove('token')
+    os.remove(TOKEN_PATH)
 
 def make_access_token(client, USERID, USERPASSWD):
     """
@@ -116,7 +121,7 @@ def update_access_token():
     """Try to load ACCESS_TOKEN from 'token' file"""
 
     try:
-        fr = open('token', 'rb')
+        fr = open(TOKEN_PATH, 'rb')
         ACCESS_TOKEN = pickle.load(fr)
         fr.close()
 
