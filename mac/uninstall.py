@@ -1,37 +1,42 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os, shutil, sys
-import getpass
+import os, shutil
 
-usr = getpass.getuser()
+# /Users/lane
+gen_path  = os.path.expanduser('~') # your home path
 
-gen_path = '/Users/' + usr
-bash_path = gen_path + '/.bash_profile'
-tmp_path = gen_path + '/tmp'
+# /Users/lane/.bash_profile
+bash_path = "{}/.bash_profile".format(gen_path) # your .bash_profile path
 
+# /Users/lane/temp
+temp_path = "{}/temp".format(gen_path) # temp file path
 
 fr = open(bash_path, 'r')
-fw = open(tmp_path, 'w')
+fw = open(temp_path, 'w')
 
-line = True; add_alias = True
+line = True; install_command = False
 while line:
     line = fr.readline()
-    if 'wb.py' not in line:
+    if 'wb.py' not in line: # if this line do not contain wb.py, write it to file
         fw.write(line)
-    else:
-        pass
+    else: # else jump it, but store to print
+        install_command = line
 
 fr.close()
 fw.close()
 
-shutil.copy(tmp_path, bash_path)
-os.remove(tmp_path)
+shutil.copy(temp_path, bash_path) # replace .bash_profile by temp file
+os.remove(temp_path) # delete temp file
 
-print 'Successfully uninstalled!!!'
-print ''
-print 'Press any key to close...\n'
+if install_command:
+    print("The command below:\n\n  {}\n\nis successfully removed from .bash_profile\n".format(install_command[:-1]))
+else:
+    print("Well, there is nothing to delete\n")
+
 try:
     raw_input()
 except:
     pass
+
+

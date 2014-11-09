@@ -1,32 +1,38 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os, shutil, sys
-import getpass
+import os, shutil
 
-usr = getpass.getuser()
+# /Users/lane
+gen_path  = os.path.expanduser('~') # your home path
 
-gen_path = '/Users/' + usr
-bash_path = gen_path + '/.bash_profile'
-tmp_path = gen_path + '/tmp'
+# /Users/lane/.bash_profile
+bash_path = "{}/.bash_profile".format(gen_path) # your .bash_profile path
+
+# /Users/lane/temp
+temp_path = "{}/temp".format(gen_path) # temp file path
+
+# /Users/lane/Github/wb/src/wb.py
+wb_path = "{}/src/wb.py".format(os.path.abspath('..')) # wb.py file path
+
+# alias wb='python /Users/lane/Github/wb/src/wb.py'
+alias = "alias wb='python {}'\n".format(wb_path) # the alias command
 
 
 fr = open(bash_path, 'r')
-fw = open(tmp_path, 'w')
+fw = open(temp_path, 'w')
 
 line = True; add_alias = True
 while line:
     line = fr.readline()
     fw.write(line)
-    if 'wb.py' in line:
+    if 'wb.py' in line: # if wb.py already in .bash_profile, no need to add alias command
         add_alias = False
+        intalled_command = line
     else:
         pass
 
-wb_path = os.path.abspath('..') + '/src/wb.py'
-alias = "alias wb=\'python " + wb_path + "\'" + '\n'
-
-if add_alias:
+if add_alias: # if True, write alias command at the end of the file
     fw.write(alias)
 else:
     pass
@@ -34,13 +40,17 @@ else:
 fr.close()
 fw.close()
 
-shutil.copy(tmp_path, bash_path)
-os.remove(tmp_path)
+shutil.copy(temp_path, bash_path) # replace .bash_profile by temp file
+os.remove(temp_path) # delete temp file
 
-print 'Successfully installed!!!'
-print ''
-print 'Press any key to close...\n'
+if add_alias:
+    print("The command below:\n\n  {}\n\nis successfully added to .bash_profile\n".format(alias[:-1]))
+else:
+    print("The command below:\n\n  {}\n\nis detected, installing has canceled with nothing happen".format(intalled_command[:-1]))
+
 try:
     raw_input()
 except:
     pass
+
+
