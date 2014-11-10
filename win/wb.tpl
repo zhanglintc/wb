@@ -1,6 +1,6 @@
 @echo off
 REM plan to use in Windows platform \
-REM by useing this, we can call xiaobawang.py \
+REM by useing this, we can call wb.py \
 REM just like: wb -p1 -p2 ... -pN
 
 REM set your wb directory here
