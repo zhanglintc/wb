@@ -1,2 +1,2 @@
-1. Win install & uninstall
+✔ 1. Win install & uninstall
 2. General install
