@@ -7,7 +7,7 @@ Lane's Weibo Client Application Beta, Nothing Reserved
 
 from http_helper import *
 from sdk import Client
-import tkFileDialog
+# import tkFileDialog # comment by zhanglin 2014.11.12
 import sys, os
 import pickle
 import getpass
@@ -217,9 +217,15 @@ def post_statuses_update(client, text):
         print("sorry, send failed because: {}\n".format(str(e)))
 
 def post_statuses_upload(client, text):
-    """Upload a new weibo(with picture) to Sina"""
+    """
+    Upload a new weibo(with picture) to Sina
+    Currently not in from 2014.11.12
+    Maybe reuse in the future
+    """
 
+    # 2014.11.12 zhanglin make it useless -S
     picture = tkFileDialog.askopenfilename() # get picture by GUI
+    # 2014.11.12 zhanglin make it useless -E
 
     print('')
     print('sending...\n')
@@ -253,7 +259,7 @@ def creat_parser():
     parser.add_argument('-authorize', metavar = '-a', nargs = '?', const = 'True', help = "sign in to 'weibo.com'")
     parser.add_argument('-delete', metavar = '-d', nargs = '?', const = 'True', help = "delete your token infomation") 
     parser.add_argument('-get', metavar = '-g', nargs = '?', const = 5, help = "get latest N friend's timeline")
-    parser.add_argument('-image', metavar = '-i', nargs = 1, help = "post a new weibo with image")
+    # parser.add_argument('-image', metavar = '-i', nargs = 1, help = "post a new weibo with image")
     parser.add_argument('-post', metavar = '-p', nargs = 1, help = "post a new weibo")
     parser.add_argument('-tweet', metavar = '-t', nargs = 1, help = "post a new weibo(alias of -p)")
 
@@ -283,8 +289,10 @@ if __name__ == "__main__":
     elif parameters.get('get'):
         get_friends_timeline(client, parameters['get'])
 
-    elif parameters.get('image'):
-        post_statuses_upload(client, parameters['image'][0])
+    # comment by zhanglin 2014.11.12 -S
+    # elif parameters.get('image'):
+        # post_statuses_upload(client, parameters['image'][0])
+    # comment by zhanglin 2014.11.12 -E
 
     elif parameters.get('post'):
         post_statuses_update(client, parameters['post'][0])
