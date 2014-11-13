@@ -6,8 +6,8 @@ import os, shutil
 # /Users/lane
 gen_path  = os.path.expanduser('~') # your home path
 
-# /Users/lane/.bash_profile
-bash_path = "{}/.bashrc".format(gen_path) # your .bash_profile path
+# /Users/lane/.bash_aliases
+bash_path = "{}/.bash_aliases".format(gen_path) # your .bash_aliases path
 
 # /Users/lane/temp
 temp_path = "{}/temp".format(gen_path) # temp file path
@@ -26,7 +26,7 @@ line = True; add_alias = True
 while line:
     line = fr.readline()
     fw.write(line)
-    if 'wb.py' in line: # if wb.py already in .bash_profile, no need to add alias command
+    if 'wb.py' in line: # if wb.py already in .bash_aliases, no need to add alias command
         add_alias = False
         intalled_command = line
     else:
@@ -40,11 +40,11 @@ else:
 fr.close()
 fw.close()
 
-shutil.copy(temp_path, bash_path) # replace .bash_profile by temp file
+shutil.copy(temp_path, bash_path) # replace .bash_aliases by temp file
 os.remove(temp_path) # delete temp file
 
 if add_alias:
-    print("The command below:\n\n  {}\n\nis successfully added to .bash_profile\n".format(alias[:-1]))
+    print("The command below:\n\n  {}\n\nis successfully added to .bash_aliases\n".format(alias[:-1]))
 else:
     print("The command below:\n\n  {}\n\nis detected, installing has canceled with nothing happen".format(intalled_command[:-1]))
 
