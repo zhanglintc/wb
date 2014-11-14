@@ -1,4 +1,4 @@
-Mac下安装方法
+Linux下安装方法
 ==========
 
 ## 安装：
@@ -8,7 +8,7 @@ Mac下安装方法
 
 完成后使用命令可以即刻生效
 
-    source .bash_profile
+    source .bashrc
 
 如果不实用上述命令也可以关闭Shell（Terminal）后重新打开
 
