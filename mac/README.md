@@ -6,11 +6,11 @@ Mac下安装方法
 
     pytyon install.py
 
-完成后使用命令可以即刻生效
+完成后使用如下命令可以使安装即刻生效
 
     source .bash_profile
 
-如果不实用上述命令也可以关闭Shell（Terminal）后重新打开
+如果不想输入上述命令也可以采用关闭Shell（Terminal）后重新打开的方式生效
 
 ## 卸载：
 运行uninstall.py

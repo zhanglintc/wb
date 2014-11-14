@@ -6,11 +6,11 @@ Linux下安装方法
 
     pytyon install.py
 
-完成后使用命令可以即刻生效
+完成后使用如下命令可以使安装立即生效
 
     source .bashrc
 
-如果不实用上述命令也可以关闭Shell（Terminal）后重新打开
+如果不想输入上述命令也可以通过关闭Shell（Terminal）后重新打开的方式来生效
 
 ## 卸载：
 运行uninstall.py
