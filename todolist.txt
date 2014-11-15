@@ -1,2 +1,3 @@
 ✔ 1. Win install & uninstall
 2. General install
+3. Use Sqlite3 module
