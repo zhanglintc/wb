@@ -6,6 +6,7 @@ Lane's Weibo Client Application Beta, Nothing Reserved
 """
 
 from http_helper import *
+from affix import *
 from sdk import Client
 # import tkFileDialog # comment by zhanglin 2014.11.12
 import sys, os
@@ -172,10 +173,10 @@ def get_friends_timeline(client, count):
 
         # print normal content first
         print\
-            ('No.{}:\n{} by @{}:\n{}'.format
+            ('No.{}:\n{} | by @{}:\n{}'.format
                 (
                     str(index),
-                    item.created_at[:16],
+                    convert_time(item.created_at),
                     item.user.name,
                     item.text,
                 ).encode('utf8')
@@ -189,9 +190,9 @@ def get_friends_timeline(client, count):
         else:
             print('-----------------')
             print\
-            ('{} by @{}:\n{}'.format
+            ('{} | by @{}:\n{}'.format
                 (
-                    item.retweeted_status.created_at[:16],
+                    convert_time(item.retweeted_status.created_at),
                     item.retweeted_status.user.name,
                     item.retweeted_status.text,
                 ).encode('utf8')
