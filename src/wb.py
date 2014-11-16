@@ -220,7 +220,7 @@ def post_statuses_update(client, text):
 def post_statuses_upload(client, text):
     """
     Upload a new weibo(with picture) to Sina
-    Currently not in from 2014.11.12
+    Currently not in use from 2014.11.12
     Maybe reuse in the future
     """
 
