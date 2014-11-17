@@ -8,9 +8,9 @@ if 'Linux' in platform.platform():
     print('Linux detected\n')
     os.system('cd ./linux & python uninstall.py')
 
-if 'Darvin' in platform.platform():
+if 'Darwin' in platform.platform():
     print('Mac detected\n')
-    os.system('cd ./mac & python uninstall.py')
+    os.system('cd ./mac && python uninstall.py')
 
 if 'Windows' in platform.platform():
     print('Windows detected\n')
