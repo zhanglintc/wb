@@ -6,7 +6,7 @@ import os
 
 if 'Linux' in platform.platform():
     print('Linux detected\n')
-    os.system('cd ./linux & python install.py')
+    os.system('cd ./linux && python install.py')
 
 if 'Darwin' in platform.platform():
     print('Mac detected\n')
