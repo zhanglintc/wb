@@ -5,7 +5,7 @@ import platform
 import os
 
 print('')
-print("This tool helps you remove 'wb' command from your device")
+print("This tool helps you REMOVE the 'wb' command from your device")
 print("It's going to detect your device automatically")
 print("If faild or detection not right, please do it manually\n")
 

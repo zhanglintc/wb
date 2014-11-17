@@ -29,11 +29,15 @@ fw.close()
 shutil.copy(temp_path, bash_path) # replace .bash_profile by temp file
 os.remove(temp_path) # delete temp file
 
+print('')
 if install_command:
     print("The command below:\n\n  {}\n\nis successfully removed from '.bash_profile'\n".format(install_command[:-1]))
 else:
     print("Well, there is nothing to delete\n")
 
+print('')
+print("please 'source ~/.bash_profile' or restart your terminal")
+pirnt("to make uninstall take effect\n")
 print("press any key to quit...\n")
 
 try:

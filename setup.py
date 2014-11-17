@@ -5,7 +5,7 @@ import platform
 import os
 
 print('')
-print("This tool helps you add 'wb' command to your device")
+print("This tool helps you ADD the 'wb' command to your device")
 print("It's going to detect your device automatically")
 print("If faild or detection not right, please do it manually\n")
 

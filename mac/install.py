@@ -43,11 +43,15 @@ fw.close()
 shutil.copy(temp_path, bash_path) # replace .bash_profile by temp file
 os.remove(temp_path) # delete temp file
 
+print('')
 if add_alias:
     print("The command below:\n\n  {}\n\nis successfully added to .'bash_profile'\n".format(alias[:-1]))
 else:
     print("The command below:\n\n  {}\n\nis already exist, installing has canceled with nothing happen\n".format(intalled_command[:-1]))
 
+print('')
+print("please 'source ~/.bash_profile' or restart your terminal")
+print("to make install take effect\n")
 print("press any key to quit...\n")
 
 try:
