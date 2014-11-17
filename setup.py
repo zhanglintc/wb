@@ -31,7 +31,6 @@ elif 'Darwin' in platform.platform():
         print("setup aborted\n")
 
 elif 'Windows' in platform.platform():
-    print('Windows detected\n')
     while choice != 'y' and choice != 'n':
         choice = raw_input("'Windows' detected, continue?[y/n]").lower()
 
