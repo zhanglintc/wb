@@ -44,9 +44,11 @@ shutil.copy(temp_path, bash_path) # replace .bash_aliases by temp file
 os.remove(temp_path) # delete temp file
 
 if add_alias:
-    print("The command below:\n\n  {}\n\nis successfully added to .bash_aliases\n".format(alias[:-1]))
+    print("The command below:\n\n  {}\n\nis successfully added to '.bash_aliases'\n".format(alias[:-1]))
 else:
-    print("The command below:\n\n  {}\n\nis detected, installing has canceled with nothing happen".format(intalled_command[:-1]))
+    print("The command below:\n\n  {}\n\nis already exist, installing has canceled with nothing happen\n".format(intalled_command[:-1]))
+
+print("press any key to quit...\n")
 
 try:
     raw_input()

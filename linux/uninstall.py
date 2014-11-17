@@ -30,9 +30,11 @@ shutil.copy(temp_path, bash_path) # replace .bash_aliases by temp file
 os.remove(temp_path) # delete temp file
 
 if install_command:
-    print("The command below:\n\n  {}\n\nis successfully removed from .bash_aliases\n".format(install_command[:-1]))
+    print("The command below:\n\n  {}\n\nis successfully removed from '.bash_aliases'\n".format(install_command[:-1]))
 else:
     print("Well, there is nothing to delete\n")
+
+print("press any key to quit...\n")
 
 try:
     raw_input()
