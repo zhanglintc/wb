@@ -21,10 +21,11 @@ fw.close()
 shutil.copy('wb.cmd', 'C:\Windows\System32') # copy wb.cmd to system path
 os.remove('wb.cmd') # remove wb.cmd
 
-print '1. "{}" has been written in "wb.cmd"'.format(wb_dir)
-print '2. "wb.cmd" has been copied to "C:\Windows\System32"'
-print ''
-print 'Press any key to close...'
+print('')
+print('1. "{}" has been written in "wb.cmd"'.format(wb_dir))
+print('2. "wb.cmd" has been copied to "C:\Windows\System32"')
+print('')
+print('Press any key to close...')
 
 try:
     raw_input()

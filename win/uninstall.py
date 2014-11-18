@@ -5,9 +5,10 @@ import os
 
 os.remove('C:\Windows\System32\wb.cmd')
 
-print '"wb.cmd" has been removed from "C:\Windows\System32"'
-print ''
-print 'Press any key to close...'
+print('')
+print('"wb.cmd" has been removed from "C:\Windows\System32"')
+print('')
+print('Press any key to close...')
 
 try:
     raw_input()
