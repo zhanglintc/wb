@@ -50,8 +50,8 @@ else:
     print("The command below:\n\n  {}\n\nis already exist, installing has canceled with nothing happen\n".format(intalled_command[:-1]))
 
 print('')
-print("please 'source ~/.bash_aliases' or restart your bash")
-print("to make install take effect\n")
+print("please type 'source ~/.bash_aliases' or restart your bash")
+print("to make this installment take effect\n")
 print("press any key to quit...\n")
 
 try:
