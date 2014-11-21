@@ -5,7 +5,7 @@
 Lane's Weibo Client Application Beta, Nothing Reserved
 """
 
-from http_helper import *
+from http import *
 from affix import *
 from sdk import Client
 # import tkFileDialog # comment by zhanglin 2014.11.12

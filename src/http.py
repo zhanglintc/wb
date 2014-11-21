@@ -1,8 +1,21 @@
 # -*- coding: utf-8 -*-
 #/usr/bin/env python
 
-import urllib2,cookielib
+"""
+Original name: http_helper.py
+http_helper.py -> http.py, only because looks better
 
+Refer to:
+http://www.cnblogs.com/wly923/archive/2013/04/28/3048700.html
+
+There is also a GitHub project provide thing like this:
+http://www.cnblogs.com/wly923/archive/2013/04/28/3048700.html
+
+And its blog:
+http://wtm-mac.iteye.com/blog/1623074
+"""
+
+import urllib2,cookielib
 
 class SmartRedirectHandler(urllib2.HTTPRedirectHandler):
     def http_error_301(cls, req, fp, code, msg, headers):
