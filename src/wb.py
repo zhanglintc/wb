@@ -255,6 +255,7 @@ def show_status(client):
     print("new comments   => {}".format(received.cmt))
     print("new mentions   => {}".format(received.mention_status + received.mention_cmt))
     print("new direct MSG => {}".format(received.dm))
+    print('') # blank line makes better look
 
 def post_statuses_update(client, text):
     """Update a new weibo(text only) to Sina"""
@@ -335,8 +336,8 @@ if __name__ == "__main__":
     # print parameters
 
     if not parameters:
-        print ''
-        print '- Note: type "wb -h/--help" to see usages.\n'
+        print('')
+        print('- Note: type "wb -h/--help" to see usages.\n')
 
 ##########################################################################
 
@@ -375,8 +376,8 @@ if __name__ == "__main__":
 ##########################################################################
 
     else:
-        print ''
-        print '- Note: unrecognized command, type "wb -h/--help" to see usages.\n'
+        print('')
+        print('- Note: unrecognized command, type "wb -h/--help" to see usages.\n')
 
 
 
