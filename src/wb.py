@@ -223,6 +223,39 @@ def get_friends_timeline(client, count):
 
         index -= 1
 
+def show_status(client):
+    """
+    Show unread informations.
+
+    PS:
+    字段说明
+
+    返回值字段       字段类型     字段说明
+    status          int         新微博未读数
+    follower        int         新粉丝数
+    cmt             int         新评论数
+    dm              int         新私信数
+    mention_status  int         新提及我的微博数
+    mention_cmt     int         新提及我的评论数
+    group           int         微群消息未读数
+    private_group   int         私有微群消息未读数
+    notice          int         新通知未读数
+    invite          int         新邀请未读数
+    badge           int         新勋章数
+    photo           int         相册消息未读数
+    msgbox          int         {{{3}}}
+    """
+
+    print('') # a blank line makes better look
+    print("getting status...\n")
+
+    received = client.get('remind/unread_count')
+
+    print("unread weibo   => {}".format(received.status))
+    print("new comments   => {}".format(received.cmt))
+    print("new mentions   => {}".format(received.mention_status + received.mention_cmt))
+    print("new direct MSG => {}".format(received.dm))
+
 def post_statuses_update(client, text):
     """Update a new weibo(text only) to Sina"""
 
@@ -286,6 +319,7 @@ def creat_parser():
     parser.add_argument('-post', metavar = '-p', nargs = 1, help = "post a new weibo")
     parser.add_argument('-tweet', metavar = '-t', nargs = 1, help = "post a new weibo(alias of -p)")
     parser.add_argument('-comment', metavar = '-c', nargs = '?', const = 5, help = "get comments to me")
+    parser.add_argument('common', nargs = '?', help = "show status")
 
     return parser
 
@@ -304,6 +338,16 @@ if __name__ == "__main__":
         print ''
         print '- Note: type "wb -h/--help" to see usages.\n'
 
+##########################################################################
+
+    # Start of common command
+    elif parameters.get('common') == 'status':
+        show_status(client)
+    # End of common command
+
+##########################################################################
+
+    # Start of hyphen command
     elif parameters.get('authorize'):
         log_in_to_weibo()
 
@@ -326,9 +370,13 @@ if __name__ == "__main__":
 
     elif parameters.get('comment'):
         get_comments_to_me(client, parameters['comment'])
+    # End of hyphen command
+
+##########################################################################
 
     else:
-        pass
+        print ''
+        print '- Note: unrecognized command, type "wb -h/--help" to see usages.\n'
 
 
 
