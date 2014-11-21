@@ -131,8 +131,12 @@ def update_access_token():
 
     return ACCESS_TOKEN
 
-def get_comments_to_me(client, start_page, end_page):
-    """Download comments from 'start_page' to 'end_page'"""
+def comments_to_me_To_File(client, start_page, end_page):
+    """
+    Download comments from 'start_page' to 'end_page'
+
+    Deprecate, merely use => by zhanglin 2014.11.21
+    """
 
     my_page = start_page
 
@@ -158,6 +162,24 @@ def get_comments_to_me(client, start_page, end_page):
     fw.close()
     print('All the comments have been downloaded')
 
+def get_comments_to_me(client, count):
+    """Get comments to me and display in screen."""
+
+    print('') # a blank line makes better look
+    print("getting latest %s comments to me...\n") % count
+
+    received = client.get('comments/to_me', count = count)
+
+    index = int(count) # used in No.{index} below
+    for item in received.comments[::-1]:
+        print 'No.{}:\n{} | from {}:\n{}\n'.format\
+        (
+            index,
+            convert_time(item.created_at), 
+            item.user.name,
+            item.text, 
+        )
+        index -= 1
 
 def get_friends_timeline(client, count):
     """Show friends_timeline in the screen"""
@@ -263,6 +285,7 @@ def creat_parser():
     # parser.add_argument('-image', metavar = '-i', nargs = 1, help = "post a new weibo with image")
     parser.add_argument('-post', metavar = '-p', nargs = 1, help = "post a new weibo")
     parser.add_argument('-tweet', metavar = '-t', nargs = 1, help = "post a new weibo(alias of -p)")
+    parser.add_argument('-comment', metavar = '-c', nargs = '?', const = 5, help = "get comments to me")
 
     return parser
 
@@ -300,6 +323,9 @@ if __name__ == "__main__":
 
     elif parameters.get('tweet'):
         post_statuses_update(client, parameters['tweet'][0])
+
+    elif parameters.get('comment'):
+        get_comments_to_me(client, parameters['comment'])
 
     else:
         pass
