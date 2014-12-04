@@ -15,11 +15,22 @@ import getpass
 import argparse
 import urllib, urllib2
 import configparser
+import platform
 
 version = sys.version[0]
 input = raw_input if version == '2' else input
 reload(sys)
 sys.setdefaultencoding('utf8')
+
+plat = platform.platform()
+if 'Linux' in plat:
+    plat = 'Lin'
+elif 'Darwin' in plat:
+    plat = 'Mac'
+elif 'Windows' in plat:
+    plat = 'Win'
+else:
+    plat = None
 
 TOKEN_PATH  = sys.path[0] + '/token'
 CONFIG_PATH = sys.path[0] + '/config.ini'
@@ -165,6 +176,7 @@ def comments_to_me_To_File(client, start_page, end_page):
 def get_comments_to_me(client, count):
     """Get comments to me and display in screen."""
 
+    os.system('cls') if plat == 'Win' else os.system('clear')
     print('') # a blank line makes better look
     print("getting latest %s comments to me...\n") % count
 
@@ -184,6 +196,7 @@ def get_comments_to_me(client, count):
 def get_friends_timeline(client, count):
     """Show friends_timeline in the screen"""
 
+    os.system('cls') if plat == 'Win' else os.system('clear')
     print('') # a blank line makes better look
     print("getting latest %s friend's weibo...\n") % count
 
