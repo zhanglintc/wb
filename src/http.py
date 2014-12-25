@@ -34,7 +34,9 @@ def get_cookie():
     cookies = cookielib.CookieJar()
     return urllib2.HTTPCookieProcessor(cookies)
 
-def get_opener(proxy=False):
-    rv=urllib2.build_opener(get_cookie(), SmartRedirectHandler())
+def get_opener(proxy = False):
+    rv = urllib2.build_opener(get_cookie(), SmartRedirectHandler())
     rv.addheaders = [('User-agent', 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)')]
     return rv
+
+
