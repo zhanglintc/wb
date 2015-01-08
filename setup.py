@@ -18,44 +18,29 @@ print("It's going to detect your device automatically")
 print("If faild or detection not right, please do it manually\n")
 
 choice = None
-if 'Linux' in platform.platform():
-    while choice != 'y' and choice != 'n':
-        choice = raw_input("'Linux' detected, continue?[y/n]").lower()
+os_info = platform.platform()
 
-    if choice == 'y':
-        os.system('cd ./linux && python install.py')
-    else:
-        print('')
-        print("setup aborted\n")
-        raw_input()
-        sys.exit(0)
-
-elif 'Darwin' in platform.platform():
-    while choice != 'y' and choice != 'n':
-        choice = raw_input("'Mac' detected, continue?[y/n]").lower()
-
-    if choice == 'y':
-        os.system('cd ./mac && python install.py')
-    else:
-        print('')
-        print("setup aborted\n")
-        raw_input()
-        sys.exit(0)
-
-elif 'Windows' in platform.platform():
-    while choice != 'y' and choice != 'n':
-        choice = raw_input("'Windows' detected, continue?[y/n]").lower()
-
-    if choice == 'y':
-        os.system('cd ./win & python install.py')
-    else:
-        print('')
-        print("setup aborted\n")
-        raw_input()
-        sys.exit(0)
-
+if 'Linux' in os_info:
+    os_type = 'Linux'
+elif 'Darwin' in os_info:
+    os_type = 'Mac'
+elif 'Windows' in os_info:
+    os_type = 'Windows'
 else:
     print("Can't detect your device, please do it by yourself\n")
+    raw_input()
+    sys.exit(0)
+
+while choice != 'y' and choice != 'n':
+    choice = raw_input("'{}' detected, continue?[y/n]".format(os_type)).lower()
+
+    if choice == 'y':
+        os.system('cd ./{} && python install.py'.format(os_type[:3].lower()))
+    else:
+        print('')
+        print("setup aborted\n")
+        raw_input()
+        sys.exit(0)
 
 print("Now we are going to install dependent modules:\n")
 os.system('python ./bin/pip.exe install -r requirements.txt')
