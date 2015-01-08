@@ -10,38 +10,29 @@ print("It's going to detect your device automatically")
 print("If faild or detection not right, please do it manually\n")
 
 choice = None
-if 'Linux' in platform.platform():
-    while choice != 'y' and choice != 'n':
-        choice = raw_input("'Linux' detected, continue?[y/n]").lower()
+os_info = platform.platform()
 
-    if choice == 'y':
-        os.system('cd ./linux && python uninstall.py')
-    else:
-        print('')
-        print("uninstall aborted\n")
-
-elif 'Darwin' in platform.platform():
-    while choice != 'y' and choice != 'n':
-        choice = raw_input("'Mac' detected, continue?[y/n]").lower()
-
-    if choice == 'y':
-        os.system('cd ./mac && python uninstall.py')
-    else:
-        print('')
-        print("uninstall aborted\n")
-
-elif 'Windows' in platform.platform():
-    while choice != 'y' and choice != 'n':
-        choice = raw_input("'Windows' detected, continue?[y/n]").lower()
-
-    if choice == 'y':
-        os.system('cd ./win & python uninstall.py')
-    else:
-        print('')
-        print("uninstall aborted\n")
-
+# os_type[1]: for folder use
+if 'Linux' in os_info:
+    os_type = ['Linux', 'linux']
+elif 'Darwin' in os_info:
+    os_type = ['Mac', 'mac']
+elif 'Windows' in os_info:
+    os_type = ['Windows', 'win']
 else:
     print("Can't detect your device, please do it by yourself\n")
+    raw_input()
+    sys.exit(0)
 
+while choice != 'y' and choice != 'n':
+    choice = raw_input("'{}' detected, continue?[y/n]".format(os_type[0])).lower() # os_type[0]: for display
+
+    if choice == 'y':
+        os.system('cd ./{} && python uninstall.py'.format(os_type[1])) # os_type[1]: for folder use
+    else:
+        print('')
+        print("uninstall aborted\n")
+        raw_input()
+        sys.exit(0)
 
 
