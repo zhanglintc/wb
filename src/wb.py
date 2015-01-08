@@ -17,6 +17,12 @@ import urllib, urllib2
 import configparser
 import platform
 
+# test code -S
+import ssl
+ssl.PROTOCOL_SSLv23 = ssl.PROTOCOL_TLSv1
+# ssl._create_default_https_context = ssl._create_unverified_context
+# test code -E
+
 version = sys.version[0]
 input = raw_input if version == '2' else input
 reload(sys)
