@@ -9,6 +9,8 @@ wb -- 微博命令行工具
 
 关于`pip`的安装，请移步[这里](https://github.com/zhanglintc/tools-lite/tree/master/misc/pip_install)。
 
+**2015.01.08** `setup.py`已经添加依靠`./bin/pip.exe`以及`./requirements.txt`自动下载依赖模块的功能，以期实现全自动安装。
+
 ## 下载：
 - 下载最新v0.2版，点击[这里](https://zhanglintc.github.io/download/wb.zip)
 - 查看历史版本：点击[这里](https://github.com/zhanglintc/xiaobawang/releases)
@@ -24,14 +26,14 @@ wb -- 微博命令行工具
 
 登录微博：
 
-    wb -a # 登录微博账户
+    wb -a       # 登录微博账户
 
 发表微博：
 
-    wb -p "你的微博" #发表新微博，也可以使用-t参数
+    wb -p "你的微博"        # 发表新微博，也可以使用-t参数
 
 查看微博：
 
-    wb -g N # 获取最新的N条微博，默认5条
+    wb -g N         # 获取最新的N条微博，默认5条
 
 其他功能开发中，请关注更新。
