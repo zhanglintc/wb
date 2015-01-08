@@ -1,3 +1,19 @@
+Todos:
 ✔ 1. Win install & uninstall
 ✔ 2. General install
 3. Use Sqlite3 module
+
+
+
+Potential bugs:
+1.
+while using "wb -a", error below occasionally occurs:
+
+File "E:\programme\Python\lib\urllib2.py", line 1197, in do_open
+raise URLError(err)
+urllib2.URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:581)>
+
+Solution refer to:
+http://bugs.python.org/issue23052 (maybe useless)
+https://www.python.org/dev/peps/pep-0476/ (maybe useless)
+
