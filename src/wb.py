@@ -16,18 +16,15 @@ import argparse
 import urllib, urllib2
 import configparser
 import platform
+import sqlite3
 
-# test code -S
-import ssl
-ssl.PROTOCOL_SSLv23 = ssl.PROTOCOL_TLSv1
-# ssl._create_default_https_context = ssl._create_unverified_context
-# test code -E
-
+# get version & set encoding
 version = sys.version[0]
 input = raw_input if version == '2' else input
 reload(sys)
 sys.setdefaultencoding('utf8')
 
+# get OS infomation
 plat = platform.platform()
 if 'Linux' in plat:
     plat = 'Lin'
@@ -38,15 +35,19 @@ elif 'Windows' in plat:
 else:
     plat = None
 
+# set path
 TOKEN_PATH  = sys.path[0] + '/token'
 CONFIG_PATH = sys.path[0] + '/config.ini'
 
+# read config.ini
 config = configparser.ConfigParser()
 config.read(CONFIG_PATH)
-
 API_KEY      = config['Weibo']['API_KEY']
 API_SECRET   = config['Weibo']['API_SECRET']
 REDIRECT_URI = config['Weibo']['REDIRECT_URI']
+
+# connect to sqlite3
+conn = sqlite3.connect(sys.path[0] + "/data.db")
 
 ##########################################################################
 # Functions are defined below
