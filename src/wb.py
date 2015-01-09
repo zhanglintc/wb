@@ -180,7 +180,10 @@ def comments_to_me_To_File(client, start_page, end_page):
     print('All the comments have been downloaded')
 
 def get_comments_to_me(client, count):
-    """Get comments to me and display in screen."""
+    """
+    Get comments to me and display in screen.
+    API refer to: http://open.weibo.com/wiki/2/comments/to_me
+    """
 
     os.system('cls') if plat == 'Win' else os.system('clear')
     print('') # a blank line makes better look
@@ -318,6 +321,33 @@ def post_statuses_upload(client, text):
 
     except (RuntimeError, IOError) as e:
         print("sorry, send failed because: {}\n".format(str(e)))
+
+def post_comment_reply(client, id, cid, comment):
+    """
+    function:
+        Make a reply. If replying to a weibo, set cid as None.
+
+    parameters:
+        id:   Weibo id
+        cid:  comment id
+        text: reply content
+
+    API refer to:
+    http://open.weibo.com/wiki/2/comments/create
+    http://open.weibo.com/wiki/2/comments/reply
+    """
+
+    print("replying...")
+
+    # reply to a comment
+    if cid:
+        client.post('comments/reply', id = id, cid = cid, comment = comment)
+
+    # reply to a weibo
+    else:
+        client.post('comments/create', id = id, comment = comment)
+
+    print("succeed!!!")
 
 def creat_parser():
     parser = argparse.ArgumentParser(
