@@ -4,6 +4,10 @@ Todos:
 3. Use Sqlite3 module
 
 
+Known bugs:
+1. wb -c 默认获取5条最新评论的时候, 如果同时存在 @我的微博 和 发给我的微博, No.编号可能会出错.
+-> 暂定方案: 忽略 @我的微博, 更改No.计数方式. 效果是可能开始编号小于给定的数量.
+
 
 Potential bugs:
 1.
