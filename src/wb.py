@@ -184,6 +184,11 @@ def get_comments_to_me(client, count):
     """
     Get comments to me and display in screen.
     API refer to: http://open.weibo.com/wiki/2/comments/to_me
+
+    Display example:
+    No.1:
+    11:53:00 | Jan 10 2015 | from @左手心的寂寞在北京:
+    回复@Lane麟:不应该这么设计吧
     """
 
     os.system('cls') if plat == 'Win' else os.system('clear')
@@ -222,7 +227,6 @@ def get_friends_timeline(client, count):
         11:12:42 | Jan 11 2015 | by @王尼玛:
         王尼玛教你学数学
         -----------------
-
     """
 
     os.system('cls') if plat == 'Win' else os.system('clear')
