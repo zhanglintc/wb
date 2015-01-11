@@ -204,7 +204,26 @@ def get_comments_to_me(client, count):
         index -= 1
 
 def get_friends_timeline(client, count):
-    """Show friends_timeline in the screen"""
+    """
+    Show friends_timeline in the screen
+    API refer to: http://open.weibo.com/wiki/2/statuses/friends_timeline
+
+    Display example:
+    1. Without retweet:
+        No.1:
+        11:12:42 | Jan 11 2015 | by @王尼玛:
+        王尼玛教你学数学
+
+    2. With retweet:
+        No.1:
+        12:32:07 | Jan 11 2015 | by @王尼玛:
+        看着大家都在@邓超 我也来一发，超哥赶紧来学数学了！
+        -----------------
+        11:12:42 | Jan 11 2015 | by @王尼玛:
+        王尼玛教你学数学
+        -----------------
+
+    """
 
     os.system('cls') if plat == 'Win' else os.system('clear')
     print('') # a blank line makes better look
@@ -234,14 +253,22 @@ def get_friends_timeline(client, count):
         # if this is retweet, print the retweeted content
         else:
             print('-----------------')
-            print\
-            ('{} | by @{}:\n{}'.format
-                (
-                    convert_time(item.retweeted_status.created_at),
-                    item.retweeted_status.user.name,
-                    item.retweeted_status.text,
-                ).encode('utf8')
-            )
+
+            # if original Weibo has been deleted, only print text
+            if 'deleted' in item.retweeted_status:
+                print((item.retweeted_status.text).encode('utf8'))
+
+            # else print normally
+            else:
+                print\
+                ('{} | by @{}:\n{}'.format
+                    (
+                        convert_time(item.retweeted_status.created_at),
+                        item.retweeted_status.user.name,
+                        item.retweeted_status.text,
+                    ).encode('utf8')
+                )
+
             print('-----------------\n')
 
         index -= 1
