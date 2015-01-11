@@ -12,16 +12,15 @@ Known bugs:
 ✔ 2. wb -g 的时候, 如果转发微博的原微博已经被删除, 会出现AttributeError, 因为找不到相关信息.
 -> 已经增加相应判断, 如果原微博已被删除, 将显示官方的已删除提示信息.
 
+3. Windows平台安装后, 如果路径中包含空格, 将会导致无法找到对应的文件.
+
 
 Potential bugs:
-1.
-while using "wb -a", error below occasionally occurs:
-
-File "E:\programme\Python\lib\urllib2.py", line 1197, in do_open
-raise URLError(err)
-urllib2.URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:581)>
-
-Solution refer to:
+✔ 1. When using Python 2.7.9, wb -a may lead a [SSL: CERTIFICATE_VERIFY_FAILED] error.
+->
+Possible solutions refer to:
 http://bugs.python.org/issue23052 (maybe useless)
 https://www.python.org/dev/peps/pep-0476/ (maybe useless)
+
+Or try to use Python 2.7.8 or other versions.
 
