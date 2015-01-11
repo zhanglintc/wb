@@ -27,12 +27,12 @@ else:
 while choice != 'y' and choice != 'n':
     choice = raw_input("'{}' detected, continue?[y/n]".format(os_type[0])).lower() # os_type[0]: for display
 
-    if choice == 'y':
-        os.system('cd ./{} && python uninstall.py'.format(os_type[1])) # os_type[1]: for folder use
-    else:
-        print('')
-        print("uninstall aborted\n")
-        raw_input()
-        sys.exit(0)
+if choice == 'y':
+    os.system('cd ./{} && python uninstall.py'.format(os_type[1])) # os_type[1]: for folder use
+else:
+    print('')
+    print("uninstall aborted\n")
+    raw_input()
+    sys.exit(0)
 
 
