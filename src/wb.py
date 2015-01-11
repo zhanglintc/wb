@@ -194,7 +194,7 @@ def get_comments_to_me(client, count):
 
     index = len(received.comments) # used in No.{index} below # 2014.01.09 zhanglin bug fix
     for item in received.comments[::-1]:
-        print 'No.{}:\n{} | from {}:\n{}\n'.format\
+        print 'No.{}:\n{} | from @{}:\n{}\n'.format\
         (
             index,
             convert_time(item.created_at), 
