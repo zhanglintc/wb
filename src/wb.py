@@ -24,7 +24,7 @@ input = raw_input if version == '2' else input
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-# get OS infomation
+# get OS information
 plat = platform.platform()
 if 'Linux' in plat:
     plat = 'Lin'
@@ -46,12 +46,75 @@ API_KEY      = config['Weibo']['API_KEY']
 API_SECRET   = config['Weibo']['API_SECRET']
 REDIRECT_URI = config['Weibo']['REDIRECT_URI']
 
-# connect to sqlite3
-conn = sqlite3.connect(sys.path[0] + "/data.db")
-
 ##########################################################################
 # Functions are defined below
 ##########################################################################
+def database_handler(handle_type, data = None, number = None):
+    """
+    Database management function.
+
+    Database design:
+        | number int | id int | cid int |
+
+    parameters:
+        handle_type:
+            connect: connect to an existing database, if not exist, new one
+            insert:  insert data to database
+            query:   get data from database
+            clean:   clean entire table
+
+        data:
+            a list of input data.
+
+            data[0]: number
+            data[1]: id
+            data[2]: cid
+
+        number:
+            displaying number of weibos, use to get a specific weibo id & cid
+    """
+
+    # prepare for using database
+    conn = sqlite3.connect(sys.path[0] + "/data.db")
+    c = conn.cursor()
+
+    # main process
+    if handle_type is 'connect':
+        try:
+            c.execute('create table weibo(number int, id int, cid int)')
+
+        except sqlite3.OperationalError:
+            pass
+
+        ret = None
+
+    elif handle_type is 'insert':
+        # clean table before use
+        c.execute("delete from weibo")
+
+        for item in data:
+            c.execute('insert into weibo values (?, ?, ?)', item)
+
+        ret = None
+
+    elif handle_type is 'query':
+        ret = c.execute('select * from weibo where number = ?', number)
+        conn.commit()
+
+    elif handle_type is 'clean':
+        c.execute("delete from weibo")
+        ret = None
+
+    else:
+        pass
+
+    # finish use database
+    conn.commit()
+    conn.close()
+
+    # return
+    return ret
+
 def log_in_to_weibo():
     """
     Log in to weibo and get the ACCESS_TOKEN.
@@ -196,9 +259,13 @@ def get_comments_to_me(client, count):
     print("getting latest %s comments to me...\n") % count
 
     received = client.get('comments/to_me', count = count)
+    to_be_saved = []
 
     index = len(received.comments) # used in No.{index} below # 2014.01.09 zhanglin bug fix
     for item in received.comments[::-1]:
+        to_be_saved.append([index, item.id, item.status.id]) # cache ids and cids
+
+        # add a bracket below
         print 'No.{}:\n{} | from @{}:\n{}\n'.format\
         (
             index,
@@ -207,6 +274,9 @@ def get_comments_to_me(client, count):
             item.text, 
         )
         index -= 1
+
+    # save data to database
+    database_handler('insert', data = to_be_saved)
 
 def get_friends_timeline(client, count):
     """
