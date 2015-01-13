@@ -232,7 +232,10 @@ def comments_to_me_To_File(client, start_page, end_page):
     """
     Download comments from 'start_page' to 'end_page'
 
-    Deprecate, merely use => by zhanglin 2014.11.21
+    API refer to:
+    http://open.weibo.com/wiki/2/comments/to_me
+
+    Deprecated, merely use => by zhanglin 2014.11.21
     """
 
     my_page = start_page
@@ -262,7 +265,10 @@ def comments_to_me_To_File(client, start_page, end_page):
 def get_comments_to_me(client, count):
     """
     Get comments to me and display in screen.
-    API refer to: http://open.weibo.com/wiki/2/comments/to_me
+
+    API refer to:
+    http://open.weibo.com/wiki/2/comments/to_me
+    http://open.weibo.com/wiki/2/comments/mentions
 
     Display example:
     No.1:
@@ -298,7 +304,9 @@ def get_comments_to_me(client, count):
 def get_friends_timeline(client, count):
     """
     Show friends_timeline in the screen
-    API refer to: http://open.weibo.com/wiki/2/statuses/friends_timeline
+
+    API refer to:
+    http://open.weibo.com/wiki/2/statuses/friends_timeline
 
     Display example:
     1. Without retweet:
@@ -372,7 +380,9 @@ def get_friends_timeline(client, count):
 def show_status(client):
     """
     Show unread informations.
-    API refer to: http://open.weibo.com/wiki/2/remind/unread_count
+
+    API refer to:
+    http://open.weibo.com/wiki/2/remind/unread_count
     """
 
     print('') # a blank line makes better look
@@ -387,7 +397,12 @@ def show_status(client):
     print('') # blank line makes better look
 
 def post_statuses_update(client, text):
-    """Update a new weibo(text only) to Sina"""
+    """ 
+    Update a new weibo(text only) to Sina
+
+    API refer to:
+    http://open.weibo.com/wiki/2/statuses/update
+    """
 
     print('')
     print('sending...\n')
@@ -407,6 +422,9 @@ def post_statuses_upload(client, text):
     Upload a new weibo(with picture) to Sina
     Currently not in use from 2014.11.12
     Maybe reuse in the future
+
+    API refer to:
+    http://open.weibo.com/wiki/2/statuses/upload
     """
 
     # 2014.11.12 zhanglin make it useless -S
