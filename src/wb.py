@@ -281,14 +281,15 @@ def get_comments_to_me(client, count):
     for item in received.comments[::-1]:
         to_be_saved.append([index, item.status.id, item.id]) # cache ids and cids
 
-        # add a bracket below
-        print 'No.{}:\n{} | from @{}:\n{}\n'.format\
-        (
-            index,
-            convert_time(item.created_at), 
-            item.user.name,
-            item.text, 
-        )
+        print\
+            ('No.{}:\n{} | from @{}:\n{}\n'.format
+                (
+                    index,
+                    convert_time(item.created_at), 
+                    item.user.name,
+                    item.text, 
+                )
+            )
         index -= 1
 
     # save data to database
