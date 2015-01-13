@@ -101,7 +101,7 @@ def database_handler(handle_type, data = None, number = None):
         ret = None
 
     elif handle_type is 'query':
-        ret = c.execute('select * from weibo where number={}'.format(number)).fetchall() # may be unsafe, see Python sqlite3 help file
+        ret = c.execute('select * from weibo where number={}'.format(number)).fetchone() # may be unsafe, see Python sqlite3 help file
 
     elif handle_type is 'clean':
         c.execute("delete from weibo")
@@ -265,7 +265,7 @@ def get_comments_to_me(client, count):
 
     index = len(received.comments) # used in No.{index} below # 2014.01.09 zhanglin bug fix
     for item in received.comments[::-1]:
-        to_be_saved.append([index, item.id, item.status.id]) # cache ids and cids
+        to_be_saved.append([index, item.status.id, item.id]) # cache ids and cids
 
         # add a bracket below
         print 'No.{}:\n{} | from @{}:\n{}\n'.format\
@@ -409,15 +409,13 @@ def post_statuses_upload(client, text):
     except (RuntimeError, IOError) as e:
         print("sorry, send failed because: {}\n".format(str(e)))
 
-def post_comment_reply(client, number):
+def post_comment_reply(client, number, comment):
     """
     function:
         Make a reply. If replying to a weibo, set cid as None.
 
     parameters:
-        id:   Weibo id
-        cid:  comment id
-        text: reply content
+        number: number of weibo or comment wish to reply
 
     API refer to:
     http://open.weibo.com/wiki/2/comments/create
@@ -426,16 +424,17 @@ def post_comment_reply(client, number):
 
     print("replying...")
 
-    ids = database_handler('query', number = int(number))
-    print ids
+    # IDs[0]:number   IDs[1]:id   IDs[2]:cid
+    IDs = database_handler('query', number = int(number))
+    id, cid = IDs[1], IDs[2]
 
-    # # reply to a comment
-    # if cid:
-    #     client.post('comments/reply', id = id, cid = cid, comment = comment)
+    # reply to a comment
+    if cid:
+        client.post('comments/reply', id = id, cid = cid, comment = comment)
 
-    # # reply to a weibo
-    # else:
-    #     client.post('comments/create', id = id, comment = comment)
+    # reply to a weibo
+    else:
+        client.post('comments/create', id = id, comment = comment)
 
     print("succeed!!!")
 
@@ -457,7 +456,7 @@ def creat_parser():
     parser.add_argument('-get', metavar = '-g', nargs = '?', const = 5, help = "get latest N friend's timeline")
     # parser.add_argument('-image', metavar = '-i', nargs = 1, help = "post a new weibo with image")
     parser.add_argument('-post', metavar = '-p', nargs = 1, help = "post a new weibo")
-    parser.add_argument('-reply', metavar = '-r', nargs = 1, help = "reply a weibo")
+    parser.add_argument('-reply', metavar = '-r', nargs = 2, help = "reply a weibo")
     parser.add_argument('-tweet', metavar = '-t', nargs = 1, help = "post a new weibo(alias of -p)")
     parser.add_argument('-comment', metavar = '-c', nargs = '?', const = 5, help = "get comments to me")
     parser.add_argument('common', nargs = '?', help = "status/...")
@@ -504,7 +503,7 @@ if __name__ == "__main__":
     # comment by zhanglin 2014.11.12 -E
 
     elif parameters.get('reply'):
-        post_comment_reply(client, parameters['reply'][0])
+        post_comment_reply(client, parameters['reply'][0], parameters['reply'][1])
 
     elif parameters.get('post'):
         post_statuses_update(client, parameters['post'][0])
