@@ -306,10 +306,13 @@ def get_friends_timeline(client, count):
     print("getting latest %s friend's weibo...\n") % count
 
     received = client.get('statuses/friends_timeline', count = count)
+    to_be_saved = []
 
     index = int(count) # used in No.{index} below
     for item in received.statuses[::-1]: # from old to new
         retweet = item.get('retweeted_status') # if this is retweet or not
+
+        to_be_saved.append([index, item.id, None])
 
         # print normal content first
         print\
@@ -348,6 +351,8 @@ def get_friends_timeline(client, count):
             print('-----------------\n')
 
         index -= 1
+
+    database_handler('insert', data = to_be_saved)
 
 def show_status(client):
     """
