@@ -58,7 +58,6 @@ def database_handler(handle_type, data = None, number = None):
 
     parameters:
         handle_type:
-            connect: connect to an existing database, if not exist, new one
             insert:  insert data to database
             query:   get data from database
             clean:   clean entire table
@@ -78,17 +77,14 @@ def database_handler(handle_type, data = None, number = None):
     conn = sqlite3.connect(sys.path[0] + "/data.db")
     c = conn.cursor()
 
+    try:
+        c.execute('create table weibo(number int, id int, cid int)')
+
+    except sqlite3.OperationalError:
+        pass
+
     # main process
-    if handle_type is 'connect':
-        try:
-            c.execute('create table weibo(number int, id int, cid int)')
-
-        except sqlite3.OperationalError:
-            pass
-
-        ret = None
-
-    elif handle_type is 'insert':
+    if handle_type is 'insert':
         # clean table before use
         c.execute("delete from weibo")
 
