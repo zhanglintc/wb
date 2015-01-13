@@ -2,7 +2,21 @@
 # -*- coding: utf-8 -*-
 
 """
-Lane's Weibo Client Application Beta, Nothing Reserved
+
+Name:
+  Power_wb, a command-line tool for Weibo.
+
+Version:
+  beta, nothing reserved
+
+Author:
+  Lane(zhanglintc)
+
+Description:
+  Based on "lxyu/weibo", work on Python 2.x.x, support Linux/Mac/Windows.
+  Support automatic installation by using "python setup.py".
+  More details visit: https://github.com/zhanglintc/wb
+
 """
 
 from http import *
