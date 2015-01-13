@@ -71,6 +71,13 @@ def database_handler(handle_type, data = None, number = None):
 
         number:
             displaying number of weibos, use to get a specific weibo id & cid
+
+    return:
+        a list of output data.
+
+        ret[0]: number
+        ret[1]: id
+        ret[2]: cid
     """
 
     # prepare for using database
@@ -94,8 +101,7 @@ def database_handler(handle_type, data = None, number = None):
         ret = None
 
     elif handle_type is 'query':
-        ret = c.execute('select * from weibo where number = ?', number)
-        conn.commit()
+        ret = c.execute('select * from weibo where number={}'.format(number)).fetchall() # may be unsafe, see Python sqlite3 help file
 
     elif handle_type is 'clean':
         c.execute("delete from weibo")
@@ -403,7 +409,7 @@ def post_statuses_upload(client, text):
     except (RuntimeError, IOError) as e:
         print("sorry, send failed because: {}\n".format(str(e)))
 
-def post_comment_reply(client, id, cid, comment):
+def post_comment_reply(client, number):
     """
     function:
         Make a reply. If replying to a weibo, set cid as None.
@@ -420,13 +426,16 @@ def post_comment_reply(client, id, cid, comment):
 
     print("replying...")
 
-    # reply to a comment
-    if cid:
-        client.post('comments/reply', id = id, cid = cid, comment = comment)
+    ids = database_handler('query', number = int(number))
+    print ids
 
-    # reply to a weibo
-    else:
-        client.post('comments/create', id = id, comment = comment)
+    # # reply to a comment
+    # if cid:
+    #     client.post('comments/reply', id = id, cid = cid, comment = comment)
+
+    # # reply to a weibo
+    # else:
+    #     client.post('comments/create', id = id, comment = comment)
 
     print("succeed!!!")
 
@@ -448,9 +457,10 @@ def creat_parser():
     parser.add_argument('-get', metavar = '-g', nargs = '?', const = 5, help = "get latest N friend's timeline")
     # parser.add_argument('-image', metavar = '-i', nargs = 1, help = "post a new weibo with image")
     parser.add_argument('-post', metavar = '-p', nargs = 1, help = "post a new weibo")
+    parser.add_argument('-reply', metavar = '-r', nargs = 1, help = "reply a weibo")
     parser.add_argument('-tweet', metavar = '-t', nargs = 1, help = "post a new weibo(alias of -p)")
     parser.add_argument('-comment', metavar = '-c', nargs = '?', const = 5, help = "get comments to me")
-    parser.add_argument('common', nargs = '?', help = "show status")
+    parser.add_argument('common', nargs = '?', help = "status/...")
 
     return parser
 
@@ -492,6 +502,9 @@ if __name__ == "__main__":
     # elif parameters.get('image'):
         # post_statuses_upload(client, parameters['image'][0])
     # comment by zhanglin 2014.11.12 -E
+
+    elif parameters.get('reply'):
+        post_comment_reply(client, parameters['reply'][0])
 
     elif parameters.get('post'):
         post_statuses_update(client, parameters['post'][0])
