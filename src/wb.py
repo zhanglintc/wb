@@ -276,9 +276,13 @@ def get_comments_to_me(client, count):
     回复@Lane麟:不应该这么设计吧
     """
 
+    if int(count) > 200:
+        print("error: cannot get comments more than 200\n")
+        return
+
     os.system('cls') if plat == 'Win' else os.system('clear')
     print('') # a blank line makes better look
-    print("getting latest %s comments to me...\n") % count
+    print("getting latest {} comments to me...\n".format(count))
 
     # get comments to me & add type
     received_to_me = client.get('comments/to_me', count = count)
@@ -340,6 +344,10 @@ def get_friends_timeline(client, count):
         王尼玛教你学数学
         -----------------
     """
+
+    if int(count) > 100:
+        print("error: cannot get weibos more than 100\n")
+        return
 
     os.system('cls') if plat == 'Win' else os.system('clear')
     print('') # a blank line makes better look
@@ -527,7 +535,7 @@ if __name__ == "__main__":
 
     parser = creat_parser()
     params = vars(parser.parse_args())
-    print params
+    # print params
 
     if not params:
         print('')
