@@ -271,7 +271,7 @@ def get_comments_to_me(client, count):
     http://open.weibo.com/wiki/2/comments/mentions
 
     Display example:
-    No.1:
+    No.1: (to_me)
     11:53:00 | Jan 10 2015 | from @左手心的寂寞在北京:
     回复@Lane麟:不应该这么设计吧
     """
@@ -304,12 +304,12 @@ def get_comments_to_me(client, count):
         to_be_saved.append([index, item.status.id, item.id]) # cache ids and cids
 
         print\
-            ('No.{0}:\n{1} | from @{2}: | {3}\n{4}\n'.format
+            ('No.{0}: ({1})\n{2} | from @{3}:\n{4}\n'.format
                 (
                     index, # 0
-                    convert_time(item.created_at), # 1
-                    item.user.name, # 2
-                    item.type, # 3
+                    item.type, # 1
+                    convert_time(item.created_at), # 2
+                    item.user.name, # 3
                     item.text, # 4
                 )
             )
