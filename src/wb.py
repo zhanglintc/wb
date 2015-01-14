@@ -511,7 +511,7 @@ def creat_parser():
     parser.add_argument('-get', metavar = '-g', nargs = '?', const = 5, help = "get latest N friend's timeline")
     # parser.add_argument('-image', metavar = '-i', nargs = 1, help = "post a new weibo with image")
     parser.add_argument('-post', metavar = '-p', nargs = 1, help = "post a new weibo")
-    parser.add_argument('-reply', metavar = '-r', nargs = 2, help = "reply a weibo")
+    parser.add_argument('-reply', metavar = '', nargs = 2, help = "reply a weibo")
     parser.add_argument('-tweet', metavar = '-t', nargs = 1, help = "post a new weibo(alias of -p)")
     parser.add_argument('-comment', metavar = '-c', nargs = '?', const = 5, help = "get comments to me")
     parser.add_argument('common', nargs = '?', help = "status/...")
@@ -526,48 +526,48 @@ if __name__ == "__main__":
     client = Client(API_KEY, API_SECRET, REDIRECT_URI, ACCESS_TOKEN)
 
     parser = creat_parser()
-    parameters = vars(parser.parse_args())
-    # print parameters
+    params = vars(parser.parse_args())
+    print params
 
-    if not parameters:
+    if not params:
         print('')
         print('- Note: type "wb -h/--help" to see usages.\n')
 
 ##########################################################################
 
     # Start of common command
-    elif parameters.get('common') == 'status':
+    elif params.get('common') == 'status':
         show_status(client)
     # End of common command
 
 ##########################################################################
 
     # Start of hyphen command
-    elif parameters.get('authorize'):
+    elif params.get('authorize'):
         log_in_to_weibo()
 
-    elif parameters.get('delete'):
+    elif params.get('delete'):
         log_out_from_weibo()
 
-    elif parameters.get('get'):
-        get_friends_timeline(client, parameters['get'])
+    elif params.get('get'):
+        get_friends_timeline(client, params['get'])
 
     # comment by zhanglin 2014.11.12 -S
-    # elif parameters.get('image'):
-        # post_statuses_upload(client, parameters['image'][0])
+    # elif params.get('image'):
+        # post_statuses_upload(client, params['image'][0])
     # comment by zhanglin 2014.11.12 -E
 
-    elif parameters.get('reply'):
-        post_comment_reply(client, parameters['reply'][0], parameters['reply'][1])
+    elif params.get('reply'):
+        post_comment_reply(client, params['reply'][0], params['reply'][1])
 
-    elif parameters.get('post'):
-        post_statuses_update(client, parameters['post'][0])
+    elif params.get('post'):
+        post_statuses_update(client, params['post'][0])
 
-    elif parameters.get('tweet'):
-        post_statuses_update(client, parameters['tweet'][0])
+    elif params.get('tweet'):
+        post_statuses_update(client, params['tweet'][0])
 
-    elif parameters.get('comment'):
-        get_comments_to_me(client, parameters['comment'])
+    elif params.get('comment'):
+        get_comments_to_me(client, params['comment'])
     # End of hyphen command
 
 ##########################################################################

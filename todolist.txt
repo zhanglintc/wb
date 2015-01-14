@@ -6,10 +6,11 @@ Todos:
 5. open weibo.com and open a specific weibo
 6. make word colorful
 7. friends_timeline quantity up to 200 & input data check
+8. mentions
 
 
 Known bugs:
-1. wb -c 默认获取5条最新评论的时候, 如果同时存在 @我的微博 和 发给我的微博, No.编号可能会出错.
+✔ 1. wb -c 默认获取5条最新评论的时候, 如果同时存在 @我的微博 和 发给我的微博, No.编号可能会出错.
 -> 暂定方案: 忽略 @我的微博, 更改No.计数方式. 效果是可能开始编号小于给定的数量.
 进一步修改方向: @我的微博 和 发送给我的微博 同时获取, 然后按照时间排序显示出来.
 
