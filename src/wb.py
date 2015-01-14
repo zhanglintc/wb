@@ -280,20 +280,37 @@ def get_comments_to_me(client, count):
     print('') # a blank line makes better look
     print("getting latest %s comments to me...\n") % count
 
-    received = client.get('comments/to_me', count = count)
+    # get comments to me & add type
+    received_to_me = client.get('comments/to_me', count = count)
+    for item in received_to_me.comments:
+        item['type'] = 'to_me'
+
+    # get comments mentioned me & add type
+    received_mentions = client.get('comments/mentions', count = count)
+    for item in received_mentions.comments:
+        item['type'] = 'mentions'
+
     to_be_saved = []
 
-    index = len(received.comments) # used in No.{index} below # 2014.01.09 zhanglin bug fix
-    for item in received.comments[::-1]:
+    # combine comments to me & comments mention
+    comments_all = received_to_me.comments + received_mentions.comments
+    # [ lambda x, y: cmp(y, x) ] makes new -> old (descending, bigger -> smaller)
+    # [ lambda x, y: cmp(x, y) ] makes old -> new (ascending, smaller -> bigger)
+    # here is new -> old
+    comments_all = sorted(comments_all, cmp = lambda x, y: cmp(make_time_numeric(y.created_at), make_time_numeric(x.created_at)))
+
+    index = int(count)
+    for item in comments_all[int(count) - 1::-1]: # [from:to:-1] makes old -> new
         to_be_saved.append([index, item.status.id, item.id]) # cache ids and cids
 
         print\
-            ('No.{}:\n{} | from @{}:\n{}\n'.format
+            ('No.{0}:\n{1} | from @{2}: | {3}\n{4}\n'.format
                 (
-                    index,
-                    convert_time(item.created_at), 
-                    item.user.name,
-                    item.text, 
+                    index, # 0
+                    convert_time(item.created_at), # 1
+                    item.user.name, # 2
+                    item.type, # 3
+                    item.text, # 4
                 )
             )
         index -= 1
