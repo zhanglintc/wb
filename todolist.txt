@@ -5,6 +5,7 @@ Todos:
 ✔ 4. @我的微博 和 发送给我的微博
 5. open weibo.com and open a specific weibo
 6. make word colorful
+7. friends_timeline quantity up to 200 & input data check
 
 
 Known bugs:
