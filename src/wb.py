@@ -31,6 +31,7 @@ import urllib, urllib2
 import configparser
 import platform
 import sqlite3
+import webbrowser
 
 # get version & set encoding
 version = sys.version[0]
@@ -63,6 +64,19 @@ REDIRECT_URI = config['Weibo']['REDIRECT_URI']
 ##########################################################################
 # Functions are defined below
 ##########################################################################
+def open_weibo_or_target(target_url):
+    """
+    Try to open a target URL by using default browser.
+    If target URL is specifically set, open it,
+    otherwise open weibo.com directly.
+    """
+
+    if target_url == 'weibo.com':
+        webbrowser.open_new_tab('weibo.com')
+
+    else:
+        pass
+
 def database_handler(handle_type, data = None, number = None):
     """
     Database management function.
@@ -515,13 +529,14 @@ def creat_parser():
         )
 
     parser.add_argument('-authorize', metavar = '-a', nargs = '?', const = 'True', help = "sign in to 'weibo.com'")
+    parser.add_argument('-comment', metavar = '-c', nargs = '?', const = 5, help = "get comments to me")
     parser.add_argument('-delete', metavar = '-d', nargs = '?', const = 'True', help = "delete your token infomation") 
     parser.add_argument('-get', metavar = '-g', nargs = '?', const = 5, help = "get latest N friend's timeline")
     # parser.add_argument('-image', metavar = '-i', nargs = 1, help = "post a new weibo with image")
+    parser.add_argument('-open', metavar = '-o', nargs = '?', const = 'weibo.com', help = "open weibo.com or a target")
     parser.add_argument('-post', metavar = '-p', nargs = 1, help = "post a new weibo")
     parser.add_argument('-reply', metavar = '', nargs = 2, help = "reply a weibo")
     parser.add_argument('-tweet', metavar = '-t', nargs = 1, help = "post a new weibo(alias of -p)")
-    parser.add_argument('-comment', metavar = '-c', nargs = '?', const = 5, help = "get comments to me")
     parser.add_argument('common', nargs = '?', help = "status/...")
 
     return parser
@@ -564,6 +579,9 @@ if __name__ == "__main__":
     # elif params.get('image'):
         # post_statuses_upload(client, params['image'][0])
     # comment by zhanglin 2014.11.12 -E
+
+    elif params.get('open'):
+        open_weibo_or_target(params.get('open'))
 
     elif params.get('reply'):
         post_comment_reply(client, params['reply'][0], params['reply'][1])
