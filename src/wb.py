@@ -72,7 +72,7 @@ def open_weibo_or_target(target_url):
     """
 
     if target_url == 'weibo.com':
-        webbrowser.open_new_tab('weibo.com')
+        webbrowser.open_new_tab('http://weibo.com')
 
     else:
         pass
