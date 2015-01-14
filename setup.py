@@ -5,7 +5,7 @@ import platform
 import os, sys
 
 print("Please MAKE SURE you are using Python 2.7.9 (not Python3).")
-print("Otherwise Errors would be occured.")
+print("Otherwise Errors would be occured. Press [ENTER]")
 
 try:
     input()

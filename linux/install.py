@@ -18,7 +18,7 @@ wb_path = "{}/src/wb.py".format(os.path.abspath('..')) # wb.py file path
 # alias wb='python /Users/lane/Github/wb/src/wb.py'
 alias = "alias wb='python {}'\n".format(wb_path) # the alias command
 
-# make sure there is .bash_aliases
+# make sure .bash_aliases is exist
 os.system('touch {}'.format(bash_path))
 
 # open files
@@ -53,7 +53,7 @@ else:
     print("The command below:\n\n  {}\n\nis already exist, installing has canceled with nothing happen\n".format(intalled_command[:-1]))
 
 print('')
-print("please type 'source ~/.bash_aliases' or restart your bash")
+print("please TYPE 'source ~/.bash_aliases' or RESTART your bash")
 print("to make this installment take effect\n")
 print("press any key to quit...\n")
 
