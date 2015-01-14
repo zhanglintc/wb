@@ -18,7 +18,10 @@ wb_path = "{}/src/wb.py".format(os.path.abspath('..')) # wb.py file path
 # alias wb='python /Users/lane/Github/wb/src/wb.py'
 alias = "alias wb='python {}'\n".format(wb_path) # the alias command
 
+# make sure there is .bash_aliases
+os.system('touch {}'.format(bash_path))
 
+# open files
 fr = open(bash_path, 'r')
 fw = open(temp_path, 'w')
 
