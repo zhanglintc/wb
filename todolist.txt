@@ -7,6 +7,7 @@ Todos:
 6. make word colorful
 ✔ 7. input data check
 8. mentions
+9. my print function(handle encoding problem)
 
 
 Known bugs:
