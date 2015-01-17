@@ -8,6 +8,7 @@ Todos:
 ✔ 7. input data check
 8. mentions
 9. my print function(handle encoding problem)
+10. set unread as 0 after wb -c
 
 
 Known bugs:
