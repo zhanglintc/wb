@@ -330,7 +330,7 @@ def get_comments_to_me(client, count):
                     item.user.name, # 3
                     item.text, # 4
                 )
-            )
+            ).encode('utf8')
         index -= 1
 
     # save data to database
