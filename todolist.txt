@@ -4,6 +4,7 @@ Todos:
 ✔ 3. Use Sqlite3 module
 ✔ 4. @我的微博 和 发送给我的微博
 5. open weibo.com and open a specific weibo
+-> 调用statuses/querymid获得用户的MID, 然后可以拼接得到目标地址
 6. make word colorful
 ✔ 7. input data check
 8. mentions
