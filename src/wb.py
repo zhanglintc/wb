@@ -353,10 +353,10 @@ def get_friends_timeline(client, count):
         No.1:
         12:32:07 | Jan 11 2015 | by @王尼玛:
         看着大家都在@邓超 我也来一发，超哥赶紧来学数学了！
-        -----------------
+        =========================================================
         11:12:42 | Jan 11 2015 | by @王尼玛:
         王尼玛教你学数学
-        -----------------
+        =========================================================
     """
 
     if int(count) > 100:
@@ -393,7 +393,7 @@ def get_friends_timeline(client, count):
 
         # if this is retweet, print the retweeted content
         else:
-            print('-----------------')
+            print('=========================================================')
 
             # if original Weibo has been deleted, only print text
             if 'deleted' in item.retweeted_status:
@@ -410,7 +410,7 @@ def get_friends_timeline(client, count):
                     ).encode('utf8')
                 )
 
-            print('-----------------\n')
+            print('=========================================================\n')
 
         index -= 1
 
@@ -448,9 +448,9 @@ def post_statuses_update(client, text):
 
     try:
         client.post('statuses/update', status = text)
-        print('-----------------')
+        print('=========================================================')
         print(text)
-        print('-----------------')
+        print('=========================================================')
         print('has been successfully posted!\n')
 
     except RuntimeError as e:
@@ -478,9 +478,9 @@ def post_statuses_upload(client, text):
         client.post('statuses/upload', status = text, pic = f)
         f.close()
 
-        print('-----------------')
+        print('=========================================================')
         print(text + '\n(with picture)')
-        print('-----------------')
+        print('=========================================================')
         print('has been successfully posted!\n')
 
     except (RuntimeError, IOError) as e:
