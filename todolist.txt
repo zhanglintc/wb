@@ -9,7 +9,8 @@ Todos:
 ✔ 7. input data check
 8. mentions
 9. my print function(handle encoding problem)
-10. set unread as 0 after wb -c
+✔ 10. set unread as 0 after wb -c
+-> 置零这个API是高级接口, 应该暂时无法实现此功能
 
 
 Known bugs:
