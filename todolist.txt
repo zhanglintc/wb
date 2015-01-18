@@ -7,10 +7,11 @@ Todos:
   -> 调用statuses/querymid获得用户的MID, 然后可以拼接得到目标地址
 6. make word colorful
 ✔ 7. input data check
-8. mentions & comment detail
+✔ 8. mentions & comment detail
 9. my print function(handle encoding problem)
 ✔ 10. set unread as 0 after wb -c
   -> 置零这个API是高级接口, 应该暂时无法实现此功能
+11. mentions显示不完全的问题整理
 
 
 Known bugs:
