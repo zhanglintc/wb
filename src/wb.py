@@ -343,8 +343,9 @@ def get_comments_to_me(client, count):
     for item in comments_all[int(count) - 1::-1]: # [from:to:-1] makes old -> new
         to_be_saved.append([index, item.status.user.id, item.status.id, item.id]) # cache ids and cids
 
+        # print comment to me or mentions to me
         print\
-            ('No.{0}: ({1})\n{2} | from @{3}:\n{4}\n'.format
+            ('No.{0}: ({1})\n{2} | from @{3}:\n{4}'.format
                 (
                     index, # 0
                     item.type, # 1
@@ -353,6 +354,16 @@ def get_comments_to_me(client, count):
                     item.text, # 4
                 )
             ).encode('utf8')
+
+        # print original weibo or comment
+        print('=========================================================')
+        if "reply_comment" in item:
+            print(item.reply_comment.text)
+        else:
+            print(item.status.text)
+        print('=========================================================')
+        print('') # only for better look
+
         index -= 1
 
     # save data to database
