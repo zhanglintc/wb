@@ -64,18 +64,24 @@ REDIRECT_URI = config['Weibo']['REDIRECT_URI']
 ##########################################################################
 # Functions are defined below
 ##########################################################################
-def open_weibo_or_target(target_url):
+def open_weibo_or_target(client, number):
     """
     Try to open a target URL by using default browser.
     If target URL is specifically set, open it,
     otherwise open weibo.com directly.
+
+    API refer to: http://open.weibo.com/wiki/2/statuses/querymid
     """
 
-    if target_url == 'weibo.com':
-        webbrowser.open_new_tab('http://weibo.com')
+    NULL, id, cid = database_handler("query", number = number)
+    recv = client.get('statuses/querymid', id = id, type = 1)
+    print recv.mid
 
-    else:
-        pass
+    # if number == 'weibo.com':
+    #     webbrowser.open_new_tab('http://weibo.com')
+
+    # else:
+    #     pass
 
 def database_handler(handle_type, data = None, number = None):
     """
@@ -581,7 +587,7 @@ if __name__ == "__main__":
     # comment by zhanglin 2014.11.12 -E
 
     elif params.get('open'):
-        open_weibo_or_target(params.get('open'))
+        open_weibo_or_target(client, params.get('open'))
 
     elif params.get('reply'):
         post_comment_reply(client, params['reply'][0], params['reply'][1])
