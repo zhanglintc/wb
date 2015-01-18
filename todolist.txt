@@ -3,26 +3,26 @@ Todos:
 ✔ 2. General install
 ✔ 3. Use Sqlite3 module
 ✔ 4. @我的微博 和 发送给我的微博
-5. open weibo.com and open a specific weibo
--> 调用statuses/querymid获得用户的MID, 然后可以拼接得到目标地址
+✔ 5. open weibo.com and open a specific weibo
+  -> 调用statuses/querymid获得用户的MID, 然后可以拼接得到目标地址
 6. make word colorful
 ✔ 7. input data check
-8. mentions
+8. mentions & comment detail
 9. my print function(handle encoding problem)
 ✔ 10. set unread as 0 after wb -c
--> 置零这个API是高级接口, 应该暂时无法实现此功能
+  -> 置零这个API是高级接口, 应该暂时无法实现此功能
 
 
 Known bugs:
 ✔ 1. wb -c 默认获取5条最新评论的时候, 如果同时存在 @我的微博 和 发给我的微博, No.编号可能会出错.
--> 暂定方案: 忽略 @我的微博, 更改No.计数方式. 效果是可能开始编号小于给定的数量.
-进一步修改方向: @我的微博 和 发送给我的微博 同时获取, 然后按照时间排序显示出来.
+  -> 暂定方案: 忽略 @我的微博, 更改No.计数方式. 效果是可能开始编号小于给定的数量.
+     进一步修改方向: @我的微博 和 发送给我的微博 同时获取, 然后按照时间排序显示出来.
 
 ✔ 2. wb -g 的时候, 如果转发微博的原微博已经被删除, 会出现AttributeError, 因为找不到相关信息.
--> 已经增加相应判断, 如果原微博已被删除, 将显示官方的已删除提示信息.
+  -> 已经增加相应判断, 如果原微博已被删除, 将显示官方的已删除提示信息.
 
 ✔ 3. Windows平台安装后, 如果路径中包含空格, 将会导致无法找到对应的文件.
--> 已经在路径前后添加了双引号解决该问题. %wbDIR% -> "%wbDIR%" & %wbFILE% -> "%wbFILE%"
+  -> 已经在路径前后添加了双引号解决该问题. %wbDIR% -> "%wbDIR%" & %wbFILE% -> "%wbFILE%"
 
 
 Potential bugs:
