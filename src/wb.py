@@ -398,7 +398,7 @@ def get_friends_timeline(client, count):
 
     os.system('cls') if plat == 'Win' else os.system('clear')
     print('') # a blank line makes better look
-    print("getting latest %s friend's weibo...\n") % count
+    print("getting latest {} friend's weibo...\n".format(count))
 
     received = client.get('statuses/friends_timeline', count = count)
     to_be_saved = []
