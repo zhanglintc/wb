@@ -478,7 +478,7 @@ def get_statuses_mentions(client, count):
 
     os.system('cls') if plat == 'Win' else os.system('clear')
     print('') # a blank line makes better look
-    print("getting latest {} friend's weibo...\n".format(count))
+    print("getting latest {} mentions...\n".format(count))
 
     received = client.get('statuses/mentions', count = count)
     to_be_saved = []
