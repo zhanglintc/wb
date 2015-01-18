@@ -66,22 +66,26 @@ REDIRECT_URI = config['Weibo']['REDIRECT_URI']
 ##########################################################################
 def open_weibo_or_target(client, number):
     """
-    Try to open a target URL by using default browser.
-    If target URL is specifically set, open it,
-    otherwise open weibo.com directly.
+    Try to open a weibo by using default browser.
+    If weibo number is given, open this weibo,
+    otherwise open "weibo.com" directly.
 
-    API refer to: http://open.weibo.com/wiki/2/statuses/querymid
+    API refer to:
+    http://open.weibo.com/wiki/2/statuses/querymid
+
+    Specific weibo URL is something like: weibo.com/uid/mid
+    We can use API "querymid" to get "mid" and concatenate the target URL
     """
 
-    NULL, id, cid = database_handler("query", number = number)
-    recv = client.get('statuses/querymid', id = id, type = 1)
-    print recv.mid
+    # not specific
+    if number == "NULL":
+        webbrowser.open_new_tab('http://weibo.com')
 
-    # if number == 'weibo.com':
-    #     webbrowser.open_new_tab('http://weibo.com')
-
-    # else:
-    #     pass
+    # specific
+    else:
+        ret = database_handler("query", number = number)
+        recv = client.get('statuses/querymid', id = ret.id, type = 1)
+        webbrowser.open_new_tab("http://weibo.com/{}/{}".format(ret.uid, recv.mid))
 
 def database_handler(handle_type, data = None, number = None):
     """
@@ -549,7 +553,7 @@ def creat_parser():
     parser.add_argument('-delete', metavar = '-d', nargs = '?', const = 'True', help = "delete your token infomation") 
     parser.add_argument('-get', metavar = '-g', nargs = '?', const = 5, help = "get latest N friend's timeline")
     # parser.add_argument('-image', metavar = '-i', nargs = 1, help = "post a new weibo with image")
-    parser.add_argument('-open', metavar = '-o', nargs = '?', const = 'weibo.com', help = "open weibo.com or a target")
+    parser.add_argument('-open', metavar = '-o', nargs = '?', const = 'NULL', help = "open weibo.com or a target")
     parser.add_argument('-post', metavar = '-p', nargs = 1, help = "post a new weibo")
     parser.add_argument('-reply', metavar = '', nargs = 2, help = "reply a weibo")
     parser.add_argument('-tweet', metavar = '-t', nargs = 1, help = "post a new weibo(alias of -p)")
