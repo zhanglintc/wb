@@ -341,7 +341,7 @@ def get_comments_to_me(client, count):
 
     index = int(count)
     for item in comments_all[int(count) - 1::-1]: # [from:to:-1] makes old -> new
-        to_be_saved.append([index, item.user.id, item.status.id, item.id]) # cache ids and cids
+        to_be_saved.append([index, item.status.user.id, item.status.id, item.id]) # cache ids and cids
 
         print\
             ('No.{0}: ({1})\n{2} | from @{3}:\n{4}\n'.format
