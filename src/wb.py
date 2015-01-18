@@ -443,10 +443,88 @@ def get_friends_timeline(client, count):
                     ).encode('utf8')
                 )
 
-            print('=========================================================\n')
+            print('=========================================================')
+            print('')
 
         index -= 1
 
+    database_handler('insert', data = to_be_saved)
+
+def get_statuses_mentions(client, count):
+    """
+    Get mentions and display it on the screen.
+
+    API refer to:
+    http://open.weibo.com/wiki/2/statuses/mentions
+
+    Display example:
+    1. Without retweet:
+        No.1:
+        23:22:39 | Oct 27 2014 | by @左手心的寂寞在北京:
+        有点感动
+
+    2. With retweet:
+        No.1:
+        23:22:39 | Oct 27 2014 | by @左手心的寂寞在北京:
+        有点感动
+        =========================================================
+        #猥亵罪对象加男性# 终于可以安心的出门了。
+        =========================================================
+    """
+
+    if int(count) > 200:
+        print("error: cannot get mentions more than 200\n")
+        return
+
+    os.system('cls') if plat == 'Win' else os.system('clear')
+    print('') # a blank line makes better look
+    print("getting latest {} friend's weibo...\n".format(count))
+
+    received = client.get('statuses/mentions', count = count)
+    to_be_saved = []
+
+    index = int(count)
+    for item in received.statuses[::-1]:
+        retweet = item.get('retweeted_status')
+        to_be_saved.append([index, item.user.id, item.id, None])
+
+        print\
+            ('No.{}:\n{} | by @{}:\n{}'.format
+                (
+                    str(index),
+                    convert_time(item.created_at),
+                    item.user.name,
+                    item.text,
+                ).encode('utf8')
+            )
+
+        # without retweet
+        if not retweet:
+            print('')
+
+        # with retweet
+        else:
+            print('=========================================================')
+            # if original Weibo has been deleted, only print text
+            if 'deleted' in item.retweeted_status:
+                print((item.retweeted_status.text).encode('utf8'))
+
+            # else print normally
+            else:
+                print\
+                ('{} | by @{}:\n{}'.format
+                    (
+                        convert_time(item.retweeted_status.created_at),
+                        item.retweeted_status.user.name,
+                        item.retweeted_status.text,
+                    ).encode('utf8')
+                )
+            print('=========================================================')
+            print('')
+
+        index -= 1
+
+    # save data to database
     database_handler('insert', data = to_be_saved)
 
 def show_status(client):
@@ -564,6 +642,7 @@ def creat_parser():
     parser.add_argument('-delete', metavar = '-d', nargs = '?', const = 'True', help = "delete your token infomation") 
     parser.add_argument('-get', metavar = '-g', nargs = '?', const = 5, help = "get latest N friend's timeline")
     # parser.add_argument('-image', metavar = '-i', nargs = 1, help = "post a new weibo with image")
+    parser.add_argument('-mention', metavar = '-m', nargs = '?', const = 5, help = "get latest N mentions")
     parser.add_argument('-open', metavar = '-o', nargs = '?', const = 'NULL', help = "open weibo.com or a target")
     parser.add_argument('-post', metavar = '-p', nargs = 1, help = "post a new weibo")
     parser.add_argument('-reply', metavar = '', nargs = 2, help = "reply a weibo")
@@ -610,6 +689,9 @@ if __name__ == "__main__":
     # elif params.get('image'):
         # post_statuses_upload(client, params['image'][0])
     # comment by zhanglin 2014.11.12 -E
+
+    elif params.get('mention'):
+        get_statuses_mentions(client, params['mention'])
 
     elif params.get('open'):
         open_weibo_or_target(client, params.get('open'))
