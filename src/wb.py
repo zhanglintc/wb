@@ -21,7 +21,7 @@ Description:
 
 from http import *
 from affix import *
-from sdk import Client
+from sdk import Client, JsonDict
 # import tkFileDialog # comment by zhanglin 2014.11.12
 import sys, os
 import pickle
@@ -88,7 +88,7 @@ def database_handler(handle_type, data = None, number = None):
     Database management function.
 
     Database design:
-        | number int | id int | cid int |
+        | number int | uid int | id int | cid int |
 
     parameters:
         handle_type:
@@ -100,26 +100,30 @@ def database_handler(handle_type, data = None, number = None):
             a list of input data.
 
             data[0]: number
-            data[1]: id
-            data[2]: cid
+            data[1]: uid
+            data[2]: id
+            data[3]: cid
 
         number:
             displaying number of weibos, use to get a specific weibo id & cid
 
     return:
-        a list of output data.
+        a JsonDict of output data.
 
-        ret[0]: number
-        ret[1]: id
-        ret[2]: cid
+        ret.number: number
+        ret.uid:    uid
+        ret.id:     id
+        ret.cid:    cid
     """
+
+    ret = JsonDict()
 
     # prepare for using database
     conn = sqlite3.connect(sys.path[0] + "/data.db")
     c = conn.cursor()
 
     try:
-        c.execute('create table weibo(number int, id int, cid int)')
+        c.execute('create table weibo(number int, uid int, id int, cid int)')
 
     except sqlite3.OperationalError:
         pass
@@ -130,12 +134,20 @@ def database_handler(handle_type, data = None, number = None):
         c.execute("delete from weibo")
 
         for item in data:
-            c.execute('insert into weibo values (?, ?, ?)', item)
+            try:
+                c.execute('insert into weibo values (?, ?, ?, ?)', item)
+
+            except sqlite3.OperationalError:
+                print("DATABASE INSERT ERROR: please remove wb/src/data.db and try again")
 
         ret = None
 
     elif handle_type is 'query':
-        ret = c.execute('select * from weibo where number={}'.format(number)).fetchone() # may be unsafe, see Python sqlite3 help file
+        query = c.execute('select * from weibo where number={}'.format(number)).fetchone() # may be unsafe, see Python sqlite3 help file
+        ret.number = query[0]
+        ret.uid    = query[1]
+        ret.id     = query[2]
+        ret.cid    = query[3]
 
     elif handle_type is 'clean':
         c.execute("delete from weibo")
@@ -325,7 +337,7 @@ def get_comments_to_me(client, count):
 
     index = int(count)
     for item in comments_all[int(count) - 1::-1]: # [from:to:-1] makes old -> new
-        to_be_saved.append([index, item.status.id, item.id]) # cache ids and cids
+        to_be_saved.append([index, item.user.id, item.status.id, item.id]) # cache ids and cids
 
         print\
             ('No.{0}: ({1})\n{2} | from @{3}:\n{4}\n'.format
@@ -380,7 +392,7 @@ def get_friends_timeline(client, count):
     for item in received.statuses[::-1]: # from old to new
         retweet = item.get('retweeted_status') # if this is retweet or not
 
-        to_be_saved.append([index, item.id, None])
+        to_be_saved.append([index, item.user.id, item.id, None])
 
         # print normal content first
         print\
@@ -507,17 +519,15 @@ def post_comment_reply(client, number, comment):
 
     print("replying...")
 
-    # IDs[0]:number   IDs[1]:id   IDs[2]:cid
-    IDs = database_handler('query', number = int(number))
-    id, cid = IDs[1], IDs[2]
+    ret = database_handler('query', number = int(number))
 
     # reply to a comment
-    if cid:
-        client.post('comments/reply', id = id, cid = cid, comment = comment)
+    if ret.cid:
+        client.post('comments/reply', id = ret.id, cid = ret.cid, comment = comment)
 
     # reply to a weibo
     else:
-        client.post('comments/create', id = id, comment = comment)
+        client.post('comments/create', id = ret.id, comment = comment)
 
     print("succeed!!!")
 
