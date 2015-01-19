@@ -358,9 +358,9 @@ def get_comments_to_me(client, count):
         # print original weibo or comment
         print('=========================================================')
         if "reply_comment" in item:
-            print(item.reply_comment.text)
+            print(item.reply_comment.text).encode('utf8')
         else:
-            print(item.status.text)
+            print(item.status.text).encode('utf8')
         print('=========================================================')
         print('') # only for better look
 
