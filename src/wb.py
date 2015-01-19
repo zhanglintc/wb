@@ -639,12 +639,14 @@ def creat_parser():
 
     parser.add_argument('-authorize', metavar = '-a', nargs = '?', const = 'True', help = "sign in to 'weibo.com'")
     parser.add_argument('-comment', metavar = '-c', nargs = '?', const = 5, help = "get comments to me")
-    parser.add_argument('-delete', metavar = '-d', nargs = '?', const = 'True', help = "delete your token infomation") 
+    parser.add_argument('-delete', metavar = '-d', nargs = '?', const = 'True', help = "coming soon")
+    parser.add_argument('-forward', metavar = '', nargs = 2, help = "forward a weibo")
     parser.add_argument('-get', metavar = '-g', nargs = '?', const = 5, help = "get latest N friend's timeline")
     # parser.add_argument('-image', metavar = '-i', nargs = 1, help = "post a new weibo with image")
     parser.add_argument('-mention', metavar = '-m', nargs = '?', const = 5, help = "get latest N mentions")
     parser.add_argument('-open', metavar = '-o', nargs = '?', const = 'NULL', help = "open weibo.com or a target")
     parser.add_argument('-post', metavar = '-p', nargs = 1, help = "post a new weibo")
+    parser.add_argument('-quit', metavar = '-q', nargs = '?', const = 'True', help = "delete token and quit")
     parser.add_argument('-reply', metavar = '', nargs = 2, help = "reply a weibo")
     parser.add_argument('-tweet', metavar = '-t', nargs = 1, help = "post a new weibo(alias of -p)")
     parser.add_argument('common', nargs = '?', help = "status/...")
@@ -680,7 +682,12 @@ if __name__ == "__main__":
         log_in_to_weibo()
 
     elif params.get('delete'):
-        log_out_from_weibo()
+        # log_out_from_weibo()
+        print("delete coming soon")
+
+    elif params.get('forward'):
+        # somefunction(client, params['forward'][0], params['forward'][1])
+        print("forward coming soon")
 
     elif params.get('get'):
         get_friends_timeline(client, params['get'])
@@ -701,6 +708,9 @@ if __name__ == "__main__":
 
     elif params.get('post'):
         post_statuses_update(client, params['post'][0])
+
+    elif params.get('quit'):
+        log_out_from_weibo()
 
     elif params.get('tweet'):
         post_statuses_update(client, params['tweet'][0])
