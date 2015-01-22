@@ -7,19 +7,19 @@ import os, shutil
 gen_path  = os.path.expanduser('~') # your home path
 
 # /Users/lane/.bash_aliases
-bash_path = "{}/.bash_aliases".format(gen_path) # your .bash_aliases path
+bash_path = "{0}/.bash_aliases".format(gen_path) # your .bash_aliases path
 
 # /Users/lane/temp
-temp_path = "{}/temp".format(gen_path) # temp file path
+temp_path = "{0}/temp".format(gen_path) # temp file path
 
 # /Users/lane/Github/wb/src/wb.py
-wb_path = "{}/src/wb.py".format(os.path.abspath('..')) # wb.py file path
+wb_path = "{0}/src/wb.py".format(os.path.abspath('..')) # wb.py file path
 
 # alias wb='python /Users/lane/Github/wb/src/wb.py'
-alias = "alias wb='python {}'\n".format(wb_path) # the alias command
+alias = "alias wb='python {0}'\n".format(wb_path) # the alias command
 
 # make sure .bash_aliases is exist
-os.system('touch {}'.format(bash_path))
+os.system('touch {0}'.format(bash_path))
 
 # open files
 fr = open(bash_path, 'r')
@@ -48,9 +48,9 @@ os.remove(temp_path) # delete temp file
 
 print('')
 if add_alias:
-    print("The command below:\n\n  {}\n\nis successfully added to '.bash_aliases'\n".format(alias[:-1]))
+    print("The command below:\n\n  {0}\n\nis successfully added to '.bash_aliases'\n".format(alias[:-1]))
 else:
-    print("The command below:\n\n  {}\n\nis already exist, installing has canceled with nothing happen\n".format(intalled_command[:-1]))
+    print("The command below:\n\n  {0}\n\nis already exist, installing has canceled with nothing happen\n".format(intalled_command[:-1]))
 
 print('')
 print("please TYPE 'source ~/.bash_aliases' or RESTART your bash")

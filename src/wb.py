@@ -85,7 +85,7 @@ def open_weibo_or_target(client, number):
     else:
         ret = database_handler("query", number = number)
         recv = client.get('statuses/querymid', id = ret.id, type = 1)
-        webbrowser.open_new_tab("http://weibo.com/{}/{}".format(ret.uid, recv.mid))
+        webbrowser.open_new_tab("http://weibo.com/{0}/{1}".format(ret.uid, recv.mid))
 
 def database_handler(handle_type, data = None, number = None):
     """
@@ -147,7 +147,7 @@ def database_handler(handle_type, data = None, number = None):
         ret = None
 
     elif handle_type is 'query':
-        query = c.execute('select * from weibo where number={}'.format(number)).fetchone() # may be unsafe, see Python sqlite3 help file
+        query = c.execute('select * from weibo where number={0}'.format(number)).fetchone() # may be unsafe, see Python sqlite3 help file
         ret.number = query[0]
         ret.uid    = query[1]
         ret.id     = query[2]
@@ -280,14 +280,14 @@ def comments_to_me_To_File(client, start_page, end_page):
 
     while my_page <= end_page:
         try:
-            print('Page {} is downloading'.format(my_page))
+            print('Page {0} is downloading'.format(my_page))
             received = client.get('comments/to_me', count = 20, uid = 1804547715, page = my_page)
 
         except:
-            print('Page {} is downloading has failed'.format(my_page))
+            print('Page {0} is downloading has failed'.format(my_page))
             continue
 
-        fw.write('\n\nPage {}:\n'.format(my_page).encode('utf8'))
+        fw.write('\n\nPage {0}:\n'.format(my_page).encode('utf8'))
         for item in received.comments:
             to_be_written = '{0}: {1} by {2}\n'.format(item.created_at, item.text, item.user.name)
             fw.write(to_be_written.encode('utf8'))
@@ -318,7 +318,7 @@ def get_comments_to_me(client, count):
 
     os.system('cls') if plat == 'Win' else os.system('clear')
     print('') # a blank line makes better look
-    print("getting latest {} comments to me...\n".format(count))
+    print("getting latest {0} comments to me...\n".format(count))
 
     # get comments to me & add type
     received_to_me = client.get('comments/to_me', count = count)
@@ -398,7 +398,7 @@ def get_friends_timeline(client, count):
 
     os.system('cls') if plat == 'Win' else os.system('clear')
     print('') # a blank line makes better look
-    print("getting latest {} friend's weibo...\n".format(count))
+    print("getting latest {0} friend's weibo...\n".format(count))
 
     received = client.get('statuses/friends_timeline', count = count)
     to_be_saved = []
@@ -411,7 +411,7 @@ def get_friends_timeline(client, count):
 
         # print normal content first
         print\
-            ('No.{}:\n{} | by @{}:\n{}'.format
+            ('No.{0}:\n{1} | by @{2}:\n{3}'.format
                 (
                     str(index),
                     convert_time(item.created_at),
@@ -435,7 +435,7 @@ def get_friends_timeline(client, count):
             # else print normally
             else:
                 print\
-                ('{} | by @{}:\n{}'.format
+                ('{0} | by @{1}:\n{2}'.format
                     (
                         convert_time(item.retweeted_status.created_at),
                         item.retweeted_status.user.name,
@@ -478,7 +478,7 @@ def get_statuses_mentions(client, count):
 
     os.system('cls') if plat == 'Win' else os.system('clear')
     print('') # a blank line makes better look
-    print("getting latest {} mentions...\n".format(count))
+    print("getting latest {0} mentions...\n".format(count))
 
     received = client.get('statuses/mentions', count = count)
     to_be_saved = []
@@ -489,7 +489,7 @@ def get_statuses_mentions(client, count):
         to_be_saved.append([index, item.user.id, item.id, None])
 
         print\
-            ('No.{}:\n{} | by @{}:\n{}'.format
+            ('No.{0}:\n{1} | by @{2}:\n{3}'.format
                 (
                     str(index),
                     convert_time(item.created_at),
@@ -512,7 +512,7 @@ def get_statuses_mentions(client, count):
             # else print normally
             else:
                 print\
-                ('{} | by @{}:\n{}'.format
+                ('{0} | by @{1}:\n{2}'.format
                     (
                         convert_time(item.retweeted_status.created_at),
                         item.retweeted_status.user.name,
@@ -540,10 +540,10 @@ def show_status(client):
 
     received = client.get('remind/unread_count')
 
-    print("unread weibo    => {}".format(received.status))
-    print("new comments    => {}".format(received.cmt))
-    print("new mentions    => {}".format(received.mention_status + received.mention_cmt))
-    print("direct messages => {}".format(received.dm))
+    print("unread weibo    => {0}".format(received.status))
+    print("new comments    => {0}".format(received.cmt))
+    print("new mentions    => {0}".format(received.mention_status + received.mention_cmt))
+    print("direct messages => {0}".format(received.dm))
     print('') # blank line makes better look
 
 def post_statuses_update(client, text):
@@ -565,7 +565,7 @@ def post_statuses_update(client, text):
         print('has been successfully posted!\n')
 
     except RuntimeError as e:
-        print("sorry, send failed because: {}\n".format(str(e)))
+        print("sorry, send failed because: {0}\n".format(str(e)))
 
 def post_statuses_upload(client, text):
     """
@@ -595,7 +595,7 @@ def post_statuses_upload(client, text):
         print('has been successfully posted!\n')
 
     except (RuntimeError, IOError) as e:
-        print("sorry, send failed because: {}\n".format(str(e)))
+        print("sorry, send failed because: {0}\n".format(str(e)))
 
 def post_comment_reply(client, number, comment):
     """

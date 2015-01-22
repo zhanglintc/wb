@@ -24,7 +24,7 @@ def convert_time(ori_time):
     year  = ori_time[26:30]
 
     # something like -> 15:51:54 | Nov 16 2014
-    return "{} | {} {} {}".format(time, month, day, year)
+    return "{0} | {1} {2} {3}".format(time, month, day, year)
 
 def make_time_numeric(ori_time):
     """

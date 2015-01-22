@@ -7,10 +7,10 @@ import os, shutil
 gen_path  = os.path.expanduser('~') # your home path
 
 # /Users/lane/.bash_profile
-bash_path = "{}/.bash_profile".format(gen_path) # your .bash_profile path
+bash_path = "{0}/.bash_profile".format(gen_path) # your .bash_profile path
 
 # /Users/lane/temp
-temp_path = "{}/temp".format(gen_path) # temp file path
+temp_path = "{0}/temp".format(gen_path) # temp file path
 
 fr = open(bash_path, 'r')
 fw = open(temp_path, 'w')
@@ -31,7 +31,7 @@ os.remove(temp_path) # delete temp file
 
 print('')
 if install_command:
-    print("The command below:\n\n  {}\n\nis successfully removed from '.bash_profile'\n".format(install_command[:-1]))
+    print("The command below:\n\n  {0}\n\nis successfully removed from '.bash_profile'\n".format(install_command[:-1]))
 else:
     print("Well, there is nothing to delete\n")
 
