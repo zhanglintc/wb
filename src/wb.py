@@ -36,8 +36,6 @@ import webbrowser
 # get version & set encoding
 version = sys.version[0]
 input = raw_input if version == '2' else input
-reload(sys)
-sys.setdefaultencoding('utf8')
 
 # get OS information
 plat = platform.platform()
@@ -345,7 +343,7 @@ def get_comments_to_me(client, count):
 
         # print comment to me or mentions to me
         print\
-            ('No.{0}: ({1})\n{2} | from @{3}:\n{4}'.format
+            (u'No.{0}: ({1})\n{2} | from @{3}:\n{4}'.format
                 (
                     index, # 0
                     item.type, # 1
@@ -411,7 +409,7 @@ def get_friends_timeline(client, count):
 
         # print normal content first
         print\
-            ('No.{0}:\n{1} | by @{2}:\n{3}'.format
+            (u'No.{0}:\n{1} | by @{2}:\n{3}'.format
                 (
                     str(index),
                     convert_time(item.created_at),
@@ -435,7 +433,7 @@ def get_friends_timeline(client, count):
             # else print normally
             else:
                 print\
-                ('{0} | by @{1}:\n{2}'.format
+                (u'{0} | by @{1}:\n{2}'.format
                     (
                         convert_time(item.retweeted_status.created_at),
                         item.retweeted_status.user.name,
@@ -489,7 +487,7 @@ def get_statuses_mentions(client, count):
         to_be_saved.append([index, item.user.id, item.id, None])
 
         print\
-            ('No.{0}:\n{1} | by @{2}:\n{3}'.format
+            (u'No.{0}:\n{1} | by @{2}:\n{3}'.format
                 (
                     str(index),
                     convert_time(item.created_at),
@@ -512,7 +510,7 @@ def get_statuses_mentions(client, count):
             # else print normally
             else:
                 print\
-                ('{0} | by @{1}:\n{2}'.format
+                (u'{0} | by @{1}:\n{2}'.format
                     (
                         convert_time(item.retweeted_status.created_at),
                         item.retweeted_status.user.name,
