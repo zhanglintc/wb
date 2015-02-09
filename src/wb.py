@@ -59,6 +59,9 @@ API_KEY      = config['Weibo']['API_KEY']
 API_SECRET   = config['Weibo']['API_SECRET']
 REDIRECT_URI = config['Weibo']['REDIRECT_URI']
 
+# global setting
+encoding = 'utf-8'
+
 ##########################################################################
 # Functions are defined below
 ##########################################################################
@@ -285,10 +288,10 @@ def comments_to_me_To_File(client, start_page, end_page):
             print('Page {0} is downloading has failed'.format(my_page))
             continue
 
-        fw.write('\n\nPage {0}:\n'.format(my_page).encode('utf8'))
+        fw.write('\n\nPage {0}:\n'.format(my_page).encode(encoding))
         for item in received.comments:
             to_be_written = '{0}: {1} by {2}\n'.format(item.created_at, item.text, item.user.name)
-            fw.write(to_be_written.encode('utf8'))
+            fw.write(to_be_written.encode(encoding))
 
         fw.flush()
         my_page += 1
@@ -351,14 +354,14 @@ def get_comments_to_me(client, count):
                     item.user.name, # 3
                     item.text, # 4
                 )
-            ).encode('utf8')
+            ).encode(encoding)
 
         # print original weibo or comment
         print('=========================================================')
         if "reply_comment" in item:
-            print(item.reply_comment.text).encode('utf8')
+            print(item.reply_comment.text).encode(encoding)
         else:
-            print(item.status.text).encode('utf8')
+            print(item.status.text).encode(encoding)
         print('=========================================================')
         print('') # only for better look
 
@@ -415,7 +418,7 @@ def get_friends_timeline(client, count):
                     convert_time(item.created_at),
                     item.user.name,
                     item.text,
-                ).encode('utf8')
+                ).encode(encoding)
             )
 
         # if this is not retweet, just print a blank line
@@ -428,7 +431,7 @@ def get_friends_timeline(client, count):
 
             # if original Weibo has been deleted, only print text
             if 'deleted' in item.retweeted_status:
-                print((item.retweeted_status.text).encode('utf8'))
+                print((item.retweeted_status.text).encode(encoding))
 
             # else print normally
             else:
@@ -438,7 +441,7 @@ def get_friends_timeline(client, count):
                         convert_time(item.retweeted_status.created_at),
                         item.retweeted_status.user.name,
                         item.retweeted_status.text,
-                    ).encode('utf8')
+                    ).encode(encoding)
                 )
 
             print('=========================================================')
@@ -493,7 +496,7 @@ def get_statuses_mentions(client, count):
                     convert_time(item.created_at),
                     item.user.name,
                     item.text,
-                ).encode('utf8')
+                ).encode(encoding)
             )
 
         # without retweet
@@ -505,7 +508,7 @@ def get_statuses_mentions(client, count):
             print('=========================================================')
             # if original Weibo has been deleted, only print text
             if 'deleted' in item.retweeted_status:
-                print((item.retweeted_status.text).encode('utf8'))
+                print((item.retweeted_status.text).encode(encoding))
 
             # else print normally
             else:
@@ -515,7 +518,7 @@ def get_statuses_mentions(client, count):
                         convert_time(item.retweeted_status.created_at),
                         item.retweeted_status.user.name,
                         item.retweeted_status.text,
-                    ).encode('utf8')
+                    ).encode(encoding)
                 )
             print('=========================================================')
             print('')
