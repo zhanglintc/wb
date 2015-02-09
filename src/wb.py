@@ -604,6 +604,27 @@ def post_statuses_upload(client, text):
     except (RuntimeError, IOError) as e:
         print("sorry, send failed because: {0}\n".format(str(e)))
 
+def post_statuses_repost(client, number, status):
+    """
+    function:
+        Forward(repost) a weibo.
+
+    parameters:
+        number: number of weibo you wish to forward
+        status: your comment while forward this weibo.
+
+    API refer to:
+    http://open.weibo.com/wiki/2/statuses/repost
+    """
+
+    print("forwarding...")
+
+    ret = database_handler('query', number = int(number))
+
+    client.post('statuses/repost', id = ret.id, status = status)
+
+    print("succeed!!!")
+
 def post_comment_reply(client, number, comment):
     """
     function:
@@ -611,6 +632,7 @@ def post_comment_reply(client, number, comment):
 
     parameters:
         number: number of weibo or comment wish to reply
+        comment: your comment
 
     API refer to:
     http://open.weibo.com/wiki/2/comments/create
