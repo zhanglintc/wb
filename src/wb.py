@@ -715,8 +715,7 @@ if __name__ == "__main__":
         print("delete coming soon")
 
     elif params.get('forward'):
-        # somefunction(client, params['forward'][0], params['forward'][1])
-        print("forward coming soon")
+        post_statuses_repost(client, params['forward'][0], params['forward'][1])
 
     elif params.get('get'):
         get_friends_timeline(client, params['get'])
