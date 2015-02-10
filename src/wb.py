@@ -410,6 +410,10 @@ def get_friends_timeline(client, count):
 
     index = int(count) # used in No.{index} below
     for item in received.statuses[::-1]: # from old to new
+        # ignore AD
+        if item.get('ad'):
+            continue
+
         retweet = item.get('retweeted_status') # if this is retweet or not
 
         to_be_saved.append([index, item.user.id, item.id, None])
