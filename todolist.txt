@@ -27,6 +27,7 @@ Known bugs:
 ✔ 3. Windows平台安装后, 如果路径中包含空格, 将会导致无法找到对应的文件.
   -> 已经在路径前后添加了双引号解决该问题. %wbDIR% -> "%wbDIR%" & %wbFILE% -> "%wbFILE%"
 
+4. cprint函数中, 如果输入字符串中含有"[]", 而这个中括号中没有逗号的时候, split(',')[1]会越界(因为没有第二个元素)
 
 Potential bugs:
 ✔ 1. When using Python 2.7.9, wb -a may lead a [SSL: CERTIFICATE_VERIFY_FAILED] error.
