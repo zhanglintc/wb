@@ -143,7 +143,7 @@ def database_handler(handle_type, data = None, number = None):
                 c.execute('insert into weibo values (?, ?, ?, ?)', item)
 
             except sqlite3.OperationalError:
-                print("DATABASE INSERT ERROR: please remove wb/src/data.db and try again")
+                cprint("DATABASE INSERT ERROR: please remove wb/src/data.db and try again")
 
         ret = None
 
@@ -175,20 +175,20 @@ def log_in_to_weibo():
     if not, do nothing.
     """
 
-    print('')
-    print("please enter your username and password below\n")
+    cprint('')
+    cprint("please enter your username and password below\n")
 
     client = Client(API_KEY, API_SECRET, REDIRECT_URI)
 
     USERID = input("username: ")
     USERPASSWD = getpass.getpass("password: ") # getpass() makes password invisible
 
-    print('')
-    print('logging...')
+    cprint('')
+    cprint('logging...')
     code = make_access_token(client, USERID, USERPASSWD)
     if not code: # while log in failed
-        print('') # a blank line to make better look
-        print("bad username or password, please try again!\n")
+        cprint('') # a blank line to make better look
+        cprint("bad username or password, please try again!\n")
 
     # after got code, store it
     else:
@@ -196,8 +196,8 @@ def log_in_to_weibo():
         fw = open(TOKEN_PATH, 'wb')
         pickle.dump(client.token, fw)
         fw.close()
-        print('')
-        print("log in to weibo.com successfully\n")
+        cprint('')
+        cprint("log in to weibo.com successfully\n")
 
 def log_out_from_weibo():
     """delete login informations"""
@@ -281,11 +281,11 @@ def comments_to_me_To_File(client, start_page, end_page):
 
     while my_page <= end_page:
         try:
-            print('Page {0} is downloading'.format(my_page))
+            cprint('Page {0} is downloading'.format(my_page))
             received = client.get('comments/to_me', count = 20, uid = 1804547715, page = my_page)
 
         except:
-            print('Page {0} is downloading has failed'.format(my_page))
+            cprint('Page {0} is downloading has failed'.format(my_page))
             continue
 
         fw.write('\n\nPage {0}:\n'.format(my_page).encode(encoding))
@@ -297,7 +297,7 @@ def comments_to_me_To_File(client, start_page, end_page):
         my_page += 1
 
     fw.close()
-    print('All the comments have been downloaded')
+    cprint('All the comments have been downloaded')
 
 def get_comments_to_me(client, count):
     """
@@ -318,12 +318,12 @@ def get_comments_to_me(client, count):
     """
 
     if int(count) > 200:
-        print("error: cannot get comments more than 200\n")
+        cprint("error: cannot get comments more than 200\n")
         return
 
     os.system('cls') if plat == 'Win' else os.system('clear')
-    print('') # a blank line makes better look
-    print("getting latest {0} comments to me...\n".format(count))
+    cprint('') # a blank line makes better look
+    cprint("getting latest {0} comments to me...\n".format(count))
 
     # get comments to me & add type
     received_to_me = client.get('comments/to_me', count = count)
@@ -348,9 +348,9 @@ def get_comments_to_me(client, count):
     for item in comments_all[int(count) - 1::-1]: # [from:to:-1] makes old -> new
         to_be_saved.append([index, item.status.user.id, item.status.id, item.id]) # cache ids and cids
 
-        # print comment to me or mentions to me
-        print\
-            (u'No.{0}: ({1})\n{2} | from @{3}:\n{4}'.format
+        # cprint comment to me or mentions to me
+        cprint\
+            (u'No.{0}: ({1})\n{2} | from @{3}:\n[{4}, red]'.format
                 (
                     index, # 0
                     item.type, # 1
@@ -360,14 +360,14 @@ def get_comments_to_me(client, count):
                 ).encode(encoding)
             )
 
-        # print original weibo or comment
-        print('=========================================================')
+        # cprint original weibo or comment
+        cprint('=========================================================')
         if "reply_comment" in item:
-            print(item.reply_comment.text.encode(encoding))
+            cprint(item.reply_comment.text.encode(encoding))
         else:
-            print(item.status.text.encode(encoding))
-        print('=========================================================')
-        print('') # only for better look
+            cprint(item.status.text.encode(encoding))
+        cprint('=========================================================')
+        cprint('') # only for better look
 
         index -= 1
 
@@ -398,12 +398,12 @@ def get_friends_timeline(client, count):
     """
 
     if int(count) > 100:
-        print("error: cannot get weibos more than 100\n")
+        cprint("error: cannot get weibos more than 100\n")
         return
 
     os.system('cls') if plat == 'Win' else os.system('clear')
-    print('') # a blank line makes better look
-    print("getting latest {0} friend's weibo...\n".format(count))
+    cprint('') # a blank line makes better look
+    cprint("getting latest {0} friend's weibo...\n".format(count))
 
     received = client.get('statuses/friends_timeline', count = count)
     to_be_saved = []
@@ -418,8 +418,8 @@ def get_friends_timeline(client, count):
 
         to_be_saved.append([index, item.user.id, item.id, None])
 
-        # print normal content first
-        print\
+        # cprint normal content first
+        cprint\
             (u'No.{0}:\n{1} | by @{2}:\n{3}'.format
                 (
                     str(index),
@@ -429,21 +429,21 @@ def get_friends_timeline(client, count):
                 ).encode(encoding)
             )
 
-        # if this is not retweet, just print a blank line
+        # if this is not retweet, just cprint a blank line
         if not retweet:
-            print('')
+            cprint('')
 
-        # if this is retweet, print the retweeted content
+        # if this is retweet, cprint the retweeted content
         else:
-            print('=========================================================')
+            cprint('=========================================================')
 
-            # if original Weibo has been deleted, only print text
+            # if original Weibo has been deleted, only cprint text
             if 'deleted' in item.retweeted_status:
-                print((item.retweeted_status.text).encode(encoding))
+                cprint((item.retweeted_status.text).encode(encoding))
 
-            # else print normally
+            # else cprint normally
             else:
-                print\
+                cprint\
                 (u'{0} | by @{1}:\n{2}'.format
                     (
                         convert_time(item.retweeted_status.created_at),
@@ -452,8 +452,8 @@ def get_friends_timeline(client, count):
                     ).encode(encoding)
                 )
 
-            print('=========================================================')
-            print('')
+            cprint('=========================================================')
+            cprint('')
 
         index -= 1
 
@@ -484,12 +484,12 @@ def get_statuses_mentions(client, count):
     """
 
     if int(count) > 200:
-        print("error: cannot get mentions more than 200\n")
+        cprint("error: cannot get mentions more than 200\n")
         return
 
     os.system('cls') if plat == 'Win' else os.system('clear')
-    print('') # a blank line makes better look
-    print("getting latest {0} mentions...\n".format(count))
+    cprint('') # a blank line makes better look
+    cprint("getting latest {0} mentions...\n".format(count))
 
     received = client.get('statuses/mentions', count = count)
     to_be_saved = []
@@ -499,7 +499,7 @@ def get_statuses_mentions(client, count):
         retweet = item.get('retweeted_status')
         to_be_saved.append([index, item.user.id, item.id, None])
 
-        print\
+        cprint\
             (u'No.{0}:\n{1} | by @{2}:\n{3}'.format
                 (
                     str(index),
@@ -511,18 +511,18 @@ def get_statuses_mentions(client, count):
 
         # without retweet
         if not retweet:
-            print('')
+            cprint('')
 
         # with retweet
         else:
-            print('=========================================================')
-            # if original Weibo has been deleted, only print text
+            cprint('=========================================================')
+            # if original Weibo has been deleted, only cprint text
             if 'deleted' in item.retweeted_status:
-                print(item.retweeted_status.text.encode(encoding))
+                cprint(item.retweeted_status.text.encode(encoding))
 
-            # else print normally
+            # else cprint normally
             else:
-                print\
+                cprint\
                 (u'{0} | by @{1}:\n{2}'.format
                     (
                         convert_time(item.retweeted_status.created_at),
@@ -530,8 +530,8 @@ def get_statuses_mentions(client, count):
                         item.retweeted_status.text,
                     ).encode(encoding)
                 )
-            print('=========================================================')
-            print('')
+            cprint('=========================================================')
+            cprint('')
 
         index -= 1
 
@@ -546,16 +546,16 @@ def show_status(client):
     http://open.weibo.com/wiki/2/remind/unread_count
     """
 
-    print('') # a blank line makes better look
-    print("getting status...\n")
+    cprint('') # a blank line makes better look
+    cprint("getting status...\n")
 
     received = client.get('remind/unread_count')
 
-    print("unread weibo    => {0}".format(received.status))
-    print("new comments    => {0}".format(received.cmt))
-    print("new mentions    => {0}".format(received.mention_status + received.mention_cmt))
-    print("direct messages => {0}".format(received.dm))
-    print('') # blank line makes better look
+    cprint("unread weibo    => {0}".format(received.status))
+    cprint("new comments    => {0}".format(received.cmt))
+    cprint("new mentions    => {0}".format(received.mention_status + received.mention_cmt))
+    cprint("direct messages => {0}".format(received.dm))
+    cprint('') # blank line makes better look
 
 def post_statuses_update(client, text):
     """ 
@@ -565,18 +565,18 @@ def post_statuses_update(client, text):
     http://open.weibo.com/wiki/2/statuses/update
     """
 
-    print('')
-    print('sending...\n')
+    cprint('')
+    cprint('sending...\n')
 
     try:
         client.post('statuses/update', status = text)
-        print('=========================================================')
-        print(text)
-        print('=========================================================')
-        print('has been successfully posted!\n')
+        cprint('=========================================================')
+        cprint(text)
+        cprint('=========================================================')
+        cprint('has been successfully posted!\n')
 
     except RuntimeError as e:
-        print("sorry, send failed because: {0}\n".format(str(e)))
+        cprint("sorry, send failed because: {0}\n".format(str(e)))
 
 def post_statuses_upload(client, text):
     """
@@ -592,21 +592,21 @@ def post_statuses_upload(client, text):
     picture = tkFileDialog.askopenfilename() # get picture by GUI
     # 2014.11.12 zhanglin make it useless -E
 
-    print('')
-    print('sending...\n')
+    cprint('')
+    cprint('sending...\n')
 
     try:
         f = open(picture, 'rb')
         client.post('statuses/upload', status = text, pic = f)
         f.close()
 
-        print('=========================================================')
-        print(text + '\n(with picture)')
-        print('=========================================================')
-        print('has been successfully posted!\n')
+        cprint('=========================================================')
+        cprint(text + '\n(with picture)')
+        cprint('=========================================================')
+        cprint('has been successfully posted!\n')
 
     except (RuntimeError, IOError) as e:
-        print("sorry, send failed because: {0}\n".format(str(e)))
+        cprint("sorry, send failed because: {0}\n".format(str(e)))
 
 def post_statuses_repost(client, number, status):
     """
@@ -621,13 +621,13 @@ def post_statuses_repost(client, number, status):
     http://open.weibo.com/wiki/2/statuses/repost
     """
 
-    print("forwarding...")
+    cprint("forwarding...")
 
     ret = database_handler('query', number = int(number))
 
     client.post('statuses/repost', id = ret.id, status = status)
 
-    print("succeed!!!")
+    cprint("succeed!!!")
 
 def post_comment_reply(client, number, comment):
     """
@@ -643,7 +643,7 @@ def post_comment_reply(client, number, comment):
     http://open.weibo.com/wiki/2/comments/reply
     """
 
-    print("replying...")
+    cprint("replying...")
 
     ret = database_handler('query', number = int(number))
 
@@ -655,7 +655,7 @@ def post_comment_reply(client, number, comment):
     else:
         client.post('comments/create', id = ret.id, comment = comment)
 
-    print("succeed!!!")
+    cprint("succeed!!!")
 
 def creat_parser():
     parser = argparse.ArgumentParser(
@@ -695,11 +695,11 @@ if __name__ == "__main__":
 
     parser = creat_parser()
     params = vars(parser.parse_args())
-    # print params
+    # cprint params
 
     if not params:
-        print('')
-        print('- Note: type "wb -h/--help" to see usages.\n')
+        cprint('')
+        cprint('- Note: type "wb -h/--help" to see usages.\n')
 
 ##########################################################################
 
@@ -716,7 +716,7 @@ if __name__ == "__main__":
 
     elif params.get('delete'):
         # log_out_from_weibo()
-        print("delete coming soon")
+        cprint("delete coming soon")
 
     elif params.get('forward'):
         post_statuses_repost(client, params['forward'][0], params['forward'][1])
@@ -754,8 +754,8 @@ if __name__ == "__main__":
 ##########################################################################
 
     else:
-        print('')
-        print('- Note: unrecognized command, type "wb -h/--help" to see usages.\n')
+        cprint('')
+        cprint('- Note: unrecognized command, type "wb -h/--help" to see usages.\n')
 
 
 

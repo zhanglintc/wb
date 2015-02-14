@@ -84,7 +84,8 @@ class ColorPrint:
         self.reset_color()
 
 def cprint(s, c = None):
-    if not s: # I think this can be removed because [if not mc] will take effect...  zhanglin 2015.02.14
+    if not s:
+        print('') # print nothing to make a new line
         return
 
     if not c:
@@ -108,7 +109,12 @@ def cprint(s, c = None):
         command = mc.group(2)[1:-1] # strip '[' and ']'
 
         to_p  = command.split(',')[0] # raw string to be print
-        color = command.split(',')[1].replace(' ', '') # remove spaces in parameter
+
+        # try to get color, if there is no ',' in command, set color as None
+        try:
+            color = command.split(',')[1].replace(' ', '') # remove spaces in parameter
+        except:
+            color = None
 
         if color == 'red':
             c.print_red_text(to_p)
