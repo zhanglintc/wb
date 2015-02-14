@@ -357,15 +357,15 @@ def get_comments_to_me(client, count):
                     convert_time(item.created_at), # 2
                     item.user.name, # 3
                     item.text, # 4
-                )
-            ).encode(encoding)
+                ).encode(encoding)
+            )
 
         # print original weibo or comment
         print('=========================================================')
         if "reply_comment" in item:
-            print(item.reply_comment.text).encode(encoding)
+            print(item.reply_comment.text.encode(encoding))
         else:
-            print(item.status.text).encode(encoding)
+            print(item.status.text.encode(encoding))
         print('=========================================================')
         print('') # only for better look
 
@@ -518,7 +518,7 @@ def get_statuses_mentions(client, count):
             print('=========================================================')
             # if original Weibo has been deleted, only print text
             if 'deleted' in item.retweeted_status:
-                print((item.retweeted_status.text).encode(encoding))
+                print(item.retweeted_status.text.encode(encoding))
 
             # else print normally
             else:
