@@ -179,4 +179,7 @@ def make_time_numeric(ori_time):
     # return a int time
     return time_int
 
+if __name__ == '__main__':
+    cprint("[[doge], red]")
+
 
