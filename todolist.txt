@@ -12,7 +12,7 @@ Todos:
   -> encoding problem solved(no need to make a my print function)
 ✔ 10. set unread as 0 after wb -c
   -> 置零这个API是高级接口, 应该暂时无法实现此功能
-11. mentions显示不完全的问题整理
+✔ 11. mentions显示不完全的问题整理
 ✔ 12. forward a weibo
 
 
