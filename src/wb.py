@@ -22,7 +22,6 @@ Description:
 from http import *
 from affix import *
 from sdk import Client, JsonDict
-# import tkFileDialog # comment by zhanglin 2014.11.12
 import sys, os
 import pickle
 import getpass
@@ -32,6 +31,11 @@ import configparser
 import platform
 import sqlite3
 import webbrowser
+try:
+    import tkFileDialog
+    is_TKinter_exist = True
+except:
+    is_TKinter_exist = False
 
 # get version & set encoding
 version = sys.version[0]
@@ -695,7 +699,7 @@ def creat_parser():
     parser.add_argument('-delete', metavar = '-d', nargs = '?', const = 'True', help = "coming soon")
     parser.add_argument('-forward', metavar = '', nargs = 2, help = "forward a weibo")
     parser.add_argument('-get', metavar = '-g', nargs = '?', const = 5, help = "get latest N friend's timeline")
-    # parser.add_argument('-image', metavar = '-i', nargs = 1, help = "post a new weibo with image")
+    parser.add_argument('-image', metavar = '-i', nargs = 1, help = "post a new weibo with image")
     parser.add_argument('-mention', metavar = '-m', nargs = '?', const = 5, help = "get latest N mentions")
     parser.add_argument('-open', metavar = '-o', nargs = '?', const = 'NULL', help = "open weibo.com or a target")
     parser.add_argument('-post', metavar = '-p', nargs = 1, help = "post a new weibo")
@@ -744,10 +748,11 @@ if __name__ == "__main__":
     elif params.get('get'):
         get_friends_timeline(client, params['get'])
 
-    # comment by zhanglin 2014.11.12 -S
-    # elif params.get('image'):
-        # post_statuses_upload(client, params['image'][0])
-    # comment by zhanglin 2014.11.12 -E
+    elif params.get('image'):
+        if is_TKinter_exist:
+            post_statuses_upload(client, params['image'][0])
+        else:
+            cprint("[Send with image is not supported!!!, red]")
 
     elif params.get('mention'):
         get_statuses_mentions(client, params['mention'])
