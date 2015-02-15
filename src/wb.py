@@ -84,13 +84,16 @@ def open_weibo_or_target(client, number):
 
     # not specific
     if number == "NULL":
-        webbrowser.open_new_tab('http://weibo.com')
+        isOpen = webbrowser.open_new_tab('http://weibo.com')
 
     # specific
     else:
         ret = database_handler("query", number = number)
         recv = client.get('statuses/querymid', id = ret.id, type = 1)
-        webbrowser.open_new_tab("http://weibo.com/{0}/{1}".format(ret.uid, recv.mid))
+        isOpen = webbrowser.open_new_tab("http://weibo.com/{0}/{1}".format(ret.uid, recv.mid))
+
+    if not isOpen:
+        cprint("[Web Browser is not available..., red]")
 
 def database_handler(handle_type, data = None, number = None):
     """
