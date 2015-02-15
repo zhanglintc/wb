@@ -465,15 +465,16 @@ def get_statuses_mentions(client, count):
 
     API refer to:
     http://open.weibo.com/wiki/2/statuses/mentions
+    http://open.weibo.com/wiki/2/comments/mentions
 
     Display example:
     1. Without retweet:
-        No.1:
+        No.1: (mentions)
         23:22:39 | Oct 27 2014 | by @左手心的寂寞在北京:
         有点感动
 
     2. With retweet:
-        No.1:
+        No.1: (mentions)
         23:22:39 | Oct 27 2014 | by @左手心的寂寞在北京:
         有点感动
         =========================================================
@@ -491,21 +492,40 @@ def get_statuses_mentions(client, count):
     cprint('') # a blank line makes better look
     cprint("getting latest {0} mentions...\n".format(count))
 
-    received = client.get('statuses/mentions', count = count)
+    # received = client.get('statuses/mentions', count = count)
+
+    # get mentions & add type
+    received_mentions = client.get('statuses/mentions', count = count)
+    for item in received_mentions.statuses:
+        item['type'] = 'mentions'
+
+    # get comments mentioned me & add type
+    received_comment_mentions = client.get('comments/mentions', count = count)
+    for item in received_comment_mentions.comments:
+        item['type'] = 'comment_mentions'
+
     to_be_saved = []
 
+    # combine mentions & comments mention
+    mentions_all = received_mentions.statuses + received_comment_mentions.comments
+    # [ lambda x, y: cmp(y, x) ] makes new -> old (descending, bigger -> smaller)
+    # [ lambda x, y: cmp(x, y) ] makes old -> new (ascending, smaller -> bigger)
+    # here is new -> old
+    mentions_all = sorted(mentions_all, cmp = lambda x, y: cmp(make_time_numeric(y.created_at), make_time_numeric(x.created_at)))
+
     index = int(count)
-    for item in received.statuses[::-1]:
+    for item in mentions_all[int(count) - 1::-1]: # [from:to:-1] makes old -> new
         retweet = item.get('retweeted_status')
         to_be_saved.append([index, item.user.id, item.id, None])
 
         cprint\
-            (u'No.{0}:\n{1} | by @{2}:\n{3}'.format
+            (u'No.{0}: ({1})\n{2} | by @{3}:\n{4}'.format
                 (
-                    str(index),
-                    convert_time(item.created_at),
-                    item.user.name,
-                    item.text,
+                    str(index), # 0
+                    item.type, # 1
+                    convert_time(item.created_at), # 2
+                    item.user.name, # 3
+                    item.text, # 4
                 ).encode(encoding)
             )
 
