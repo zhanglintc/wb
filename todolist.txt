@@ -30,7 +30,8 @@ Known bugs:
 ✔ 4. cprint函数中, 如果输入字符串中含有"[]", 而这个中括号中没有逗号的时候, split(',')[1]会越界(因为没有第二个元素)
   -> 使用try except解决了这个问题.
 
-  5. "[]"符号内含"[]"的时候, 会原样输出(实际好像是分两部分输出, 只是恰好原样输出了)
+✔ 5. "[]"符号内含"[]"的时候, 会原样输出(实际好像是分两部分输出, 只是恰好原样输出了)
+  -> 更换cprint的语法格式定义: [string, color] -> [/string, color/]
 
 Potential bugs:
 ✔ 1. When using Python 2.7.9, wb -a may lead a [SSL: CERTIFICATE_VERIFY_FAILED] error.
