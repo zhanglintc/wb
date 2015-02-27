@@ -93,7 +93,7 @@ def open_weibo_or_target(client, number):
         isOpen = webbrowser.open_new_tab("http://weibo.com/{0}/{1}".format(ret.uid, recv.mid))
 
     if not isOpen:
-        cprint("[Web Browser is not available..., red]")
+        cprint("[/Web Browser is not available..., red/]")
 
 def database_handler(handle_type, data = None, number = None):
     """
@@ -357,7 +357,7 @@ def get_comments_to_me(client, count):
 
         # cprint comment to me or mentions to me
         cprint\
-            (u'No.{0}: ({1})\n{2} | from @{3}:\n[{4}, red]'.format
+            (u'No.{0}: ({1})\n{2} | from @{3}:\n[/{4}, red/]'.format
                 (
                     index, # 0
                     item.type, # 1
@@ -755,7 +755,7 @@ if __name__ == "__main__":
         if is_TKinter_exist:
             post_statuses_upload(client, params['image'][0])
         else:
-            cprint("[Send with image is not supported!!!, red]")
+            cprint("[/Send with image is not supported!!!, red/]")
 
     elif params.get('mention'):
         get_statuses_mentions(client, params['mention'])

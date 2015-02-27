@@ -94,7 +94,10 @@ def cprint(s, c = None):
     # mc.group(1): text before []
     # mc.group(2): text in []
     # mc.group(3): text after []
-    mc = re.search('(.*?)(\[.*?\])(.*)', s, re.DOTALL)
+    # old pattern [string, color]:   (.*?)(\[.*?\])(.*)
+    # -->
+    # new pattern [/string, color/]: (.*?)(\[\/.*?\/\])(.*)
+    mc = re.search('(.*?)(\[\/.*?\/\])(.*)', s, re.DOTALL)
 
     # no control parameter, print normally
     if not mc:
@@ -106,7 +109,7 @@ def cprint(s, c = None):
         print(mc.group(1), end = '')
 
         # deal with text in []
-        command = mc.group(2)[1:-1] # strip '[' and ']'
+        command = mc.group(2)[2:-2] # strip '[/' and '/]'
 
         to_p  = command.split(',')[0] # raw string to be print
 
@@ -180,6 +183,11 @@ def make_time_numeric(ori_time):
     return time_int
 
 if __name__ == '__main__':
-    cprint("[[doge], red]")
+    cprint("[/[doge], red/]")
+
+    try:
+        input()
+    except:
+        pass
 
 
