@@ -615,9 +615,7 @@ def post_statuses_upload(client, text):
     http://open.weibo.com/wiki/2/statuses/upload
     """
 
-    # 2014.11.12 zhanglin make it useless -S
     picture = tkFileDialog.askopenfilename() # get picture by GUI
-    # 2014.11.12 zhanglin make it useless -E
 
     cprint('')
     cprint('sending...\n')

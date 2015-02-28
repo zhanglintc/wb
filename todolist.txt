@@ -14,6 +14,7 @@ Todos:
   -> 置零这个API是高级接口, 应该暂时无法实现此功能
 ✔ 11. mentions显示不完全的问题整理
 ✔ 12. forward a weibo
+  13. Tab键命令自动补全
 
 
 Known bugs:
