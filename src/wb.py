@@ -725,8 +725,13 @@ if __name__ == "__main__":
     # cprint params
 
     if not params:
-        cprint('')
-        cprint('- Note: type "wb -h/--help" to see usages.\n')
+        try:
+            show_status(client)
+        except:
+            cprint('failed, please type "wb -a" to log in.')
+            cprint('')
+            cprint('')
+            cprint('- Note: type "wb -h/--help" to see usages.\n')
 
 ##########################################################################
 
