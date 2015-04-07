@@ -81,12 +81,43 @@ API_KEY      = config['Weibo']['API_KEY']
 API_SECRET   = config['Weibo']['API_SECRET']
 REDIRECT_URI = config['Weibo']['REDIRECT_URI']
 
-# global setting
-encoding = 'utf-8'
+# global constant
+CONST_ENCODE_MIN = 0
+CONST_UTF8 = 1
+CONST_GBK  = 2
+CONST_ENCODE_MAX = 3
+CONST_WRONG_ENCODE = 0xffff
 
 ##########################################################################
 # Functions are defined below
 ##########################################################################
+def set_display_encoding(encoding):
+    """
+    change dispaly encoding...
+    """
+
+    n = int(encoding)
+
+    if n is CONST_WRONG_ENCODE:
+        cprint('')
+        cprint('Please choose the encoding you want to set:\n')
+        cprint('1: utf-8')
+        cprint('2: gbk')
+
+    elif not CONST_ENCODE_MIN < n < CONST_ENCODE_MAX:
+        cprint("")
+        cprint('Not valid, please type "wb -e" to see available encoding')
+
+    else:
+        database_handler('set_encode', data = [n])
+        if n is CONST_UTF8:
+            cprint('')
+            cprint('Encoding has changed to UTF-8')
+        elif n is CONST_GBK:
+            cprint('')
+            cprint('Encoding has changed to GBK')
+
+
 def open_weibo_or_target(client, number):
     """
     Try to open a weibo by using default browser.
@@ -118,18 +149,26 @@ def database_handler(handle_type, data = None, number = None):
     Database management function.
 
     Database design:
+      encode:
+        | encode |
+            utf-8: 1  (default)
+            gbk:   2
+
+      weibo:
         | number int | uid int | id int | cid int |
 
     parameters:
         handle_type:
-            insert:  insert data to database
-            query:   get data from database
-            clean:   clean entire table
+            insert:     insert data to database
+            query:      get data from database
+            get_encode: get encode value from database
+            set_encode: set encode value to database
+            clean:      clean entire table
 
         data:
             a list of input data.
 
-            data[0]: number
+            data[0]: number  or  encode
             data[1]: uid
             data[2]: id
             data[3]: cid
@@ -144,6 +183,7 @@ def database_handler(handle_type, data = None, number = None):
         ret.uid:    uid
         ret.id:     id
         ret.cid:    cid
+        ret.encode: encode
     """
 
     ret = JsonDict()
@@ -152,11 +192,16 @@ def database_handler(handle_type, data = None, number = None):
     conn = sqlite3.connect(sys.path[0] + "/data.db")
     c = conn.cursor()
 
+    # create database table
     try:
-        c.execute('create table weibo(number int, uid int, id int, cid int)')
-
+        c.execute('create table encode(encode int)')
+        c.execute('create table weibo(number int, uid int, id int, cid int)')        
     except sqlite3.OperationalError:
-        pass
+        pass # do nothing if table already exists
+
+    # set encode default value
+    if not c.execute('select * from encode').fetchone():
+        c.execute('insert into encode values (1)') # default utf-8
 
     # main process
     if handle_type is 'insert':
@@ -178,6 +223,16 @@ def database_handler(handle_type, data = None, number = None):
         ret.uid    = query[1]
         ret.id     = query[2]
         ret.cid    = query[3]
+
+    elif handle_type is 'get_encode':
+        query = c.execute('select * from encode').fetchone()
+        ret.encode = query[0]
+
+    elif handle_type is 'set_encode':
+        # clean table before use
+        c.execute("delete from encode")
+
+        c.execute('insert into encode values (?)', data) # default utf-8
 
     elif handle_type is 'clean':
         c.execute("delete from weibo")
@@ -716,6 +771,7 @@ def creat_parser():
     parser.add_argument('-authorize', metavar = '-a', nargs = '?', const = 'True', help = "sign in to 'weibo.com'")
     parser.add_argument('-comment', metavar = '-c', nargs = '?', const = 5, help = "get comments to me")
     parser.add_argument('-delete', metavar = '-d', nargs = '?', const = 'True', help = "coming soon")
+    parser.add_argument('-encode', metavar = '-e', nargs = '?', const = CONST_WRONG_ENCODE, help = "set display encoding")
     parser.add_argument('-forward', metavar = '', nargs = 2, help = "forward a weibo")
     parser.add_argument('-get', metavar = '-g', nargs = '?', const = 5, help = "get latest N friend's timeline")
     parser.add_argument('-image', metavar = '-i', nargs = 1, help = "post a new weibo with image")
@@ -735,6 +791,13 @@ def creat_parser():
 if __name__ == "__main__":
     ACCESS_TOKEN = update_access_token()
     client = Client(API_KEY, API_SECRET, REDIRECT_URI, ACCESS_TOKEN)
+
+    # get encoding
+    query = database_handler('get_encode').encode
+    if query == CONST_UTF8:
+        encoding = "utf-8"
+    elif query == CONST_GBK:
+        encoding = "gbk"
 
     parser = creat_parser()
     params = vars(parser.parse_args())
@@ -761,6 +824,9 @@ if __name__ == "__main__":
     # Start of hyphen command
     elif params.get('authorize'):
         log_in_to_weibo()
+
+    elif params.get('encode'):
+        set_display_encoding(params['encode'])
 
     elif params.get('delete'):
         # log_out_from_weibo()
