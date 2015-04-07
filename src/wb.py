@@ -103,19 +103,22 @@ def set_display_encoding(encoding):
         cprint('Please choose the encoding you want to set:\n')
         cprint('1: utf-8')
         cprint('2: gbk')
+        cprint('')
 
     elif not CONST_ENCODE_MIN < n < CONST_ENCODE_MAX:
         cprint("")
-        cprint('Not valid, please type "wb -e" to see available encoding')
+        cprint('Not valid, please type "wb -e" to see available encoding\n')
 
     else:
         database_handler('set_encode', data = [n])
         if n is CONST_UTF8:
             cprint('')
-            cprint('Encoding has changed to UTF-8')
+            cprint('Encoding has changed to UTF-8\n')
+
         elif n is CONST_GBK:
             cprint('')
-            cprint('Encoding has changed to GBK')
+            cprint('Encoding has changed to GBK\n')
+
 
 
 def open_weibo_or_target(client, number):
