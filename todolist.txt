@@ -15,7 +15,8 @@ Todos:
 √ 11. mentions显示不完全的问题整理
 √ 12. forward a weibo
   13. Tab键命令自动补全
-  14. 增加字符显示编码选项(UTF8与GBK切换, 考虑使用Sqlite3存储)
+√ 14. 增加字符显示编码选项(UTF8与GBK切换, 考虑使用Sqlite3存储)
+  15. 改进cprint(在cprint中进行encode, cprint的输入不需要encode)
 
 
 Known bugs:
