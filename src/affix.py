@@ -84,6 +84,24 @@ class ColorPrint:
         self.reset_color()
 
 def cprint(s, c = None):
+    """
+    A print() like function, but can make output colorful.
+
+    Usage: [/string to be output, color/], i.e. your string must surrounded by [//]
+    An example:
+        cprint("[/something red, red/]")
+        this would print "something red" in red color.
+
+    This function uses regular express to split input string into 3 parts:
+        mc.group(1): text before []
+        mc.group(2): text in []
+        mc.group(3): text after []
+
+    The function would print mc.group(1) directly,
+    print mc.group(2) in specified color,
+    then process mc.group(3) iteratively.
+    """
+
     if not s:
         print('') # print nothing to make a new line
         return
