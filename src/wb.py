@@ -105,6 +105,8 @@ def set_display_encoding(encoding):
         cprint('1: utf-8')
         cprint('2: gbk')
         cprint('')
+        cprint('Your current encoding is: {}'.format(global_encoding))
+        cprint('')
 
     elif not CONST_ENCODE_MIN < n < CONST_ENCODE_MAX:
         cprint("")
@@ -284,8 +286,14 @@ def log_in_to_weibo():
 def log_out_from_weibo():
     """delete login informations"""
 
-    os.remove(TOKEN_PATH)
-    os.remove(DATABASE_PATH)
+    try:
+        os.remove(TOKEN_PATH)
+        os.remove(DATABASE_PATH)
+
+        cprint("logged out and cleaned files successful")
+
+    except:
+        cprint("you've already logged out or file delete error")
 
 def make_access_token(client, USERID, USERPASSWD):
     """
