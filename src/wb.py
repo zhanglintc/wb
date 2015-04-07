@@ -71,8 +71,9 @@ else:
     plat = None
 
 # set path
-TOKEN_PATH  = sys.path[0] + '/token'
-CONFIG_PATH = sys.path[0] + '/config.ini'
+TOKEN_PATH    = sys.path[0] + '/token'
+CONFIG_PATH   = sys.path[0] + '/config.ini'
+DATABASE_PATH = sys.path[0] + '/data.db'
 
 # read config.ini
 config = configparser.ConfigParser()
@@ -118,8 +119,6 @@ def set_display_encoding(encoding):
         elif n is CONST_GBK:
             cprint('')
             cprint('Encoding has changed to GBK\n')
-
-
 
 def open_weibo_or_target(client, number):
     """
@@ -192,7 +191,7 @@ def database_handler(handle_type, data = None, number = None):
     ret = JsonDict()
 
     # prepare for using database
-    conn = sqlite3.connect(sys.path[0] + "/data.db")
+    conn = sqlite3.connect(DATABASE_PATH)
     c = conn.cursor()
 
     # create database table
@@ -286,6 +285,7 @@ def log_out_from_weibo():
     """delete login informations"""
 
     os.remove(TOKEN_PATH)
+    os.remove(DATABASE_PATH)
 
 def make_access_token(client, USERID, USERPASSWD):
     """
