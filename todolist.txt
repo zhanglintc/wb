@@ -18,6 +18,7 @@ Todos:
 √ 14. 增加字符显示编码选项(UTF8与GBK切换, 考虑使用Sqlite3存储)
   15. 改进cprint(在cprint中进行encode, cprint的输入不需要encode)
   16. move global constants to affix.py or a specific file
+  17. delete a weibo
 
 
 Known bugs:
