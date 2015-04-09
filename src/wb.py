@@ -37,57 +37,7 @@ Description:
                    `=---=' 
 """
 
-from http import *
-from affix import *
-from sdk import Client, JsonDict
-import sys, os
-import pickle
-import getpass
-import argparse
-import urllib, urllib2
-import configparser
-import platform
-import sqlite3
-import webbrowser
-try:
-    import tkFileDialog
-    is_TKinter_exist = True
-except:
-    is_TKinter_exist = False
-
-# get version & set encoding
-version = sys.version[0]
-input = raw_input if version == '2' else input
-
-# get OS information
-plat = platform.platform()
-if 'Linux' in plat:
-    plat = 'Lin'
-elif 'Darwin' in plat:
-    plat = 'Mac'
-elif 'Windows' in plat:
-    plat = 'Win'
-else:
-    plat = None
-
-# set path
-TOKEN_PATH    = sys.path[0] + '/token'
-CONFIG_PATH   = sys.path[0] + '/config.ini'
-DATABASE_PATH = sys.path[0] + '/data.db'
-
-# read config.ini
-config = configparser.ConfigParser()
-config.read(CONFIG_PATH)
-API_KEY      = config['Weibo']['API_KEY']
-API_SECRET   = config['Weibo']['API_SECRET']
-REDIRECT_URI = config['Weibo']['REDIRECT_URI']
-
-# global constant
-CONST_ENCODE_MIN = 0
-CONST_UTF8 = 1
-CONST_GBK  = 2
-CONST_ENCODE_MAX = 3
-CONST_WRONG_ENCODE = 0xffff
+from defs import *
 
 ##########################################################################
 # Functions are defined below
@@ -105,7 +55,7 @@ def set_display_encoding(encoding):
         cprint('1: utf-8')
         cprint('2: gbk')
         cprint('')
-        cprint('Your current encoding is: {}'.format(global_encoding))
+        cprint('Your current encoding is: [/{}, red/]'.format(global_encoding))
         cprint('')
 
     elif not CONST_ENCODE_MIN < n < CONST_ENCODE_MAX:
@@ -412,7 +362,7 @@ def get_comments_to_me(client, count):
         cprint("error: cannot get comments more than 200\n")
         return
 
-    os.system('cls') if plat == 'Win' else os.system('clear')
+    os.system('cls') if global_plat == 'Win' else os.system('clear')
     cprint('') # a blank line makes better look
     cprint("getting latest {0} comments to me...\n".format(count))
 
@@ -492,7 +442,7 @@ def get_friends_timeline(client, count):
         cprint("error: cannot get weibos more than 100\n")
         return
 
-    os.system('cls') if plat == 'Win' else os.system('clear')
+    os.system('cls') if global_plat == 'Win' else os.system('clear')
     cprint('') # a blank line makes better look
     cprint("getting latest {0} friend's weibo...\n".format(count))
 
@@ -579,7 +529,7 @@ def get_statuses_mentions(client, count):
         cprint("error: cannot get mentions more than 200\n")
         return
 
-    os.system('cls') if plat == 'Win' else os.system('clear')
+    os.system('cls') if global_plat == 'Win' else os.system('clear')
     cprint('') # a blank line makes better look
     cprint("getting latest {0} mentions...\n".format(count))
 
