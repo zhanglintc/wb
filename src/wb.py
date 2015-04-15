@@ -38,6 +38,7 @@ Description:
 """
 
 from defs import *
+import defs
 
 ##########################################################################
 # Functions are defined below
@@ -55,7 +56,7 @@ def set_display_encoding(encoding):
         cprint('1: utf-8')
         cprint('2: gbk')
         cprint('')
-        cprint('Your current encoding is: [/{}, red/]'.format(global_encoding))
+        cprint('Your current encoding is: [/{}, red/]'.format(defs.global_encoding))
         cprint('')
 
     elif not CONST_ENCODE_MIN < n < CONST_ENCODE_MAX:
@@ -329,10 +330,10 @@ def comments_to_me_To_File(client, start_page, end_page):
             cprint('Page {0} is downloading has failed'.format(my_page))
             continue
 
-        fw.write('\n\nPage {0}:\n'.format(my_page).encode(global_encoding))
+        fw.write('\n\nPage {0}:\n'.format(my_page).encode(defs.global_encoding))
         for item in received.comments:
             to_be_written = '{0}: {1} by {2}\n'.format(item.created_at, item.text, item.user.name)
-            fw.write(to_be_written.encode(global_encoding))
+            fw.write(to_be_written.encode(defs.global_encoding))
 
         fw.flush()
         my_page += 1
@@ -398,15 +399,15 @@ def get_comments_to_me(client, count):
                     convert_time(item.created_at), # 2
                     item.user.name, # 3
                     item.text, # 4
-                ).encode(global_encoding)
+                )
             )
 
         # cprint original weibo or comment
         cprint('=========================================================')
         if "reply_comment" in item:
-            cprint(item.reply_comment.text.encode(global_encoding))
+            cprint(item.reply_comment.text)
         else:
-            cprint(item.status.text.encode(global_encoding))
+            cprint(item.status.text)
         cprint('=========================================================')
         cprint('') # only for better look
 
@@ -467,7 +468,7 @@ def get_friends_timeline(client, count):
                     convert_time(item.created_at),
                     item.user.name,
                     item.text,
-                ).encode(global_encoding)
+                )
             )
 
         # if this is not retweet, just cprint a blank line
@@ -480,7 +481,7 @@ def get_friends_timeline(client, count):
 
             # if original Weibo has been deleted, only cprint text
             if 'deleted' in item.retweeted_status:
-                cprint((item.retweeted_status.text).encode(global_encoding))
+                cprint((item.retweeted_status.text))
 
             # else cprint normally
             else:
@@ -490,7 +491,7 @@ def get_friends_timeline(client, count):
                         convert_time(item.retweeted_status.created_at),
                         item.retweeted_status.user.name,
                         item.retweeted_status.text,
-                    ).encode(global_encoding)
+                    )
                 )
 
             cprint('=========================================================')
@@ -567,7 +568,7 @@ def get_statuses_mentions(client, count):
                     convert_time(item.created_at), # 2
                     item.user.name, # 3
                     item.text, # 4
-                ).encode(global_encoding)
+                )
             )
 
         # without retweet
@@ -579,7 +580,7 @@ def get_statuses_mentions(client, count):
             cprint('=========================================================')
             # if original Weibo has been deleted, only cprint text
             if 'deleted' in item.retweeted_status:
-                cprint(item.retweeted_status.text.encode(global_encoding))
+                cprint(item.retweeted_status.text)
 
             # else cprint normally
             else:
@@ -589,7 +590,7 @@ def get_statuses_mentions(client, count):
                         convert_time(item.retweeted_status.created_at),
                         item.retweeted_status.user.name,
                         item.retweeted_status.text,
-                    ).encode(global_encoding)
+                    )
                 )
             cprint('=========================================================')
             cprint('')
@@ -756,9 +757,9 @@ if __name__ == "__main__":
     # get encoding
     query = database_handler('get_encode').encode
     if query == CONST_UTF8:
-        global_encoding = "utf-8"
+        defs.global_encoding = "utf-8"
     elif query == CONST_GBK:
-        global_encoding = "gbk"
+        defs.global_encoding = "gbk"
 
     parser = creat_parser()
     params = vars(parser.parse_args())

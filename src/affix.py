@@ -10,6 +10,8 @@ Author:
 """
 
 from __future__ import print_function
+from defs import *
+import defs
 import ctypes, re, platform
 
 class ColorPrint:
@@ -101,6 +103,10 @@ def cprint(s, c = None):
     print mc.group(2) in specified color,
     then process mc.group(3) iteratively.
     """
+
+    # print(defs.global_encoding)
+    if type(s) == type(u""): # if type is unicode
+        s = s.encode(defs.global_encoding)
 
     if not s:
         print('') # print nothing to make a new line
