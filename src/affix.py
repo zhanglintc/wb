@@ -104,9 +104,8 @@ def cprint(s, c = None):
     then process mc.group(3) iteratively.
     """
 
-    # print(defs.global_encoding)
     if type(s) == type(u""): # if type is unicode
-        s = s.encode(defs.global_encoding)
+        s = s.encode(defs.GLOBAL_ENCODING)
 
     if not s:
         print('') # print nothing to make a new line

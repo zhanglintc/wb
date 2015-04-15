@@ -56,7 +56,7 @@ def set_display_encoding(encoding):
         cprint('1: utf-8')
         cprint('2: gbk')
         cprint('')
-        cprint('Your current encoding is: [/{}, red/]'.format(defs.global_encoding))
+        cprint('Your current encoding is: [/{}, red/]'.format(defs.GLOBAL_ENCODING))
         cprint('')
 
     elif not CONST_ENCODE_MIN < n < CONST_ENCODE_MAX:
@@ -330,10 +330,10 @@ def comments_to_me_To_File(client, start_page, end_page):
             cprint('Page {0} is downloading has failed'.format(my_page))
             continue
 
-        fw.write('\n\nPage {0}:\n'.format(my_page).encode(defs.global_encoding))
+        fw.write('\n\nPage {0}:\n'.format(my_page).encode(defs.GLOBAL_ENCODING))
         for item in received.comments:
             to_be_written = '{0}: {1} by {2}\n'.format(item.created_at, item.text, item.user.name)
-            fw.write(to_be_written.encode(defs.global_encoding))
+            fw.write(to_be_written.encode(defs.GLOBAL_ENCODING))
 
         fw.flush()
         my_page += 1
@@ -757,9 +757,9 @@ if __name__ == "__main__":
     # get encoding
     query = database_handler('get_encode').encode
     if query == CONST_UTF8:
-        defs.global_encoding = "utf-8"
+        defs.GLOBAL_ENCODING = "utf-8"
     elif query == CONST_GBK:
-        defs.global_encoding = "gbk"
+        defs.GLOBAL_ENCODING = "gbk"
 
     parser = creat_parser()
     params = vars(parser.parse_args())

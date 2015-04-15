@@ -60,5 +60,5 @@ CONST_UTF8 = 1
 CONST_GBK  = 2
 CONST_ENCODE_MAX = CONST_GBK + 1
 CONST_WRONG_ENCODE = 0xffff
-global_encoding = ""
+GLOBAL_ENCODING = ""
 
