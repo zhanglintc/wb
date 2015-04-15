@@ -105,7 +105,13 @@ def cprint(s, c = None):
     """
 
     if type(s) == type(u""): # if type is unicode
-        s = s.encode(defs.GLOBAL_ENCODING)
+        try:
+            s = s.encode(defs.GLOBAL_ENCODING)
+
+        except UnicodeEncodeError:
+            cprint("[/ERROR: CANNOT ENCODE THIS STRING, green/]")
+            return
+
 
     if not s:
         print('') # print nothing to make a new line
