@@ -506,7 +506,7 @@ def get_statuses_mentions(client, count):
     Get mentions and display it on the screen.
 
     API refer to:
-    http://open.weibo.com/wiki/2/statuses/mentions
+    http://open.weibo.com/wiki/2/statuses/mentions(貌似此API新浪对于非授权用户已经不予返回值了... 我晕, 做着玩儿都玩儿不了了)
     http://open.weibo.com/wiki/2/comments/mentions
 
     Display example:
