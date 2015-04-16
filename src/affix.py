@@ -89,7 +89,7 @@ def cprint(s, c = None):
     """
     A print() like function, but can make output colorful.
 
-    Usage: [/string to be output, color/], i.e. your string must surrounded by [//]
+    Usage: [/string to be output, color/], i.e. your string must surrounded by [/.../]
     An example:
         cprint("[/something red, red/]")
         this would print "something red" in red color.
@@ -104,7 +104,7 @@ def cprint(s, c = None):
     then process mc.group(3) iteratively.
     """
 
-    if type(s) == type(u""): # if type is unicode
+    if isinstance(s, unicode): # if type is unicode
         try:
             s = s.encode(defs.GLOBAL_ENCODING)
 
