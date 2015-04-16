@@ -558,7 +558,12 @@ def get_statuses_mentions(client, count):
     index = int(count)
     for item in mentions_all[int(count) - 1::-1]: # [from:to:-1] makes old -> new
         retweet = item.get('retweeted_status')
-        to_be_saved.append([index, item.user.id, item.id, None])
+
+        try: # comment_mentions
+            to_be_saved.append([index, item.status.user.id, item.status.id, None])
+
+        except AttributeError: # mentions
+            to_be_saved.append([index, item.user.id, item.id, None])
 
         cprint\
             (u'No.{0}: ({1})\n{2} | by @{3}:\n{4}'.format
