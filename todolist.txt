@@ -38,7 +38,8 @@ Known bugs:
 √ 5. "[]"符号内含"[]"的时候, 会原样输出(实际好像是分两部分输出, 只是恰好原样输出了)
   -> 更换cprint的语法格式定义: [string, color] -> [/string, color/]
 
-  6. wb -o 无法打开 wb -m 获取的微博信息.
+√ 6. wb -o 无法打开 wb -m 获取的微博信息.
+  -> 两种不同形式的mentions使用不同的存储方式, 这样之后的函数调用就能打开相应网址了
 
 Potential bugs:
 √ 1. When using Python 2.7.9, wb -a may lead a [SSL: CERTIFICATE_VERIFY_FAILED] error.
