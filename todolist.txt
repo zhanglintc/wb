@@ -4,14 +4,14 @@ Todos:
 √ 3. Use Sqlite3 module
 √ 4. @我的微博 和 发送给我的微博
 √ 5. open weibo.com and open a specific weibo
-  -> 调用statuses/querymid获得用户的MID, 然后可以拼接得到目标地址
+     -> 调用statuses/querymid获得用户的MID, 然后可以拼接得到目标地址
 √ 6. make word colorful
 √ 7. input data check
-√ 8. mentions & comment detail
+√ 8. mentions & comments detail
 √ 9. my print function(handle encoding problem)
-  -> encoding problem solved(no need to make a my print function)
+     -> encoding problem solved(no need to make a my print function)
 √ 10. set unread as 0 after wb -c
-  -> 置零这个API是高级接口, 应该暂时无法实现此功能
+     -> 置零这个API是高级接口, 应该暂时无法实现此功能
 √ 11. mentions显示不完全的问题整理
 √ 12. forward a weibo
   13. Tab键命令自动补全
@@ -23,30 +23,30 @@ Todos:
 
 Known bugs:
 √ 1. wb -c 默认获取5条最新评论的时候, 如果同时存在 @我的微博 和 发给我的微博, No.编号可能会出错.
-  -> 暂定方案: 忽略 @我的微博, 更改No.计数方式. 效果是可能开始编号小于给定的数量.
+     -> 暂定方案: 忽略 @我的微博, 更改No.计数方式. 效果是可能开始编号小于给定的数量.
      进一步修改方向: @我的微博 和 发送给我的微博 同时获取, 然后按照时间排序显示出来.
 
 √ 2. wb -g 的时候, 如果转发微博的原微博已经被删除, 会出现AttributeError, 因为找不到相关信息.
-  -> 已经增加相应判断, 如果原微博已被删除, 将显示官方的已删除提示信息.
+     -> 已经增加相应判断, 如果原微博已被删除, 将显示官方的已删除提示信息.
 
 √ 3. Windows平台安装后, 如果路径中包含空格, 将会导致无法找到对应的文件.
-  -> 已经在路径前后添加了双引号解决该问题. %wbDIR% -> "%wbDIR%" & %wbFILE% -> "%wbFILE%"
+     -> 已经在路径前后添加了双引号解决该问题. %wbDIR% -> "%wbDIR%" & %wbFILE% -> "%wbFILE%"
 
 √ 4. cprint函数中, 如果输入字符串中含有"[]", 而这个中括号中没有逗号的时候, split(',')[1]会越界(因为没有第二个元素)
-  -> 使用try except解决了这个问题.
+     -> 使用try except解决了这个问题.
 
 √ 5. "[]"符号内含"[]"的时候, 会原样输出(实际好像是分两部分输出, 只是恰好原样输出了)
-  -> 更换cprint的语法格式定义: [string, color] -> [/string, color/]
+     -> 更换cprint的语法格式定义: [string, color] -> [/string, color/]
 
 √ 6. wb -o 无法打开 wb -m 获取的微博信息.
-  -> 两种不同形式的mentions使用不同的存储方式, 这样之后的函数调用就能打开相应网址了
+     -> 两种不同形式的mentions使用不同的存储方式, 这样之后的函数调用就能打开相应网址了
 
 Potential bugs:
 √ 1. When using Python 2.7.9, wb -a may lead a [SSL: CERTIFICATE_VERIFY_FAILED] error.
-->
-Possible solutions refer to:
-http://bugs.python.org/issue23052 (maybe useless)
-https://www.python.org/dev/peps/pep-0476/ (maybe useless)
+  ->
+     Possible solutions refer to:
+     http://bugs.python.org/issue23052 (maybe useless)
+     https://www.python.org/dev/peps/pep-0476/ (maybe useless)
 
-Or try to use Python 2.7.8 or other versions.
+     Or try to use Python 2.7.8 or other versions.
 
