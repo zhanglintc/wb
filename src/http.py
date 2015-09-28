@@ -9,7 +9,7 @@ Refer to:
 http://www.cnblogs.com/wly923/archive/2013/04/28/3048700.html
 
 There is also a GitHub project provide thing like this:
-http://www.cnblogs.com/wly923/archive/2013/04/28/3048700.html
+https://github.com/wtmmac/Sina-weibo-api-access-by-python
 
 And its blog:
 http://wtm-mac.iteye.com/blog/1623074
