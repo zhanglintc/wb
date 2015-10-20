@@ -756,20 +756,7 @@ def creat_parser():
 
     return parser
 
-##########################################################################
-##########################################################################
-
-if __name__ == "__main__":
-    ACCESS_TOKEN = update_access_token()
-    client = Client(API_KEY, API_SECRET, REDIRECT_URI, ACCESS_TOKEN)
-
-    # get encoding
-    query = database_handler('get_encode').encode
-    if query == CONST_UTF8:
-        defs.GLOBAL_ENCODING = "utf-8"
-    elif query == CONST_GBK:
-        defs.GLOBAL_ENCODING = "gbk"
-
+def wb_command():
     parser = creat_parser()
     params = vars(parser.parse_args())
     # cprint params ## debug use only
@@ -845,6 +832,23 @@ if __name__ == "__main__":
     else:
         cprint('')
         cprint('- Note: unrecognized command, type "wb -h/--help" to see usages.\n')
+
+##########################################################################
+##########################################################################
+
+if __name__ == "__main__":
+    ACCESS_TOKEN = update_access_token()
+    client = Client(API_KEY, API_SECRET, REDIRECT_URI, ACCESS_TOKEN)
+
+    # get encoding
+    query = database_handler('get_encode').encode
+    if query == CONST_UTF8:
+        defs.GLOBAL_ENCODING = "utf-8"
+    elif query == CONST_GBK:
+        defs.GLOBAL_ENCODING = "gbk"
+
+    # do call the parameters process function
+    wb_command()
 
 
 
