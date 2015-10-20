@@ -40,6 +40,10 @@ Description:
 from defs import *
 import defs
 
+# disable warnings
+import warnings
+warnings.filterwarnings("ignore")
+
 ##########################################################################
 # Functions are defined below
 ##########################################################################
