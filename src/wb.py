@@ -772,8 +772,9 @@ if __name__ == "__main__":
 
     parser = creat_parser()
     params = vars(parser.parse_args())
-    # cprint params
+    # cprint params ## debug use only
 
+    # default entry here
     if not params:
         try:
             show_status(client)
@@ -785,10 +786,12 @@ if __name__ == "__main__":
 
 ##########################################################################
 
-    # Start of common command
+    # Common command -S
+    # available commands:
+    # 1. wb status => get current status
     elif params.get('common') == 'status':
         show_status(client)
-    # End of common command
+    # Common command -E
 
 ##########################################################################
 
