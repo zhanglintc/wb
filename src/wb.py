@@ -238,6 +238,25 @@ def log_in_to_weibo():
         cprint('')
         cprint("log in to weibo.com successfully\n")
 
+def log_in_to_weibo_manual():
+    """
+    Log in to weibo and get the ACCESS_TOKEN.
+    This method need user to copy and paste code itself.
+    """
+
+    client = Client(API_KEY, API_SECRET, REDIRECT_URI)
+    webbrowser.open_new_tab(client.authorize_url)
+
+    os.system('cls')
+    code = input("paste code here: ")
+
+    client.set_code(code)
+    fw = open(TOKEN_PATH, 'wb')
+    pickle.dump(client.token, fw)
+    fw.close()
+    cprint('')
+    cprint("log in to weibo.com successfully\n")
+
 def log_out_from_weibo():
     """delete login informations"""
 
@@ -739,7 +758,7 @@ def creat_parser():
         argument_default = argparse.SUPPRESS,
         )
 
-    parser.add_argument('-authorize', metavar = '-a', nargs = '?', const = 'True', help = "sign in to 'weibo.com'")
+    parser.add_argument('-authorize', metavar = '-a', nargs = '?', const = 'True', help = "sign in to 'weibo.com', wb -a m for manual sign in")
     parser.add_argument('-comment', metavar = '-c', nargs = '?', const = 5, help = "get comments to me")
     parser.add_argument('-delete', metavar = '-d', nargs = '?', const = 'True', help = "coming soon")
     parser.add_argument('-encode', metavar = '-e', nargs = '?', const = CONST_WRONG_ENCODE, help = "set display encoding")
@@ -780,7 +799,10 @@ def wb_command():
 
     # Hyphen command -S
     elif params.get('authorize'):
-        log_in_to_weibo()
+        if params.get('authorize') == 'm':
+            log_in_to_weibo_manual()
+        else:
+            log_in_to_weibo()
 
     elif params.get('encode'):
         set_display_encoding(params['encode'])

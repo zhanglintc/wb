@@ -20,7 +20,7 @@ Todos:
 √ 16. move global constants to affix.py or a specific file
   17. delete a weibo
   18. 如果cprint的参数不是str类型则使用print直接打印
-  19. 增加手动登录（获取token）函数
+√ 19. 增加手动登录（获取token）函数
 
 
 Known bugs:
