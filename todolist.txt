@@ -19,6 +19,7 @@ Todos:
 √ 15. 改进cprint(在cprint中进行encode, cprint的输入不需要encode)
 √ 16. move global constants to affix.py or a specific file
   17. delete a weibo
+  18. 如果cprint的参数不是str类型则使用print直接打印
 
 
 Known bugs:
