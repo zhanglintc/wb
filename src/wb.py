@@ -759,7 +759,7 @@ def creat_parser():
 def wb_command():
     parser = creat_parser()
     params = vars(parser.parse_args())
-    # cprint params ## debug use only
+    # cprint(params) ## debug use only
 
     # default entry here
     if not params:
