@@ -245,9 +245,12 @@ def log_in_to_weibo_manual():
     """
 
     client = Client(API_KEY, API_SECRET, REDIRECT_URI)
-    webbrowser.open_new_tab(client.authorize_url)
+    isOpen = webbrowser.open_new_tab(client.authorize_url)
+    if not isOpen:
+        cprint("[/Web Browser is not available..., red/]")
+        return
 
-    os.system('cls')
+    os.system('cls') if global_plat == 'Win' else os.system('clear')
     code = input("paste code here: ")
 
     client.set_code(code)
