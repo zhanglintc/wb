@@ -771,8 +771,6 @@ def wb_command():
             cprint('')
             cprint('- Note: type "wb -h/--help" to see usages.\n')
 
-##########################################################################
-
     # Common command -S
     # available commands:
     # 1. wb status => get current status
@@ -780,9 +778,7 @@ def wb_command():
         show_status(client)
     # Common command -E
 
-##########################################################################
-
-    # Start of hyphen command
+    # Hyphen command -S
     elif params.get('authorize'):
         log_in_to_weibo()
 
@@ -825,16 +821,11 @@ def wb_command():
 
     elif params.get('comment'):
         get_comments_to_me(client, params['comment'])
-    # End of hyphen command
-
-##########################################################################
+    # Hyphen command -E
 
     else:
         cprint('')
         cprint('- Note: unrecognized command, type "wb -h/--help" to see usages.\n')
-
-##########################################################################
-##########################################################################
 
 if __name__ == "__main__":
     ACCESS_TOKEN = update_access_token()
