@@ -85,7 +85,7 @@ class ColorPrint:
         print(print_text, end = '')
         self.reset_color()
 
-def cprint(s, c = None):
+def cprint(s = None, c = None):
     """
     A print() like function, but can make output colorful.
 
@@ -108,7 +108,12 @@ def cprint(s, c = None):
         c: an instance of class ColorPrint
     """
 
-    if isinstance(s, unicode): # if type is unicode
+    if not s:
+        print() # print nothing to make a new line
+        return
+
+    # if type is unicode
+    if isinstance(s, unicode):
         try:
             s = s.encode(defs.GLOBAL_ENCODING)
 
@@ -116,9 +121,9 @@ def cprint(s, c = None):
             cprint("[/ERROR: CANNOT ENCODE THIS STRING, green/]")
             return
 
-
-    if not s:
-        print('') # print nothing to make a new line
+    # if type is not unicode or string, use print() function and return
+    if not isinstance(s, str):
+        print(s)
         return
 
     # c is an instance of class ColorPrint
