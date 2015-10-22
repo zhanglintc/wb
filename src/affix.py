@@ -102,6 +102,10 @@ def cprint(s, c = None):
     The function would print mc.group(1) directly,
     print mc.group(2) in specified color,
     then process mc.group(3) iteratively.
+
+    Parameters:
+        s: a string or a object would be printed
+        c: an instance of class ColorPrint
     """
 
     if isinstance(s, unicode): # if type is unicode
@@ -117,6 +121,7 @@ def cprint(s, c = None):
         print('') # print nothing to make a new line
         return
 
+    # c is an instance of class ColorPrint
     if not c:
         c = ColorPrint()
 
