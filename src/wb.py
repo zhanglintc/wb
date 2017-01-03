@@ -688,8 +688,10 @@ def post_statuses_upload(client, text):
 
     try:
         f = open(picture, 'rb')
-        client.post('statuses/upload', status = text, pic = f)
+        resp = client.post('statuses/upload', status = text, pic = f)
         f.close()
+
+        webbrowser.open_new_tab(resp['original_pic'])
 
         cprint('=========================================================')
         cprint(text + '\n(with picture)')
