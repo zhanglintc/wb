@@ -7,10 +7,6 @@ Power_wb -- 微博命令行工具
 
 关于`pip`的安装，请移步[这里](https://github.com/zhanglintc/tools-lite/tree/master/misc/pip_install)。
 
-## 下载：
-- 下载最新v0.2版，点击[这里](https://zhanglintc.github.io/download/wb.zip)
-- 查看历史版本：点击[这里](https://github.com/zhanglintc/xiaobawang/releases)
-
 ## 安装：
 
 #### Linux/Mac/Windows：
