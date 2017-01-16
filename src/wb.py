@@ -769,7 +769,7 @@ def creat_parser():
     parser.add_argument('-encode', metavar = '-e', nargs = '?', const = CONST_WRONG_ENCODE, help = "set display encoding")
     parser.add_argument('-forward', metavar = '', nargs = 2, help = "forward a weibo")
     parser.add_argument('-get', metavar = '-g', nargs = '?', const = 5, help = "get latest N friend's timeline")
-    parser.add_argument('-image', metavar = '-i', nargs = 1, help = "post a new weibo with image")
+    parser.add_argument('-image', metavar = '-i', nargs = '?', const = 'share image', help = "post a new weibo with image")
     parser.add_argument('-mention', metavar = '-m', nargs = '?', const = 5, help = "get latest N mentions")
     parser.add_argument('-open', metavar = '-o', nargs = '?', const = 'NULL', help = "open weibo.com or a target")
     parser.add_argument('-post', metavar = '-p', nargs = 1, help = "post a new weibo")
@@ -824,7 +824,7 @@ def wb_command():
 
     elif params.get('image'):
         if is_TKinter_exist:
-            post_statuses_upload(client, params['image'][0])
+            post_statuses_upload(client, params['image'])
         else:
             cprint("[/Send with image is not supported!!!, red/]")
 
