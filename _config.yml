@@ -1,0 +1,8 @@
+title: Power_wb -- 微博命令行工具
+description: wb 客户端...
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-slate
+
+gems:
+  - jekyll-mentions
