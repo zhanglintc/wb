@@ -10,10 +10,6 @@ wb -- 微博命令行工具
 
 **2015.01.08** `setup.py`已经添加依靠`./bin/pip.exe`以及`./requirements.txt`自动下载依赖模块的功能, 以期实现全自动安装.
 
-## 下载：
-- 下载最新v0.2版, 点击[这里](https://zhanglintc.github.io/download/wb.zip)
-- 查看历史版本：点击[这里](https://github.com/zhanglintc/xiaobawang/releases)
-
 ## 安装：
 
 #### Linux/Mac/Windows：
